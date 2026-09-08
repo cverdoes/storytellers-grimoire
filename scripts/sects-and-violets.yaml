@@ -1,0 +1,791 @@
+script: Sects & Violets
+slug: sects-and-violets
+
+characters:
+  townsfolk:
+    - name: Clockmaker
+      timing: First night only
+      ability: >-
+        You start the game knowing how many steps around the circle
+        separate the Demon from its nearest Minion.
+      note: >-
+        Count the shorter direction around the circle, seat to seat,
+        between the Demon and whichever Minion sits closest to it. If the
+        Clockmaker is drunk or poisoned, give them any number instead of
+        the true one.
+      notes:
+        setup: >-
+          Work out the real distance before the game starts — shortest
+          path around the circle, seat to seat, from the Demon to its
+          nearest Minion — so you're ready to answer the moment they wake.
+
+    - name: Dreamer
+      timing: Every night
+      ability: >-
+        Each night, you choose a player other than yourself (and not a
+        Traveller): you're shown one good and one evil character. Exactly
+        one of the two is that player's true character.
+      note: >-
+        You pick both characters shown — one true, one a decoy. If the
+        Dreamer is drunk or poisoned, neither has to be real.
+      naming: >-
+        Pick a decoy that's plausible for the target without accidentally
+        confirming something else. A safe pattern: if the target is
+        actually good, pair their real character with an evil character
+        nobody's holding; if they're actually evil, pair their real
+        character with a good character that's also out of play, so a
+        sharp Dreamer player can't cross-reference the "wrong" option
+        against other information already in play.
+      notes:
+        night: >-
+          Who are they pointing at, and which two characters do you show —
+          the real one plus a decoy? Keep the decoy plausible for that
+          specific player rather than reflexively reusing the same one
+          each time.
+
+    - name: Snake Charmer
+      timing: Every night
+      ability: >-
+        Each night, you choose an alive player. If you picked the Demon,
+        you and the Demon swap characters and alignments — you become an
+        evil Demon, they become a good Snake Charmer — and the new Snake
+        Charmer is poisoned. Nothing happens if you didn't pick the Demon.
+      note: >-
+        Wake and inform both players on a real swap — the new Demon needs
+        to know their kill ability, and the new Snake Charmer needs to
+        know they're now good (and poisoned). Only an alive player can be
+        targeted. If the Snake Charmer is drunk or poisoned, a correct
+        guess doesn't trigger the swap.
+      tokens: ["Poisoned"]
+      notes:
+        night: >-
+          Did they target the true Demon? If so, walk both players through
+          the swap — new alignments, new character tokens — and poison the
+          new Snake Charmer. If not, nothing happens; don't hint either
+          way.
+
+    - name: Mathematician
+      timing: Every night
+      ability: >-
+        Each night, you're told how many players' abilities malfunctioned
+        since your last check, due to another character's ability
+        affecting them.
+      note: >-
+        Tally every player whose ability was poisoned, swapped, drunk, or
+        otherwise altered by someone else's ability since the previous
+        report — count players affected, not the number of abilities
+        involved. This is the character most worth tracking on a private
+        notesheet as the night unfolds, since the count is easy to lose
+        track of live.
+      notes:
+        night: >-
+          How many players had their ability interfered with by another
+          character's ability since the last time you told them? Count
+          the affected players, not the interactions.
+
+    - name: Flowergirl
+      timing: Every night except the first
+      ability: Each night*, you learn whether the Demon voted today.
+      note: >-
+        Tracks whether the Demon player cast a vote at all today, not who
+        they voted for or how.
+      notes:
+        night: >-
+          Did the Demon vote on anything today? A plain yes or no is
+          enough.
+
+    - name: Town Crier
+      timing: Every night except the first
+      ability: Each night*, you learn whether a Minion nominated today.
+      note: Tracks whether any Minion made a nomination today, not which one.
+      notes:
+        night: Did any Minion nominate today? A plain yes or no is enough.
+
+    - name: Oracle
+      timing: Every night except the first
+      ability: Each night*, you learn how many dead players are evil.
+      note: >-
+        Recount fresh each night — deaths (and any alignment changes, like
+        a Snake Charmer swap) accumulate, so don't just reuse last night's
+        number.
+      notes:
+        night: >-
+          How many currently-dead players are evil right now? Recount
+          rather than reusing a previous answer — deaths and alignment
+          changes both move this number.
+
+    - name: Savant
+      timing: Every day
+      ability: >-
+        Each day, you may visit the Storyteller privately to hear two
+        pieces of information: one true, one false.
+      note: >-
+        You choose what both statements are and which one is true — the
+        player is never told which. Keep both plausible; an obviously
+        fake statement defeats the point.
+      notes:
+        day: >-
+          What are today's two statements? Decide both, and which one is
+          true, before they visit — the player won't be told which is
+          which.
+
+    - name: Seamstress
+      timing: Once per game, at night
+      ability: >-
+        Once per game, at night, you choose two players other than
+        yourself and learn whether they share an alignment.
+      note: >-
+        They can decline on any given night and use it on a later one
+        instead — keep offering the choice each night until they take it
+        or the game ends. If the Seamstress is drunk or poisoned, answer
+        either way regardless of the truth.
+      notes:
+        night: >-
+          Have they used their once-per-game check yet? If not, offer it
+          again tonight. If they choose two players, answer same-alignment
+          truthfully — unless the Seamstress is drunk or poisoned, in
+          which case answer either way.
+
+    - name: Philosopher
+      timing: Once per game, at night
+      ability: >-
+        Once per game, at night, you choose a good character. You gain
+        that character's ability. If that character is in play, its
+        original holder becomes drunk from now on.
+      note: >-
+        They can decline on any given night and use it on a later one
+        instead. Choosing an in-play character drunks that player
+        permanently — the Philosopher then has a working copy of the
+        ability while the real holder's own copy silently stops working.
+        Choosing a character that isn't in play just hands the Philosopher
+        that ability outright, no side effect.
+      notes:
+        night: >-
+          Have they used their once-per-game pick yet? If not, offer it
+          again tonight. If they choose a character, note which one — if
+          that character is in play, its real holder is now drunk from
+          this point forward.
+
+    - name: Artist
+      timing: Once per game, during the day
+      ability: >-
+        Once per game, during the day, you may privately ask the
+        Storyteller any single yes-or-no question.
+      note: >-
+        Answer truthfully unless the Artist is drunk or poisoned. It has
+        to genuinely be answerable with yes or no — push back gently if
+        they try to ask something open-ended.
+
+    - name: Juggler
+      timing: Once, on your first day
+      ability: >-
+        On your first day, you may publicly guess up to five players'
+        characters. That night, you learn how many guesses were correct.
+      note: >-
+        The guesses happen in public, so manage the fallout on claims
+        accordingly. Grade against players' true characters, not how they
+        register to other abilities, and report only the count — never
+        which specific guesses landed.
+      notes:
+        night: >-
+          If they guessed on their first day, how many of those guesses
+          matched the target's true character? Report the count only.
+
+    - name: Sage
+      timing: Triggers if killed by the Demon
+      ability: >-
+        If the Demon kills you, you learn that it's one of two players.
+      note: >-
+        Only a Demon night-kill triggers this — not an execution, and not
+        a non-Demon death. One of the two players you show must be the
+        real Demon.
+      notes:
+        night: >-
+          Did the Demon's kill just land on them? If so, show two players,
+          one of whom is genuinely the Demon.
+
+  outsiders:
+    - name: Mutant
+      timing: Passive
+      ability: >-
+        If you're behaving "mad" about being an Outsider — claiming or
+        acting convinced of it — you might be executed for it.
+      note: >-
+        This is the same kind of judgment call Cerenovus formalizes:
+        decide for yourself how convincingly "mad" the claim needs to be
+        before it puts them at real execution risk.
+
+    - name: Sweetheart
+      timing: Triggers on death
+      ability: When you die, one player becomes drunk from now on.
+      note: >-
+        You choose who — applies immediately, whether the Sweetheart died
+        by execution or at night, and lasts for the rest of the game.
+      tokens: ["Drunk"]
+      notes:
+        night: >-
+          Did the Sweetheart just die (day or night)? If so, pick a
+          player to drunk from now on.
+
+    - name: Barber
+      timing: Triggers if killed
+      ability: >-
+        If you died today, the Demon may choose two players (not
+        themselves) to swap characters tonight.
+      note: >-
+        Only fires the same day/night the Barber actually died. The
+        choice belongs to the Demon, not you — they may decline, and
+        neither of the two swapped players can be the Demon.
+      notes:
+        night: >-
+          Did the Barber die today? If so, let the Demon choose (or
+          decline) two non-Demon players to swap characters, and walk
+          both through their new identity if they do.
+
+    - name: Klutz
+      timing: Triggers on death
+      ability: >-
+        The moment you learn you've died, you publicly choose an alive
+        player. If that player is evil, your team loses.
+      note: >-
+        Triggers whenever they're actually told they're dead, which may
+        not be the instant it happens. If the Klutz is drunk or poisoned
+        at the time, their pick carries no real stakes even if it lands on
+        an evil player.
+
+  minions:
+    - name: Evil Twin
+      timing: First night only
+      ability: >-
+        You and an opposing-alignment player are shown to each other on
+        night one. If the town executes your good twin, evil wins
+        outright. Good cannot win while you're both still alive.
+      note: >-
+        Both players learn the pairing that night — your twin isn't kept
+        in the dark about who they are, only about what it means for the
+        game's win conditions. Pick the good twin at setup with real care,
+        since it's a standing threat for the whole game, not a one-off
+        effect.
+      notes:
+        setup: >-
+          Who's the good twin? Pick someone whose eventual execution is
+          genuinely plausible — a twin nobody would ever vote for defeats
+          the point.
+
+    - name: Witch
+      timing: Every night
+      ability: >-
+        Each night, you choose a player. If that player nominates
+        tomorrow, they die immediately. You lose this ability once only
+        three players remain alive.
+      note: >-
+        The curse lasts through the next day only — if they don't
+        nominate, nothing happens and it doesn't carry over. Stop applying
+        it entirely once the player count drops to three.
+      tokens: ["Cursed"]
+      notes:
+        night: >-
+          Who's cursed tonight? Remember them — if that player nominates
+          tomorrow, they die on the spot. Skip this entirely once only
+          three players are alive.
+
+    - name: Cerenovus
+      timing: Every night
+      ability: >-
+        Each night, you choose a player and a good character. That player
+        is "mad" about being that character tomorrow, and might be
+        executed if they don't play along convincingly.
+      note: >-
+        The target doesn't become that character — they just have to
+        publicly act or claim like they believe it. How convincing is
+        enough is your call as Storyteller, the same judgment Mutant
+        already relies on you for.
+      naming: >-
+        Pick a good character whose forced claim will actually cost the
+        target something — a role with a checkable, specific ability
+        works better than a vague passive one, since it pressures them to
+        either fake details under scrutiny or risk looking evasive.
+      tokens: ["Mad"]
+      notes:
+        night: >-
+          Who's mad tonight, and about which good character? Remember
+          both — the next day, judge how convincingly they played it
+          before deciding whether it's execution-worthy.
+
+    - name: Pit-Hag
+      timing: Every night except the first
+      ability: >-
+        Each night*, you choose a player and a character that isn't
+        currently in play. That player becomes that character.
+      note: >-
+        The character must genuinely be out of play — you can't target
+        one already held. If this creates a new Demon, deaths that same
+        night can resolve in whatever order is convenient for you; don't
+        worry about strict sequencing.
+      naming: >-
+        Reach for whichever not-in-play character reshapes the game most
+        usefully right now — turning a Townsfolk into a second evil
+        threat, or handing a struggling evil team a fresh Demon, are both
+        fair uses. Just remember it has to be a character truly absent
+        from this game.
+      notes:
+        night: >-
+          Who's becoming what? Confirm the target character is genuinely
+          not in play, then walk the affected player through their new
+          identity. A freshly created Demon means tonight's deaths can
+          resolve in whatever order suits you.
+
+  demons:
+    - name: Fang Gu
+      timing: Every night except the first
+      ability: >-
+        Each night*, you choose a player, who dies. The first time this
+        kills an Outsider, that Outsider becomes an evil Fang Gu instead
+        of dying, and you die in their place. [+1 Outsider]
+      note: >-
+        The transformation only happens once per game, on the first
+        Outsider it kills — every kill after that is a normal death, even
+        of further Outsiders. If no Outsider is ever killed, it never
+        triggers at all. This lineup runs with one extra Outsider (and one
+        fewer Townsfolk) than the base ratio for its player count.
+      naming: >-
+        Favor bluffs that never need a public demonstration — Flowergirl,
+        Town Crier, and Oracle all report privately at night and are never
+        tested again, which is what makes a claim hold up under pressure.
+        Steer clear of Juggler: its whole ability is a public act on day
+        one, so claiming it invites an immediate, hard-to-fake challenge.
+      notes:
+        setup: >-
+          Which three characters, not in this game, does the Demon get as
+          bluffs? Favor quiet night-only roles that are hard to disprove —
+          see the Roster tab for specifics.
+        night: >-
+          Who dies? If the target is an Outsider and this is the first
+          Outsider Fang Gu has killed, walk through the swap instead —
+          Fang Gu dies, the Outsider becomes the new evil Fang Gu.
+
+    - name: Vigormortis
+      timing: Every night except the first
+      ability: >-
+        Each night*, you choose a player, who dies. If they were a
+        Minion, their ability keeps working after death, and one of their
+        Townsfolk neighbours is poisoned. [−1 Outsider]
+      note: >-
+        Only triggers this way when the kill target is a Minion — an
+        ordinary Townsfolk or Outsider kill is just a normal death. The
+        poisoned neighbour is recalculated from the dead Minion's own
+        seating, and shifts if seating effectively changes as more players
+        die. This lineup runs with one fewer Outsider (and one more
+        Townsfolk) than the base ratio for its player count — floor at
+        zero Outsiders if the base ratio is already there.
+      naming: >-
+        Favor bluffs that never need a public demonstration — Flowergirl,
+        Town Crier, and Oracle all report privately at night and are never
+        tested again, which is what makes a claim hold up under pressure.
+        Steer clear of Juggler: its whole ability is a public act on day
+        one, so claiming it invites an immediate, hard-to-fake challenge.
+      notes:
+        setup: >-
+          Which three characters, not in this game, does the Demon get as
+          bluffs? Favor quiet night-only roles that are hard to disprove —
+          see the Roster tab for specifics.
+        night: >-
+          Who dies? If they were a Minion, keep their ability live for the
+          rest of the game and poison one of their Townsfolk neighbours —
+          recheck who that neighbour is as seating changes.
+
+    - name: No Dashii
+      timing: Every night except the first
+      ability: >-
+        Each night*, you choose a player, who dies. Its two Townsfolk
+        neighbours are continuously poisoned.
+      note: >-
+        The poison isn't a nightly pick — it's always whichever two
+        Townsfolk currently sit closest to the No Dashii on either side.
+        Recheck who that is whenever a death changes the seating.
+      naming: >-
+        Favor bluffs that never need a public demonstration — Flowergirl,
+        Town Crier, and Oracle all report privately at night and are never
+        tested again, which is what makes a claim hold up under pressure.
+        Steer clear of Juggler: its whole ability is a public act on day
+        one, so claiming it invites an immediate, hard-to-fake challenge.
+      tokens: ["Poisoned"]
+      notes:
+        setup: >-
+          Which three characters, not in this game, does the Demon get as
+          bluffs? Favor quiet night-only roles that are hard to disprove —
+          see the Roster tab for specifics.
+        night: >-
+          Who dies? Then re-confirm its two current Townsfolk neighbours —
+          both stay poisoned until the seating changes who's adjacent.
+
+    - name: Vortox
+      timing: Every night except the first
+      ability: >-
+        Each night*, you choose a player, who dies. While it's in play,
+        every Townsfolk ability produces false information. If no one is
+        executed on a day, evil wins immediately.
+      note: >-
+        The false-info effect is total and passive — it applies to every
+        Townsfolk, not just poisoned ones, with no chosen target. Track
+        the execution requirement carefully: a day that ends with no one
+        executed (a skipped vote, a tied vote left unresolved, and so on)
+        ends the game for evil on the spot.
+      naming: >-
+        Favor bluffs that never need a public demonstration — Flowergirl,
+        Town Crier, and Oracle all report privately at night and are never
+        tested again, which is what makes a claim hold up under pressure.
+        Steer clear of Juggler: its whole ability is a public act on day
+        one, so claiming it invites an immediate, hard-to-fake challenge.
+      notes:
+        setup: >-
+          Which three characters, not in this game, does the Demon get as
+          bluffs? Favor quiet night-only roles that are hard to disprove —
+          see the Roster tab for specifics.
+        night: >-
+          Who dies? And did today end with no execution — if so, evil
+          wins right now, before the night even continues.
+        day: >-
+          Did today pass with no execution — a skipped vote, an
+          unresolved tie, anything short of an actual execution? If so,
+          evil wins immediately; don't wait for the night phase.
+
+night_order:
+  first_night:
+    - name: Philosopher
+      body: >-
+        They may choose a good character to gain that ability. If it's
+        in play, its holder is now drunk from now on.
+    - info: true
+      name: Minion info
+      body: >-
+        Wake all Minions together. Show them who each other are, and who
+        the Demon is.
+    - info: true
+      name: Demon info
+      body: >-
+        Wake the Demon. Show them their Minions, plus three 'bluff'
+        characters not in this game, to claim if pressed.
+    - name: Snake Charmer
+      body: >-
+        They choose an alive player. If it's the Demon, walk both players
+        through the swap and poison the new Snake Charmer.
+    - name: Evil Twin
+      body: >-
+        Wake the Evil Twin and their good twin together. Show each their
+        counterpart's character.
+    - name: Witch
+      body: They choose a player to curse for tomorrow's nomination.
+    - name: Cerenovus
+      body: They choose a player and a good character to make them "mad" about.
+    - name: Clockmaker
+      body: >-
+        Show the hand-signal number of steps between the Demon and its
+        nearest Minion.
+    - name: Dreamer
+      body: >-
+        They choose a player; show one good and one evil character, one
+        of which is real.
+    - name: Seamstress
+      body: >-
+        They may choose two players; if so, tell them same alignment or
+        not.
+    - name: Mathematician
+      body: >-
+        Tell them how many players' abilities have malfunctioned so far
+        tonight due to another character.
+
+  other_nights:
+    - name: Philosopher
+      flag: if not yet used
+      body: >-
+        If they haven't used their once-per-game pick yet, offer it
+        again tonight.
+    - name: Snake Charmer
+      body: >-
+        They choose an alive player. If it's the Demon, walk both players
+        through the swap and poison the new Snake Charmer.
+    - name: Witch
+      flag: if 4 or more players alive
+      body: They choose a player to curse for tomorrow's nomination.
+    - name: Cerenovus
+      body: They choose a player and a good character to make them "mad" about.
+    - name: Pit-Hag
+      body: >-
+        They choose a player and a not-in-play character for that player
+        to become.
+    - name: Fang Gu
+      body: >-
+        They choose a player to kill. If it's the first Outsider they've
+        killed, swap Fang Gu and that Outsider instead.
+    - name: No Dashii
+      body: >-
+        They choose a player to kill. Reconfirm its two current
+        Townsfolk neighbours — both are poisoned.
+    - name: Vortox
+      body: >-
+        They choose a player to kill.
+    - name: Vigormortis
+      body: >-
+        They choose a player to kill. If it's a Minion, keep their
+        ability active and poison one of their Townsfolk neighbours.
+    - name: Barber
+      flag: if killed today
+      body: >-
+        Let the Demon choose, or decline, two non-Demon players to swap
+        characters.
+    - name: Sweetheart
+      flag: if just died
+      body: They choose a player to drunk from now on.
+    - name: Sage
+      flag: if killed by the Demon tonight
+      body: >-
+        Only if the Demon's kill just landed on them — show two players,
+        one of whom is genuinely the Demon.
+    - name: Dreamer
+      body: >-
+        They choose a player; show one good and one evil character, one
+        of which is real.
+    - name: Flowergirl
+      body: Tell them whether the Demon voted today.
+    - name: Town Crier
+      body: Tell them whether any Minion nominated today.
+    - name: Oracle
+      body: Tell them how many dead players are currently evil.
+    - name: Seamstress
+      flag: if not yet used
+      body: >-
+        If they haven't used their once-per-game check yet, offer it
+        again tonight.
+    - name: Juggler
+      flag: if today was their first day
+      body: >-
+        Tell them how many of today's public guesses matched their
+        targets' true characters.
+    - name: Mathematician
+      body: >-
+        Tell them how many players' abilities have malfunctioned since
+        their last check.
+
+setups:
+  - n: 7
+    note: >-
+      5 Townsfolk, 0 Outsiders, 1 Minion, 1 Demon — the base ratio for 7
+      players, and the smallest lineup with recommendations.
+    characters:
+      - Clockmaker
+      - Snake Charmer
+      - Dreamer
+      - Seamstress
+      - Sage
+      - Witch
+      - No Dashii
+    recommendations:
+      No Dashii:
+        setup: >-
+          Nobody in this lineup resolves publicly, so almost anything
+          unused makes a workable bluff — Flowergirl, Town Crier, and
+          Oracle are the safest picks: all three report privately at
+          night and are never tested again once claimed.
+
+  - n: 8
+    note: >-
+      5 Townsfolk, 1 Outsider, 1 Minion, 1 Demon. Mutant joins as the
+      first Outsider.
+    characters:
+      - Clockmaker
+      - Snake Charmer
+      - Dreamer
+      - Seamstress
+      - Sage
+      - Mutant
+      - Witch
+      - No Dashii
+    recommendations:
+      No Dashii:
+        setup: >-
+          Mutant doesn't change the bluff math — it's a passive role with
+          nothing that reads as suspicious on its own. Same logic as 7
+          players still applies: Flowergirl, Town Crier, and Oracle stay
+          the safest picks.
+
+  - n: 9
+    note: >-
+      5 Townsfolk, 2 Outsiders, 1 Minion, 1 Demon. Sweetheart joins as the
+      second Outsider.
+    characters:
+      - Clockmaker
+      - Snake Charmer
+      - Dreamer
+      - Seamstress
+      - Sage
+      - Mutant
+      - Sweetheart
+      - Witch
+      - No Dashii
+    recommendations:
+      No Dashii:
+        setup: >-
+          Sweetheart's death-trigger doesn't create a public tell either,
+          so the bluff pool is unchanged from 7-8 players — Flowergirl,
+          Town Crier, and Oracle remain the safest picks.
+
+  - n: 10
+    note: >-
+      7 Townsfolk, 0 Outsiders, 2 Minions, 1 Demon — the base ratio for 10
+      players. Philosopher and Mathematician join as the sixth and
+      seventh Townsfolk; Cerenovus joins Witch as the second Minion.
+    characters:
+      - Clockmaker
+      - Snake Charmer
+      - Dreamer
+      - Seamstress
+      - Sage
+      - Philosopher
+      - Mathematician
+      - Witch
+      - Cerenovus
+      - No Dashii
+    recommendations:
+      No Dashii:
+        setup: >-
+          Philosopher and Mathematician are real characters now, so
+          they're off the bluff table — Flowergirl, Town Crier, and
+          Oracle take over as the reserved trio, all still quiet and
+          requiring no public demonstration.
+
+  - n: 11
+    note: >-
+      7 Townsfolk, 1 Outsider, 2 Minions, 1 Demon. Mutant rejoins as the
+      first Outsider.
+    characters:
+      - Clockmaker
+      - Snake Charmer
+      - Dreamer
+      - Seamstress
+      - Sage
+      - Philosopher
+      - Mathematician
+      - Mutant
+      - Witch
+      - Cerenovus
+      - No Dashii
+    recommendations:
+      No Dashii:
+        setup: >-
+          Mutant rejoining doesn't touch the bluff pool — Flowergirl,
+          Town Crier, and Oracle remain the reserved trio, unchanged from
+          10 players.
+
+  - n: 12
+    note: >-
+      7 Townsfolk, 2 Outsiders, 2 Minions, 1 Demon. Sweetheart rejoins as
+      the second Outsider.
+    characters:
+      - Clockmaker
+      - Snake Charmer
+      - Dreamer
+      - Seamstress
+      - Sage
+      - Philosopher
+      - Mathematician
+      - Mutant
+      - Sweetheart
+      - Witch
+      - Cerenovus
+      - No Dashii
+    recommendations:
+      No Dashii:
+        setup: >-
+          Sweetheart rejoining doesn't touch the bluff pool either —
+          Flowergirl, Town Crier, and Oracle remain the reserved trio,
+          unchanged from 10-11 players.
+
+  - n: 13
+    note: >-
+      9 Townsfolk, 0 Outsiders, 3 Minions, 1 Demon — the official ratio
+      resets here, swapping both Outsiders out for Oracle, Juggler, and a
+      third Minion.
+    characters:
+      - Clockmaker
+      - Snake Charmer
+      - Dreamer
+      - Seamstress
+      - Sage
+      - Philosopher
+      - Mathematician
+      - Oracle
+      - Juggler
+      - Witch
+      - Cerenovus
+      - Pit-Hag
+      - No Dashii
+    recommendations:
+      No Dashii:
+        setup: >-
+          Oracle and Juggler are now real characters in this lineup, so
+          they're off the bluff table — Flowergirl, Town Crier, and
+          Savant take over as the reserved trio instead. Savant's day
+          visits are private enough to hold up as a bluff even though it's
+          technically day-active; Juggler is the one to actively avoid,
+          since its whole ability is a public day-one act.
+
+  - n: 14
+    note: >-
+      9 Townsfolk, 1 Outsider, 3 Minions, 1 Demon. Barber joins as the
+      sole Outsider — a character not used at any lower player count,
+      left for this restructure since it needs the full 3-Minion field to
+      matter.
+    characters:
+      - Clockmaker
+      - Snake Charmer
+      - Dreamer
+      - Seamstress
+      - Sage
+      - Philosopher
+      - Mathematician
+      - Oracle
+      - Juggler
+      - Barber
+      - Witch
+      - Cerenovus
+      - Pit-Hag
+      - No Dashii
+    recommendations:
+      No Dashii:
+        setup: >-
+          Barber doesn't change the bluff math — it's a death-triggered
+          role with nothing that reads as suspicious on its own. Same
+          logic as 13 players still applies: Flowergirl, Town Crier, and
+          Savant remain the trio to use.
+
+  - n: 15
+    note: >-
+      9 Townsfolk, 2 Outsiders, 3 Minions, 1 Demon — the top of the
+      recommended range. Klutz joins as the second Outsider, completing
+      all four Outsiders across the full 7-15 progression; Mutant and
+      Sweetheart were deliberately retired at the 13-player restructure
+      and aren't reintroduced here.
+    characters:
+      - Clockmaker
+      - Snake Charmer
+      - Dreamer
+      - Seamstress
+      - Sage
+      - Philosopher
+      - Mathematician
+      - Oracle
+      - Juggler
+      - Barber
+      - Klutz
+      - Witch
+      - Cerenovus
+      - Pit-Hag
+      - No Dashii
+    recommendations:
+      No Dashii:
+        setup: >-
+          Klutz doesn't unlock a standout pick either — its public choice
+          only fires after death, too late to matter for a bluff claimed
+          from the start. Flowergirl, Town Crier, and Savant remain the
+          trio to use.
