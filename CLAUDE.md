@@ -152,11 +152,7 @@ storyteller will be relying on this at the table.
 
 ### Issue tracker
 
-Issues live as local markdown files under `.scratch/`. See `docs/agents/issue-tracker.md`.
-
-### Triage labels
-
-Default five canonical role names, unchanged. See `docs/agents/triage-labels.md`.
+Issues live as GitHub Issues (github.com/cverdoes/storytellers-grimoire). See `docs/agents/issue-tracker.md`.
 
 ### Domain docs
 
