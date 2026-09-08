@@ -1,0 +1,721 @@
+script: Trouble Brewing
+slug: trouble-brewing
+
+characters:
+  townsfolk:
+    - name: Washerwoman
+      timing: First night only
+      ability: >-
+        You're shown two players and told a Townsfolk character. Exactly
+        one of those two players is really that character.
+      note: >-
+        The character you name must be in play. You pick which two
+        players to show — one can be a decoy. If the Washerwoman is
+        drunk or poisoned, everything you show can be false.
+      naming: >-
+        Name a Townsfolk whose reveal creates good discussion without
+        deflating the game — Empath, Fortune Teller, Undertaker, and
+        Monk all work well, since even partly outed they keep acting and
+        their claims stay checkable. Avoid naming the Virgin or Slayer:
+        both rely on nobody being sure who holds them, and an early
+        reveal strips away exactly the tension that makes them fun.
+      notes:
+        setup: >-
+          Which two players do you show, and which Townsfolk do you
+          name? Choose deliberately — see the Roster tab for who's worth
+          naming. Remember the Spy can stand in as your decoy: it may
+          register as a Townsfolk even though it's a Minion.
+
+    - name: Librarian
+      timing: First night only
+      ability: >-
+        You're shown two players and told an Outsider character.
+        Exactly one of those two players is really that character.
+      note: >-
+        If there are zero Outsiders in play, tell them that directly
+        instead of showing two players.
+      naming: >-
+        Recluse and Butler are safe, interesting picks — being partly
+        outed doesn't cost them much. The Drunk is actually a great one
+        to name: it plants a real clue against a player who's utterly
+        convinced they're a functioning Townsfolk, which makes for some
+        of the best confusion in the game. Go easy on the Saint — an
+        early flag raises their execution risk, and a Saint execution
+        ends the game on the spot.
+
+    - name: Investigator
+      timing: First night only
+      ability: >-
+        You're shown two players and told a Minion character. Exactly
+        one of those two players is really that character.
+      note: >-
+        Same shape as Washerwoman and Librarian — same rule that the
+        named character must be in play, and same exception if drunk or
+        poisoned.
+      naming: >-
+        Poisoner and Spy are strong picks — the town gets something
+        concrete to watch for. Baron is a weak pick: its effect is
+        already baked into the setup, so knowing who holds it rarely
+        changes anyone's behavior. Be thoughtful with Scarlet Woman —
+        naming her early primes the town to treat her as a priority kill
+        the moment the real Demon falls, draining tension out of her
+        transformation later.
+      notes:
+        setup: >-
+          Which two players do you show, and which Minion do you name?
+          See the Roster tab for who's worth naming. The Recluse can
+          stand in as your decoy: it may register as a Minion even
+          though it's good.
+
+    - name: Chef
+      timing: First night only
+      ability: >-
+        You're told how many pairs of evil players are sitting next to
+        each other around the circle.
+      note: >-
+        Two evil players sitting on either side of a third evil player
+        counts as two pairs, not one. A Recluse may or may not count as
+        evil — your call.
+
+    - name: Empath
+      timing: Every night
+      ability: >-
+        Each night, you're told how many of your two living neighbours
+        (the nearest alive player each direction) are evil — 0, 1, or 2.
+      note: >-
+        Neighbours change as players die and seats close up. Recalculate
+        who's actually adjacent each night before answering.
+      notes:
+        night: >-
+          How many of their two living neighbors are evil? Give the
+          true count — 0, 1, or 2 — remembering the Spy can register as
+          good and slip out of the count if it's sitting next to them.
+          The Recluse can do the reverse: register as evil and land in
+          the count even though it's good. If the Empath is poisoned,
+          invent the number freely instead.
+
+    - name: Fortune Teller
+      timing: Every night
+      ability: >-
+        Each night, you choose two players and are told 'yes' if either
+        is the Demon, otherwise 'no'.
+      note: >-
+        Before night one, secretly pick one good player as the red
+        herring — they always trigger a 'yes' for the rest of the game,
+        even though they aren't the Demon.
+      tokens: ["Red Herring"]
+      notes:
+        setup: >-
+          Who's the red herring? Secretly pick one good player before
+          night one — they'll ping as the Demon to the Fortune Teller
+          for the rest of the game, no matter who else is checked.
+        night: >-
+          Is either chosen player the Demon? Answer yes or no honestly.
+          The Recluse can register as the Demon too — a deliberate false
+          yes is fair game if it protects your real Demon's cover. If
+          the Fortune Teller is poisoned, you're free to answer either
+          way regardless of the truth.
+
+    - name: Undertaker
+      timing: Every night except the first
+      ability: >-
+        If the town executed someone today, you're told what character
+        that player was.
+      note: >-
+        No execution today means no information tonight — don't wake
+        them for nothing.
+      notes:
+        night: >-
+          Did an execution happen today? If yes, tell them exactly which
+          character was executed. If no, they get nothing tonight —
+          don't wake them for it.
+
+    - name: Monk
+      timing: Every night except the first
+      ability: >-
+        Each night, you choose a player other than yourself. That player
+        cannot be killed by the Demon tonight.
+      note: >-
+        Still have them choose someone even if poisoned — the protection
+        just silently fails. Never skip their turn, or you reveal the
+        poisoning.
+      notes:
+        night: >-
+          Whose protection is active tonight? Track it, then apply it
+          silently against the Demon's kill. If the Monk is poisoned,
+          let them choose as normal but apply no real protection.
+
+    - name: Ravenkeeper
+      timing: Triggers if killed at night
+      ability: >-
+        If you die during the night, you wake before the night ends,
+        choose a player, and learn their true character.
+      note: >-
+        Only triggers on a night kill — an execution during the day does
+        not wake the Ravenkeeper.
+      notes:
+        night: >-
+          Did the Imp actually kill them overnight? Only then do they
+          wake to learn a character — a Monk-protected or
+          otherwise-saved Ravenkeeper stays asleep.
+
+    - name: Virgin
+      timing: Passive, once
+      ability: >-
+        The first time you're nominated, if the nominator is a
+        Townsfolk, that nominator is executed immediately with no vote.
+      note: >-
+        If the Virgin is drunk or poisoned, this doesn't fire even if a
+        genuine Townsfolk nominates them — run a normal vote instead.
+      notes:
+        day: >-
+          Is the nominator a genuine, undrunk, unpoisoned Townsfolk? If
+          yes, skip the vote and execute the nominator immediately. If
+          no, run a normal vote.
+
+    - name: Slayer
+      timing: Once, during the day
+      ability: >-
+        At any point in the day, you may publicly name a player. If that
+        player is the true Demon, they die immediately.
+      note: >-
+        This checks the real character, not how someone registers to
+        other abilities — a Recluse who 'looks' evil will not die.
+      notes:
+        day: >-
+          Is their target actually the Demon? Resolve the shot
+          immediately and publicly the moment they declare it — hit or
+          miss, it's spent either way. If they target the Recluse,
+          remember this checks the true Demon, not who's been
+          registering as one — nothing happens, even if the Recluse has
+          looked evil all game.
+
+    - name: Soldier
+      timing: Passive
+      ability: You cannot be killed by the Demon's night attack.
+      note: >-
+        Protects only against the Demon. Execution, the Slayer, or other
+        effects can still kill a Soldier.
+
+    - name: Mayor
+      timing: Passive
+      ability: >-
+        If only three players are alive and no execution happens on a
+        day, good wins immediately. If you'd be killed at night, another
+        player may die instead.
+      note: >-
+        The 'someone else dies instead' swap is entirely your choice as
+        Storyteller — you can also choose to have nobody die.
+
+  outsiders:
+    - name: Butler
+      timing: Every night
+      ability: >-
+        Each night, you choose a player other than yourself. The next
+        day, you may only vote on a nomination if that player is also
+        voting on it.
+      note: >-
+        If the chosen player is dead and has already spent their ghost
+        vote, the Butler simply cannot vote that day.
+      tokens: ["Master"]
+      notes:
+        day: >-
+          Is their chosen master voting on this nomination? If not, the
+          Butler's own vote doesn't count — check before you call the
+          tally.
+
+    - name: Drunk
+      timing: Never wakes as themselves
+      ability: >-
+        At setup, you're secretly told you're a specific Townsfolk. You
+        believe this and play it — but your ability never actually
+        works.
+      note: >-
+        Still wake them and go through the motions for whatever
+        character they think they are, so the bluff holds up.
+
+    - name: Recluse
+      timing: Passive
+      ability: >-
+        Any ability that detects alignment or character type may
+        register you as evil, or as a Minion or Demon, even though
+        you're truly good.
+      note: >-
+        This is a per-ability, per-moment choice for you — it doesn't
+        need to stay consistent across different abilities or nights.
+      notes:
+        night: >-
+          Could a detection ability reach them right now? Decide fresh
+          each time whether they register as evil, a Minion, or the
+          Demon — or as themselves. It never has to stay consistent
+          night to night.
+
+    - name: Saint
+      timing: Passive
+      ability: If the town executes you, good loses immediately.
+      note: >-
+        Only an execution triggers this. Dying at night to the Demon is
+        just a normal death.
+      notes:
+        day: >-
+          Were they just executed? If so, good loses immediately — check
+          who just left the table before you move on.
+
+  minions:
+    - name: Poisoner
+      timing: Every night
+      ability: >-
+        Each night, you choose a player. Their ability produces false or
+        absent information until your next choice the following night.
+      note: >-
+        You decide what the poisoned player 'learns' — it doesn't need
+        to resemble the truth at all.
+      tokens: ["Poisoned"]
+      notes:
+        night: >-
+          Who's poisoned tonight? Remember them, and falsify or withhold
+          that player's information for the rest of the night and into
+          the next day, until you poison someone else.
+
+    - name: Spy
+      timing: Every night
+      ability: >-
+        Each night, you see the entire Grimoire — every player's true
+        character.
+      note: >-
+        Detection abilities may treat the Spy as good, and as a
+        Townsfolk or Outsider, at your discretion — same mechanic as the
+        Recluse, reversed.
+      notes:
+        night: >-
+          What do you show them? The full Grimoire — every player's true
+          character, living or dead.
+
+    - name: Scarlet Woman
+      timing: Passive
+      ability: >-
+        If 5 or more players are alive when the Demon dies, you
+        immediately become the new Demon.
+      note: >-
+        She gets the Demon's kill ability but no bonus info. If the
+        trigger happens before her night-order slot, she can act as the
+        Demon that same night.
+      notes:
+        day: >-
+          Did the Demon just die with 5 or more players still alive? If
+          so, she becomes the new Demon immediately — brief her before
+          the next night phase begins.
+
+    - name: Baron
+      timing: Setup only
+      ability: >-
+        Before characters are assigned, two extra Outsiders are added to
+        the game and two Townsfolk are removed.
+      note: >-
+        Apply this before you deal out character tokens — it changes the
+        whole character pool, not who sits where.
+
+  demons:
+    - name: Imp
+      timing: Every night except the first
+      ability: >-
+        Each night, you choose a player, who dies. If you choose
+        yourself, you die instead and a living Minion becomes the new
+        Imp.
+      note: >-
+        A replacement Imp does not get to kill that same night — their
+        first kill is the following night.
+      naming: >-
+        On night one you also hand the Imp three bluff characters not in
+        this game, for them to claim if pressed. Favor quiet info
+        Townsfolk (Empath, Undertaker, Fortune Teller-style roles) whose
+        claims are hard to disprove and never require a public
+        demonstration. Steer clear of Slayer or Virgin as bluffs — both
+        eventually force a visible, hard-to-fake moment that can
+        unravel the whole claim.
+      notes:
+        setup: >-
+          Which three characters, not in this game, does the Demon get
+          as bluffs? Favor quiet info roles that are hard to disprove —
+          see the Imp's Roster card for specifics.
+        night: >-
+          Did it target itself? If so, choose which living Minion
+          becomes the new Imp — they won't kill again until the
+          following night.
+
+night_order:
+  first_night:
+    - info: true
+      name: Minion info
+      body: >-
+        Wake all Minions together. Show them who each other are, and
+        who the Demon is.
+    - info: true
+      name: Demon info
+      body: >-
+        Wake the Demon. Show them their Minions, plus three 'bluff'
+        characters not in this game, to claim if pressed.
+    - name: Poisoner
+      body: They choose a player to poison for the night.
+    - name: Washerwoman
+      body: Show two players and a Townsfolk character in play.
+    - name: Librarian
+      body: >-
+        Show two players and an Outsider character in play, or 'no
+        Outsiders' if none.
+    - name: Investigator
+      body: Show two players and a Minion character in play.
+    - name: Chef
+      body: Tell them the number of adjacent evil pairs.
+    - name: Empath
+      body: Tell them how many of their two neighbours are evil.
+    - name: Fortune Teller
+      body: >-
+        They pick two players; tell them yes/no for the Demon. Set the
+        red herring before this, if you haven't already.
+    - name: Butler
+      body: They choose whose vote they'll depend on tomorrow.
+    - name: Spy
+      body: Show them the full Grimoire.
+
+  other_nights:
+    - name: Poisoner
+      body: >-
+        They choose tonight's poison target, before anyone whose ability
+        could be affected wakes.
+    - name: Monk
+      body: They choose a player to protect from the Demon tonight.
+    - name: Scarlet Woman
+      flag: if triggered
+      body: >-
+        Only relevant if the Demon has just died with 5+ players alive —
+        she becomes the Demon here.
+    - name: Imp
+      body: They choose a player to kill, or themselves to pass the role on.
+    - name: Ravenkeeper
+      flag: if killed tonight
+      body: >-
+        Only wakes if the Imp just killed them — they choose a player
+        and learn their character.
+    - name: Empath
+      body: Tell them how many of their current two neighbours are evil.
+    - name: Fortune Teller
+      body: They pick two players; tell them yes/no for the Demon.
+    - name: Undertaker
+      flag: if execution today
+      body: >-
+        Only wakes if the town executed someone today — tell them that
+        character.
+    - name: Butler
+      body: They choose tomorrow's voting condition.
+    - name: Spy
+      body: Show them the full Grimoire.
+
+setups:
+  - n: 7
+    note: >-
+      5 Townsfolk, 0 Outsiders, 1 Minion, 1 Demon — the base ratio for 7
+      players, and the smallest lineup with recommendations.
+    characters:
+      - Washerwoman
+      - Empath
+      - Fortune Teller
+      - Undertaker
+      - Monk
+      - Poisoner
+      - Imp
+    recommendations:
+      Fortune Teller:
+        setup: >-
+          No Recluse or Drunk in this lineup to soak up ambiguity, so
+          whichever herring you pick is more exposed than usual — a
+          "yes" on them needs to read as plausible, not staged. Nothing
+          here jumps out as an obvious misdirect; leaning toward a
+          Townsfolk that stays quiet on night one, like the Undertaker,
+          at least means there's nothing early to contradict.
+      Imp:
+        setup: >-
+          Bluffs just need to be characters nobody's holding, so
+          structurally anything outside this lineup works — but favor
+          ones that never force a public demonstration. Investigator,
+          Chef, and Librarian all resolve privately on night one and are
+          never tested again, which is what makes a claim hold up under
+          pressure.
+
+  - n: 8
+    note: >-
+      5 Townsfolk, 1 Outsider, 1 Minion, 1 Demon. Butler joins as the
+      first Outsider.
+    characters:
+      - Washerwoman
+      - Empath
+      - Fortune Teller
+      - Undertaker
+      - Monk
+      - Butler
+      - Poisoner
+      - Imp
+    recommendations:
+      Fortune Teller:
+        setup: >-
+          Butler doesn't change the herring math — it's a passive,
+          mechanical role with nothing that reads as suspicious on its
+          own. Same logic as 7 players still applies: pick a Townsfolk
+          that says nothing night one, like the Undertaker, so an early
+          "yes" has nothing to contradict.
+      Imp:
+        setup: >-
+          Bluffs just need to be characters nobody's holding, so
+          structurally anything outside this lineup works — but favor
+          ones that never force a public demonstration. Investigator,
+          Chef, and Librarian all resolve privately on night one and are
+          never tested again, which is what makes a claim hold up under
+          pressure.
+
+  - n: 9
+    note: >-
+      5 Townsfolk, 2 Outsiders, 1 Minion, 1 Demon. Recluse joins as the
+      second Outsider.
+    characters:
+      - Washerwoman
+      - Empath
+      - Fortune Teller
+      - Undertaker
+      - Monk
+      - Butler
+      - Recluse
+      - Poisoner
+      - Imp
+    recommendations:
+      Fortune Teller:
+        setup: >-
+          The Recluse is the standout pick here — it's the one
+          character in this lineup already built to register
+          ambiguously, so a "yes" on it costs nothing extra in cover
+          story.
+      Imp:
+        setup: >-
+          Bluffs just need to be characters nobody's holding, so
+          structurally anything outside this lineup works — but favor
+          ones that never force a public demonstration. Investigator,
+          Chef, and Librarian all resolve privately on night one and are
+          never tested again, which is what makes a claim hold up under
+          pressure.
+
+  - n: 10
+    note: >-
+      7 Townsfolk, 0 Outsiders, 2 Minions, 1 Demon — the base ratio for
+      10 players. Spy joins Poisoner as the second Minion.
+    characters:
+      - Washerwoman
+      - Empath
+      - Fortune Teller
+      - Undertaker
+      - Monk
+      - Slayer
+      - Virgin
+      - Poisoner
+      - Spy
+      - Imp
+    recommendations:
+      Fortune Teller:
+        setup: >-
+          No Recluse or Drunk in this lineup to soak up ambiguity, so
+          whichever herring you pick is more exposed than usual — a
+          "yes" on them needs to read as plausible, not staged. Slayer
+          and Virgin don't help either; both are public, once-off roles
+          with nothing that makes a private "yes" land more naturally.
+          Nothing here jumps out as an obvious misdirect; leaning toward
+          a Townsfolk that stays quiet on night one, like the
+          Undertaker, at least means there's nothing early to
+          contradict.
+      Imp:
+        setup: >-
+          Bluffs just need to be characters nobody's holding, so
+          structurally anything outside this lineup works — but favor
+          ones that never force a public demonstration. Investigator,
+          Chef, and Librarian all resolve privately on night one and are
+          never tested again, which is what makes a claim hold up under
+          pressure.
+
+  - n: 11
+    note: >-
+      7 Townsfolk, 1 Outsider, 2 Minions, 1 Demon. Butler joins as the
+      first Outsider.
+    characters:
+      - Washerwoman
+      - Empath
+      - Fortune Teller
+      - Undertaker
+      - Monk
+      - Slayer
+      - Virgin
+      - Butler
+      - Poisoner
+      - Spy
+      - Imp
+    recommendations:
+      Fortune Teller:
+        setup: >-
+          Butler joins here but doesn't change the herring math — same
+          passive, mechanical shape as the 7-9 segment's Butler entry.
+          The same logic as 10 players still applies: pick a Townsfolk
+          that says nothing night one, like the Undertaker, so an early
+          "yes" has nothing to contradict.
+      Imp:
+        setup: >-
+          Bluffs just need to be characters nobody's holding, so
+          structurally anything outside this lineup works — but favor
+          ones that never force a public demonstration. Investigator,
+          Chef, and Librarian all resolve privately on night one and are
+          never tested again, which is what makes a claim hold up under
+          pressure.
+
+  - n: 12
+    note: >-
+      7 Townsfolk, 2 Outsiders, 2 Minions, 1 Demon. Recluse joins as the
+      second Outsider.
+    characters:
+      - Washerwoman
+      - Empath
+      - Fortune Teller
+      - Undertaker
+      - Monk
+      - Slayer
+      - Virgin
+      - Butler
+      - Recluse
+      - Poisoner
+      - Spy
+      - Imp
+    recommendations:
+      Fortune Teller:
+        setup: >-
+          The Recluse is the standout pick here — it's the one
+          character in this lineup already built to register
+          ambiguously, so a "yes" on it costs nothing extra in cover
+          story.
+      Imp:
+        setup: >-
+          Bluffs just need to be characters nobody's holding, so
+          structurally anything outside this lineup works — but favor
+          ones that never force a public demonstration. Investigator,
+          Chef, and Librarian all resolve privately on night one and are
+          never tested again, which is what makes a claim hold up under
+          pressure.
+
+  - n: 13
+    note: >-
+      9 Townsfolk, 0 Outsiders, 3 Minions, 1 Demon — the official ratio
+      resets here, swapping Butler/Recluse out for Investigator,
+      Ravenkeeper, and a third Minion.
+    characters:
+      - Washerwoman
+      - Empath
+      - Fortune Teller
+      - Undertaker
+      - Monk
+      - Slayer
+      - Virgin
+      - Investigator
+      - Ravenkeeper
+      - Poisoner
+      - Spy
+      - Scarlet Woman
+      - Imp
+    recommendations:
+      Fortune Teller:
+        setup: >-
+          Spy's mis-registration doesn't
+          help here either, since a red herring has to be a good player
+          and Spy is evil. Nothing stands out as an obvious misdirect;
+          leaning toward a Townsfolk that stays quiet on night one, like
+          the Undertaker, at least means there's nothing early to
+          contradict.
+      Imp:
+        setup: >-
+          Investigator and Ravenkeeper are now real characters in this
+          lineup, so they're off the bluff table — Librarian, Chef, and
+          Mayor take over as the reserved trio instead, all still quiet
+          and requiring no public demonstration.
+
+  - n: 14
+    note: >-
+      9 Townsfolk, 1 Outsider, 3 Minions, 1 Demon. Saint joins as the
+      sole Outsider, left for last since it's the simplest of the two
+      Outsiders remaining at that point.
+    characters:
+      - Washerwoman
+      - Empath
+      - Fortune Teller
+      - Undertaker
+      - Monk
+      - Slayer
+      - Virgin
+      - Investigator
+      - Ravenkeeper
+      - Saint
+      - Poisoner
+      - Spy
+      - Scarlet Woman
+      - Imp
+    recommendations:
+      Fortune Teller:
+        setup: >-
+          Saint doesn't change the herring math either — it's a passive
+          execution-trigger with no mis-registration effect of its own.
+          Same logic as 13 players still applies: lean toward a
+          Townsfolk that stays quiet on night one, like the Undertaker,
+          so an early "yes" has nothing to contradict.
+      Imp:
+        setup: >-
+          Investigator and Ravenkeeper are still off the bluff table —
+          Librarian, Chef, and Mayor remain the trio to use, unchanged
+          from 13 players.
+
+  - n: 15
+    note: >-
+      9 Townsfolk, 2 Outsiders, 3 Minions, 1 Demon — the top of the
+      recommended range. Drunk joins as the second Outsider, completing
+      all four Outsiders across the full 7-15 progression; Butler and
+      Recluse were deliberately retired at the 13-player restructure and
+      aren't reintroduced here.
+    characters:
+      - Washerwoman
+      - Empath
+      - Fortune Teller
+      - Undertaker
+      - Monk
+      - Slayer
+      - Virgin
+      - Investigator
+      - Ravenkeeper
+      - Saint
+      - Drunk
+      - Poisoner
+      - Spy
+      - Scarlet Woman
+      - Imp
+    recommendations:
+      Fortune Teller:
+        setup: >-
+          Drunk doesn't unlock a standout pick either — unlike Recluse
+          or Spy, nothing in this roster's ability text gives it a
+          documented mis-registration effect, so it's just another
+          plain good player for Fortune Teller purposes. The same hedge
+          holds one more time: lean toward a Townsfolk that stays quiet
+          on night one, like the Undertaker.
+      Imp:
+        setup: >-
+          Investigator and Ravenkeeper are still off the bluff table,
+          and Soldier is now reserved for the Drunk's own claim (see the
+          Drunk entry below) — don't double it up as a bluff too, or
+          you'll have two players both quietly claiming to be Soldier.
+          Librarian, Chef, and Mayor remain the trio to use.
+      Drunk:
+        setup: >-
+          Tell them they're the Soldier — it's the lowest-maintenance
+          assignment available: no night action to fake, no nightly
+          bookkeeping to remember. If the Demon successfully kills them,
+          the false sense of safety just quietly evaporates without you
+          ever having had to track anything in between.

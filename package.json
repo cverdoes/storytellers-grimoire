@@ -1,0 +1,13 @@
+{
+  "name": "botc-grimoire",
+  "private": true,
+  "license": "MIT",
+  "description": "Dev tooling for the Blood on the Clocktower Storyteller's Grimoire. grimoire.html itself ships dependency-free.",
+  "scripts": {
+    "recompile": "node recompile-roster.js scripts/trouble-brewing.yaml"
+  },
+  "devDependencies": {
+    "js-yaml": "^4.1.0",
+    "playwright": "^1.62.1"
+  }
+}

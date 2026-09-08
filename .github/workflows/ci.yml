@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  sanity-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm ci
+
+      - name: Recompile grimoire.html from the Roster file
+        run: npm run recompile
+
+      - name: Fail if recompile produced an uncommitted diff
+        run: |
+          if ! git diff --quiet -- grimoire.html; then
+            echo "grimoire.html is out of date with scripts/trouble-brewing.yaml."
+            echo "Run 'npm run recompile' locally and commit the result."
+            git diff -- grimoire.html
+            exit 1
+          fi
+
+      - name: Syntax-check grimoire.html's embedded JS
+        run: |
+          awk '/<script>/{f=1;next}/<\/script>/{f=0}f' grimoire.html > /tmp/check.js
+          node --check /tmp/check.js

@@ -1,0 +1,3579 @@
+<title>Storyteller's Grimoire</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Libre+Franklin:wght@400;500;600;700&family=Spectral:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#e8dfc7;
+    --surface:#f4eddc;
+    --surface-2:#ddd0ab;
+    --ink:#2a2118;
+    --ink-soft:#5c5240;
+    --ink-faint:#8a7e64;
+    --border:#c3b48a;
+    --border-soft:#d6c99e;
+    --accent:#7d1f26;
+    --accent-ink:#fdf3ea;
+    --tf:#8f6a1f;
+    --out:#5f5470;
+    --min:#96461e;
+    --dem:#7d1f26;
+    --good-bg:#e7d9ad;
+    --bad-bg:#e7cbb8;
+    --shadow: 0 1px 0 rgba(42,33,24,0.06), 0 8px 20px -12px rgba(42,33,24,0.35);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#16121b;
+      --surface:#1f1922;
+      --surface-2:#2a222d;
+      --ink:#ece3d2;
+      --ink-soft:#b9ab8e;
+      --ink-faint:#83765f;
+      --border:#3c3140;
+      --border-soft:#332a37;
+      --accent:#e0636a;
+      --accent-ink:#1a0e10;
+      --tf:#d9b45c;
+      --out:#a698c2;
+      --min:#e08a56;
+      --dem:#e0636a;
+      --good-bg:#2a2c22;
+      --bad-bg:#2e1e1e;
+      --shadow: 0 1px 0 rgba(0,0,0,0.4), 0 12px 28px -14px rgba(0,0,0,0.7);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#16121b;
+    --surface:#1f1922;
+    --surface-2:#2a222d;
+    --ink:#ece3d2;
+    --ink-soft:#b9ab8e;
+    --ink-faint:#83765f;
+    --border:#3c3140;
+    --border-soft:#332a37;
+    --accent:#e0636a;
+    --accent-ink:#1a0e10;
+    --tf:#d9b45c;
+    --out:#a698c2;
+    --min:#e08a56;
+    --dem:#e0636a;
+    --good-bg:#2a2c22;
+    --bad-bg:#2e1e1e;
+    --shadow: 0 1px 0 rgba(0,0,0,0.4), 0 12px 28px -14px rgba(0,0,0,0.7);
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Libre Franklin", ui-sans-serif, system-ui, sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{ font-family:"Cinzel", Georgia, serif; text-wrap:balance; letter-spacing:0.01em; }
+  a{ color:var(--accent); }
+  ::selection{ background:var(--accent); color:var(--accent-ink); }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  .page{ max-width:1040px; margin:0 auto; padding:0 20px 80px; }
+
+  .masthead{
+    padding:56px 0 28px;
+    border-bottom:1px solid var(--border);
+    margin-bottom:24px;
+  }
+  .eyebrow{
+    font-family:"JetBrains Mono", monospace;
+    font-size:0.72rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 10px;
+  }
+  .masthead h1{
+    font-size:clamp(2rem, 4.5vw, 3rem);
+    font-weight:700;
+    margin:0 0 12px;
+    color:var(--ink);
+  }
+  .tagline{
+    font-family:"Spectral", Georgia, serif;
+    font-style:italic;
+    font-size:1.05rem;
+    color:var(--ink-soft);
+    margin:0;
+  }
+
+  .tabbar{
+    display:flex;
+    gap:4px;
+    flex-wrap:wrap;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    padding:14px 0;
+    z-index:10;
+    border-bottom:1px solid var(--border-soft);
+    margin-bottom:32px;
+  }
+  #nav-newgame-btn{ margin-left:12px; }
+  .tab{
+    font-family:"Libre Franklin", sans-serif;
+    font-weight:600;
+    font-size:0.88rem;
+    letter-spacing:0.02em;
+    color:var(--ink-soft);
+    background:transparent;
+    border:1px solid transparent;
+    border-radius:7px;
+    padding:9px 16px;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .tab:hover{ background:var(--surface-2); color:var(--ink); }
+  .tab[aria-selected="true"]{
+    background:var(--accent);
+    color:var(--accent-ink);
+    border-color:var(--accent);
+  }
+
+  .panel{ animation:fade .25s ease; }
+  @media (prefers-reduced-motion: reduce){ .panel{ animation:none; } }
+  @keyframes fade{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;} }
+
+  .lede{ font-family:"Spectral", Georgia, serif; color:var(--ink-soft); max-width:66ch; margin:0 0 28px; font-size:1rem; }
+
+  /* ---- Roster ---- */
+  .team-group{ margin-bottom:36px; }
+  .team-head{
+    display:flex; align-items:baseline; gap:10px;
+    margin-bottom:14px;
+    padding-bottom:8px;
+    border-bottom:2px solid var(--team-c, var(--border));
+  }
+  .team-head h2{ font-size:1.15rem; margin:0; color:var(--ink); }
+  .team-count{ font-family:"JetBrains Mono", monospace; font-size:0.78rem; color:var(--ink-faint); }
+  .team-group[data-team="townsfolk"]{ --team-c:var(--tf); }
+  .team-group[data-team="outsider"]{ --team-c:var(--out); }
+  .team-group[data-team="minion"]{ --team-c:var(--min); }
+  .team-group[data-team="demon"]{ --team-c:var(--dem); }
+
+  .card-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(250px,1fr)); gap:14px; }
+
+  .char-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-left:4px solid var(--team-c, var(--border));
+    border-radius:9px;
+    padding:16px 16px 14px;
+    box-shadow:var(--shadow);
+  }
+  .char-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; }
+  .char-head h3{ font-size:1.02rem; margin:0; }
+  .badge{
+    font-family:"JetBrains Mono", monospace;
+    font-size:0.64rem; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--team-c); border:1px solid var(--team-c); border-radius:20px;
+    padding:2px 8px; white-space:nowrap;
+  }
+  .ability{
+    font-family:"Spectral", Georgia, serif;
+    font-size:0.94rem;
+    color:var(--ink);
+    margin:0 0 10px;
+  }
+  .wake-tag{
+    display:inline-block;
+    font-family:"JetBrains Mono", monospace;
+    font-size:0.68rem; letter-spacing:0.03em;
+    color:var(--ink-soft);
+    background:var(--surface-2);
+    border:1px solid var(--border-soft);
+    border-radius:5px;
+    padding:2px 7px;
+    margin-bottom:10px;
+  }
+  details.note{ font-size:0.86rem; }
+  details.note summary{
+    cursor:pointer; color:var(--accent); font-weight:600; font-size:0.8rem;
+    list-style:none;
+  }
+  details.note summary::-webkit-details-marker{ display:none; }
+  details.note summary::before{ content:"▸ "; }
+  details.note[open] summary::before{ content:"▾ "; }
+  details.note p{ margin:8px 0 0; color:var(--ink-soft); font-family:"Libre Franklin", sans-serif; }
+  details.note.naming{ margin-top:8px; }
+  details.note.naming summary{ color:var(--team-c, var(--accent)); }
+
+  /* ---- Night order ---- */
+  .night-columns{ display:grid; grid-template-columns:1fr 1fr; gap:28px; }
+  @media (max-width:680px){ .night-columns{ grid-template-columns:1fr; } }
+  .night-col h2{ font-size:1.1rem; margin:0 0 4px; }
+  .night-sub{ font-size:0.85rem; color:var(--ink-faint); margin:0 0 16px; font-family:"JetBrains Mono",monospace; }
+  .steps{ list-style:none; margin:0; padding:0; position:relative; }
+  .steps::before{
+    content:""; position:absolute; left:15px; top:6px; bottom:6px; width:1px;
+    background:var(--border);
+  }
+  .step{ position:relative; padding:0 0 14px 42px; }
+  .step-num{
+    position:absolute; left:0; top:0;
+    width:31px; height:31px; border-radius:50%;
+    background:var(--surface); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    font-family:"JetBrains Mono", monospace; font-size:0.78rem; color:var(--ink-soft);
+  }
+  .step.info .step-num{ background:var(--surface-2); color:var(--ink-faint); border-style:dashed; }
+  .step-body{ background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:10px 14px; }
+  .step summary{ cursor:pointer; font-weight:600; font-size:0.92rem; list-style:none; }
+  .step summary::-webkit-details-marker{ display:none; }
+  .step-flag{ font-family:"JetBrains Mono",monospace; font-size:0.68rem; color:var(--accent); margin-left:6px; }
+  .step p{ margin:8px 0 0; font-size:0.86rem; color:var(--ink-soft); font-family:"Libre Franklin",sans-serif; }
+
+  .btn{
+    font-family:"Libre Franklin",sans-serif; font-weight:600; font-size:0.88rem;
+    background:var(--accent); color:var(--accent-ink); border:none; border-radius:7px;
+    padding:10px 18px; cursor:pointer;
+  }
+  .btn:hover{ filter:brightness(1.08); }
+
+  /* ---- Setups ---- */
+  .setup-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:11px;
+    padding:20px 22px; margin-bottom:18px; box-shadow:var(--shadow);
+  }
+  .setup-head{ display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:6px; }
+  .setup-head h2{ font-size:1.3rem; margin:0; }
+  .setup-count{
+    font-family:"JetBrains Mono",monospace; font-size:0.78rem; color:var(--ink-soft);
+    background:var(--surface-2); border:1px solid var(--border-soft); border-radius:20px;
+    padding:3px 12px; font-variant-numeric:tabular-nums;
+  }
+  .setup-delta{
+    font-family:"Spectral", Georgia, serif; font-style:italic; font-size:0.9rem;
+    color:var(--accent); margin:0 0 14px;
+  }
+  .token-row{ display:flex; flex-wrap:wrap; gap:7px; }
+  .token{
+    position:relative;
+    font-family:"Libre Franklin",sans-serif; font-size:0.82rem; font-weight:500;
+    border-radius:20px; padding:5px 12px; border:1px solid var(--tok-c, var(--border));
+    color:var(--ink); cursor:help;
+  }
+  .token.is-new{ background:var(--tok-c, var(--border)); color:var(--accent-ink); font-weight:600; }
+  .token[data-team="townsfolk"]{ --tok-c:var(--tf); }
+  .token[data-team="outsider"]{ --tok-c:var(--out); }
+  .token[data-team="minion"]{ --tok-c:var(--min); }
+  .token[data-team="demon"]{ --tok-c:var(--dem); }
+
+  .token-tip{
+    position:absolute; left:50%; top:calc(100% + 9px);
+    transform:translate(-50%, -4px);
+    width:260px; max-width:min(260px, calc(100vw - 48px));
+    background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--tok-c, var(--border));
+    border-radius:9px; padding:12px 14px; box-shadow:var(--shadow);
+    z-index:30; text-align:left; white-space:normal;
+    opacity:0; visibility:hidden; pointer-events:none;
+    transition:opacity .12s ease, transform .12s ease;
+  }
+  .token:hover .token-tip, .token:focus .token-tip, .token:focus-visible .token-tip{
+    opacity:1; visibility:visible; transform:translate(-50%, 0);
+  }
+  .tip-head{ display:flex; justify-content:space-between; align-items:baseline; gap:8px; margin-bottom:5px; }
+  .tip-head strong{ font-family:"Cinzel", Georgia, serif; font-size:0.92rem; color:var(--ink); font-weight:600; }
+  .tip-badge{ font-family:"JetBrains Mono",monospace; font-size:0.62rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--tok-c); white-space:nowrap; }
+  .tip-wake{ display:block; font-family:"JetBrains Mono",monospace; font-size:0.66rem; color:var(--ink-faint); margin-bottom:7px; }
+  .token-tip p{ margin:0; font-family:"Spectral", Georgia, serif; font-style:italic; font-size:0.85rem; color:var(--ink-soft); line-height:1.42; }
+  .setup-legend{ font-family:"JetBrains Mono",monospace; font-size:0.72rem; color:var(--ink-faint); margin:20px 0 0; }
+
+  .calls-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:18px;
+    margin-top:18px; padding-top:16px; border-top:1px dashed var(--border-soft);
+  }
+  @media (max-width:720px){ .calls-grid{ grid-template-columns:1fr; } }
+  .calls-col h4{
+    font-family:"JetBrains Mono",monospace; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--ink-faint); margin:0 0 10px;
+  }
+  .calls-col ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px; }
+  .calls-col li{ font-size:0.85rem; color:var(--ink-soft); line-height:1.45; }
+  .calls-col li strong{ color:var(--ink); font-weight:600; }
+  .calls-col li.is-new strong{ color:var(--accent); }
+  .calls-col li.is-new strong::after{ content:" ·new"; font-family:"JetBrains Mono",monospace; font-size:0.62rem; color:var(--accent); font-weight:500; text-transform:uppercase; letter-spacing:0.04em; }
+  .calls-empty{ font-size:0.82rem; color:var(--ink-faint); font-style:italic; }
+  .calls-col li.calls-subhead{
+    font-family:"JetBrains Mono",monospace; font-size:0.66rem; text-transform:uppercase; letter-spacing:0.06em;
+    color:var(--ink-faint); margin-top:12px; padding-top:9px; border-top:1px dashed var(--border-soft);
+  }
+  .calls-col li.calls-subhead:first-child{ margin-top:0; padding-top:0; border-top:none; }
+  .calls-col li .step-idx{ font-family:"JetBrains Mono",monospace; font-size:0.72rem; color:var(--ink-faint); margin-right:5px; }
+  .setup-hint{
+    font-family:"Spectral", Georgia, serif; font-style:italic; font-size:0.82rem;
+    color:var(--ink-faint); margin-top:3px;
+  }
+
+  /* ---- Table mode ---- */
+  .table-empty{
+    max-width:52ch; margin:60px auto 0; text-align:center;
+  }
+  .table-empty-lede{ font-family:"Spectral", Georgia, serif; font-size:1.1rem; color:var(--ink); margin:0 0 16px; }
+
+  .setup-flow{ display:grid; grid-template-columns:320px 1fr; gap:24px; align-items:start; }
+  @media (max-width:800px){ .setup-flow{ grid-template-columns:1fr; } }
+  .seat-panel, .picker-panel{ background:var(--surface); border:1px solid var(--border); border-radius:11px; padding:18px; }
+  .seat-add-row{ display:flex; gap:8px; margin-bottom:12px; }
+  .seat-add-row input{
+    flex:1; font-family:"Libre Franklin",sans-serif; font-size:0.92rem;
+    padding:9px 12px; border:1px solid var(--border); border-radius:7px;
+    background:var(--surface-2); color:var(--ink);
+  }
+  .seat-counter{ font-family:"JetBrains Mono",monospace; font-size:0.78rem; color:var(--ink-faint); margin:0 0 4px; }
+  .seat-base-setup{ font-family:"JetBrains Mono",monospace; font-size:0.78rem; color:var(--ink-soft); margin:0 0 14px; }
+  .seat-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
+  .seat-row{
+    display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:8px;
+    border:1px solid var(--border-soft); background:var(--surface-2); cursor:pointer;
+  }
+  .seat-row.is-active{ border-color:var(--accent); background:var(--surface); }
+  .seat-row .seat-num{ font-family:"JetBrains Mono",monospace; font-size:0.78rem; color:var(--ink-faint); width:20px; flex-shrink:0; }
+  .seat-row .seat-name{ flex:1; font-weight:600; font-size:0.9rem; }
+  .seat-row .seat-char{ font-size:0.8rem; color:var(--ink-soft); }
+  .seat-row .seat-char.is-unassigned{ font-style:italic; color:var(--ink-faint); }
+  .seat-row .seat-remove{ background:transparent; border:none; color:var(--ink-faint); cursor:pointer; font-size:0.9rem; line-height:1; padding:2px 4px; }
+  .seat-row .seat-remove:hover{ color:var(--accent); }
+  .seat-row .seat-move{ background:transparent; border:none; color:var(--ink-faint); cursor:pointer; font-size:0.68rem; line-height:1; padding:2px 3px; }
+  .seat-row .seat-move:hover:not(:disabled){ color:var(--accent); }
+  .seat-row .seat-move:disabled{ opacity:0.25; cursor:default; }
+
+  .setup-flow-checklist{ margin-top:20px; }
+
+  .picker-empty{ color:var(--ink-faint); font-family:"Spectral",Georgia,serif; font-style:italic; margin:0; }
+  .picker-team{ margin-bottom:18px; }
+  .picker-team:last-child{ margin-bottom:0; }
+  .picker-team h4{ font-family:"JetBrains Mono",monospace; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--team-c,var(--ink-faint)); margin:0 0 8px; }
+  .picker-team[data-team="townsfolk"]{ --team-c:var(--tf); }
+  .picker-team[data-team="outsider"]{ --team-c:var(--out); }
+  .picker-team[data-team="minion"]{ --team-c:var(--min); }
+  .picker-team[data-team="demon"]{ --team-c:var(--dem); }
+  .picker-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:6px; }
+  .picker-btn{
+    font-family:"Libre Franklin",sans-serif; font-size:0.82rem; text-align:left;
+    padding:8px 10px; border-radius:7px; border:1px solid var(--border-soft);
+    background:var(--surface-2); color:var(--ink); cursor:pointer;
+  }
+  .picker-btn:hover:not(:disabled){ border-color:var(--team-c,var(--accent)); }
+  .picker-btn.is-assigned{ border-color:var(--team-c,var(--accent)); background:var(--team-c,var(--accent)); color:var(--accent-ink); font-weight:600; }
+  .picker-btn:disabled{ opacity:0.35; cursor:default; }
+
+  .setup-bar{ display:flex; align-items:center; justify-content:flex-end; gap:14px; margin-top:20px; padding-top:16px; border-top:1px solid var(--border-soft); }
+  .setup-bar-reason{ font-family:"JetBrains Mono",monospace; font-size:0.76rem; color:var(--ink-faint); }
+
+  .setup-view-toggle{ margin-bottom:18px; }
+  .reveal-panel{ max-width:520px; margin:0 auto; }
+  .reveal-lede{
+    font-family:"Spectral",Georgia,serif; font-style:italic; color:var(--ink-soft);
+    text-align:center; margin:0 0 20px;
+  }
+  .reveal-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+  .reveal-row{
+    display:flex; align-items:center; gap:12px; padding:16px 20px; border-radius:10px;
+    border:1px solid var(--border-soft); background:var(--surface); cursor:pointer;
+    font-size:1.05rem; font-weight:600; color:var(--ink); transition:border-color .12s ease;
+  }
+  .reveal-row:hover{ border-color:var(--accent); }
+  .reveal-num{ font-family:"JetBrains Mono",monospace; font-size:0.8rem; color:var(--ink-faint); width:22px; flex-shrink:0; }
+  .reveal-name{ flex:1; }
+
+  .confirm-overlay{
+    position:fixed; inset:0; background:rgba(10,7,4,0.6);
+    display:flex; align-items:center; justify-content:center; padding:24px; z-index:110;
+  }
+  .confirm-modal{
+    background:var(--surface); border:1px solid var(--border); border-radius:14px;
+    max-width:420px; width:100%; padding:24px;
+    box-shadow:0 30px 70px -24px rgba(0,0,0,0.55);
+  }
+  .confirm-modal p{ font-family:"Spectral", Georgia, serif; color:var(--ink); margin:0 0 20px; line-height:1.5; }
+  .confirm-actions{ display:flex; justify-content:flex-end; gap:10px; }
+
+  /* ---- Shroud token: draped over a Player's marker once dead, twin-tip
+     flag shape via clip-path — used on the Table view's role-badge and the
+     Grimoire view's circ-circle (docs/table-mode-spec.md: "death"). ---- */
+  .shroud{
+    position:absolute; pointer-events:none;
+    background:linear-gradient(160deg, #262626 0%, #0a0a0a 60%, #000 100%);
+    border:1px solid #000;
+    box-shadow:0 2px 5px rgba(0,0,0,0.4);
+    clip-path:polygon(12% 0%, 88% 0%, 100% 12%, 100% 100%, 50% 60%, 0% 100%, 0% 12%);
+  }
+  .shroud--circ{ width:58px; height:52px; top:0; left:50%; transform:translateX(-50%); z-index:2; }
+  .shroud--badge{ width:15px; height:15px; top:-2px; left:50%; transform:translateX(-50%); z-index:2; }
+
+  /* ---- Table mode: live view ---- */
+  .phase-bar{ display:flex; align-items:center; justify-content:space-between; background:var(--surface); border:1px solid var(--border); border-radius:9px; padding:12px 16px; margin-bottom:18px; }
+  .phase-bar-left{ display:flex; align-items:baseline; gap:12px; }
+  .phase-label-btn{
+    font-family:"Cinzel",serif; font-size:1.05rem; color:var(--accent);
+    background:transparent; border:1px solid var(--accent); border-radius:7px;
+    padding:6px 14px; cursor:pointer; transition:background .12s ease, color .12s ease;
+  }
+  .phase-label-btn:not(:disabled):hover{ background:var(--accent); color:var(--accent-ink); }
+  .phase-label-btn:disabled{ cursor:default; background:none; border-color:var(--border-soft); color:var(--ink); }
+  .phase-vote-info{ font-family:"JetBrains Mono",monospace; font-size:0.78rem; color:var(--ink-faint); }
+  .view-toggle-group, .vote-status-group{ display:flex; flex-wrap:wrap; gap:4px; background:var(--surface-2); border:1px solid var(--border-soft); border-radius:8px; padding:3px; }
+  .view-toggle-btn, .vote-status-btn{
+    font-family:"Libre Franklin",sans-serif; font-weight:600; font-size:0.82rem;
+    background:transparent; border:none; border-radius:6px; padding:7px 12px; cursor:pointer;
+    color:var(--ink-soft);
+  }
+  .view-toggle-btn:hover, .vote-status-btn:hover{ color:var(--ink); }
+  .view-toggle-btn.is-active, .vote-status-btn.is-active{ background:var(--accent); color:var(--accent-ink); }
+
+  .live-table{ display:grid; grid-template-columns:320px 1fr; gap:24px; align-items:start; }
+  @media (max-width:800px){ .live-table{ grid-template-columns:1fr; } }
+
+  .live-seat-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
+  .live-seat-row{
+    border-radius:8px; border:1px solid var(--border-soft); border-left:3px solid transparent;
+    background:var(--surface); padding:9px 10px; cursor:pointer;
+  }
+  .live-seat-row.is-selected{ border-left-color:var(--accent); background:var(--surface-2); }
+  .live-seat-row.is-static{ cursor:default; }
+  .live-seat-row.is-dead{ opacity:0.55; }
+  .live-seat-row.is-dead .live-seat-name{ text-decoration:line-through; }
+  .live-seat-line1{ display:flex; align-items:center; gap:8px; }
+  .live-seat-num{ font-family:"JetBrains Mono",monospace; font-size:0.76rem; color:var(--ink-faint); width:16px; flex-shrink:0; }
+  .role-badge{
+    position:relative;
+    display:inline-flex; align-items:center; justify-content:center;
+    width:20px; height:20px; border-radius:50%; flex-shrink:0;
+    font-family:"JetBrains Mono",monospace; font-size:0.68rem; font-weight:700;
+    color:var(--accent-ink);
+  }
+  .role-badge--townsfolk{ background:var(--tf); }
+  .role-badge--outsider{ background:var(--out); }
+  .role-badge--minion{ background:var(--min); }
+  .role-badge--demon{ background:var(--dem); }
+  .live-seat-name{ flex:1; font-weight:600; font-size:0.88rem; }
+  .live-seat-char{ font-size:0.78rem; color:var(--ink-soft); }
+  .live-seat-tokens{ display:flex; flex-wrap:wrap; gap:4px; margin-top:6px; padding-left:24px; }
+  .token-chip{
+    font-family:"Libre Franklin",sans-serif; font-size:0.72rem; background:var(--surface-2);
+    border:1px solid var(--border-soft); border-radius:20px; padding:2px 8px; color:var(--ink-soft);
+  }
+  .setup-checklist{
+    background:var(--surface); border:1px solid var(--border); border-radius:11px;
+    padding:16px 18px; margin-bottom:18px;
+  }
+  .setup-checklist h4{
+    font-family:"JetBrains Mono",monospace; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--ink-faint); margin:0 0 12px;
+  }
+  .setup-checklist ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+  .setup-check-row{ display:flex; align-items:flex-start; gap:10px; cursor:pointer; }
+  .setup-check-row input[type="checkbox"]{ margin-top:3px; flex-shrink:0; cursor:pointer; }
+  .setup-check-body strong{ font-size:0.88rem; color:var(--ink); }
+  .setup-check-seat{ font-family:"JetBrains Mono",monospace; font-size:0.68rem; color:var(--ink-faint); margin-left:8px; }
+  .setup-check-body p{ margin:3px 0 0; font-size:0.85rem; color:var(--ink-soft); line-height:1.4; }
+  .setup-check-row.is-done{ opacity:0.5; }
+  .setup-check-row.is-done .setup-check-body strong,
+  .setup-check-row.is-done .setup-check-body p{ text-decoration:line-through; }
+
+  .setup-flow-notes{ margin-top:18px; }
+  .setup-flow-notes textarea{
+    width:100%; font-family:"Libre Franklin",sans-serif; font-size:0.9rem;
+    padding:10px 12px; border:1px solid var(--border); border-radius:7px;
+    background:var(--surface-2); color:var(--ink); resize:vertical; box-sizing:border-box; min-height:90px;
+  }
+  .setup-notes-display p{
+    margin:0; font-size:0.9rem; color:var(--ink-soft); line-height:1.5;
+    font-family:"Spectral",Georgia,serif; font-style:italic;
+  }
+
+  /* ---- Circular Grimoire Layout (docs/circular-grimoire-layout-spec.md) ---- */
+  .circ-canvas-wrap{ position:relative; overflow:auto; border:1px dashed var(--border-soft); border-radius:14px; background:var(--surface); padding:20px; max-height:74vh; }
+  .circ-canvas-wrap::after{
+    content:""; display:block; position:sticky; bottom:0; left:0; right:0;
+    height:24px; margin-top:-24px; pointer-events:none;
+    background:linear-gradient(to bottom, transparent, var(--surface));
+  }
+  .circ-canvas{ position:relative; margin:0 auto; }
+  .circ-card{ position:absolute; touch-action:none; user-select:none; cursor:grab; display:flex; flex-direction:column; align-items:center; }
+  .circ-card.is-dragging{ cursor:grabbing !important; z-index:999; }
+  .circ-card.is-dead{ opacity:0.55; }
+  .circ-card.is-dead .circ-circle-name{ text-decoration:line-through; }
+  .circ-circle{
+    position:relative; width:80px; height:80px; border-radius:50%; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; padding:6px; box-sizing:border-box;
+    color:var(--accent-ink); box-shadow:var(--shadow);
+  }
+  .circ-circle--townsfolk{ background:var(--tf); }
+  .circ-circle--outsider{ background:var(--out); }
+  .circ-circle--minion{ background:var(--min); }
+  .circ-circle--demon{ background:var(--dem); }
+  .circ-circle-name{
+    font-family:"Libre Franklin",sans-serif; font-weight:700; font-size:0.76rem; line-height:1.1;
+    text-align:center; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+    overflow:hidden; text-overflow:ellipsis; word-break:break-word;
+  }
+  .circ-label{ text-align:center; margin-top:6px; max-width:132px; }
+  .circ-char{ font-weight:700; font-size:0.8rem; line-height:1.2; }
+  .circ-tokens{ margin-top:3px; }
+  .circ-token-line{ font-size:0.68rem; color:var(--ink-soft); line-height:1.35; }
+  .circ-reset{ position:fixed; right:24px; bottom:24px; z-index:50; }
+  .circ-card.is-static{ cursor:pointer; }
+
+  /* ---- Town Square view: read-only, no team color (storyteller-only
+     info), same circular geometry/positioning as the Grimoire view's
+     .circ-card (reused, not duplicated) ---- */
+  .town-circle{
+    position:relative; width:80px; height:80px; border-radius:50%; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; padding:6px; box-sizing:border-box;
+    background:var(--surface-2); border:1px solid var(--border);
+    color:var(--ink); box-shadow:var(--shadow); transition:border-color .12s ease;
+  }
+  .circ-card.is-static:hover .town-circle{ border-color:var(--accent); }
+  .circ-card.is-dead .town-circle-name{ text-decoration:line-through; }
+  .town-circle-name{
+    font-family:"Libre Franklin",sans-serif; font-weight:700; font-size:0.76rem; line-height:1.1;
+    text-align:center; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+    overflow:hidden; text-overflow:ellipsis; word-break:break-word;
+  }
+  .town-label{ text-align:center; margin-top:6px; max-width:132px; }
+  .town-badges{ display:flex; flex-direction:column; align-items:center; gap:3px; margin-top:4px; }
+  .town-badge{
+    font-family:"JetBrains Mono",monospace; font-size:0.6rem; text-transform:uppercase; letter-spacing:0.03em;
+    border-radius:5px; padding:2px 7px; white-space:nowrap;
+    color:var(--accent); border:1px solid var(--accent);
+  }
+  .town-badge--ghost{ color:var(--ink-soft); border-color:var(--border-soft); }
+  .town-quickmenu-section{ margin-bottom:16px; }
+  .town-quickmenu-section:last-of-type{ margin-bottom:20px; }
+  .town-quickmenu-label{
+    font-family:"JetBrains Mono",monospace; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.06em;
+    color:var(--ink-faint); margin:0 0 8px;
+  }
+
+  .live-detail{ background:var(--surface); border:1px solid var(--border); border-radius:11px; padding:20px; }
+  .detail-heading{ margin:0 0 12px; font-size:1.1rem; }
+  .detail-char-row{ display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+  .detail-char-name{ font-weight:600; font-size:0.98rem; }
+  .detail-char-wake{ font-family:"JetBrains Mono",monospace; font-size:0.68rem; color:var(--ink-faint); margin:0 0 6px; }
+  .detail-char-ability{
+    font-family:"Spectral", Georgia, serif; font-style:italic; font-size:0.9rem;
+    color:var(--ink-soft); line-height:1.45; margin:0 0 14px;
+  }
+  .alive-toggle{
+    font-family:"Libre Franklin",sans-serif; font-weight:600; font-size:0.82rem;
+    border-radius:20px; padding:6px 14px; cursor:pointer; border:1px solid var(--border-soft);
+    background:var(--surface-2); color:var(--ink); margin-bottom:18px;
+  }
+  .alive-toggle.is-dead{ border-color:var(--accent); color:var(--accent); }
+  .detail-status-toggles{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+  .detail-status-toggles .alive-toggle{ margin-bottom:0; }
+  .state-toggle{
+    font-family:"Libre Franklin",sans-serif; font-weight:600; font-size:0.82rem;
+    border-radius:20px; padding:6px 14px; cursor:pointer; border:1px solid var(--border-soft);
+    background:var(--surface-2); color:var(--ink);
+  }
+  .state-toggle.is-on{ border-color:var(--accent); color:var(--accent); }
+  .detail-section{ margin-top:18px; padding-top:16px; border-top:1px dashed var(--border-soft); }
+  .detail-section:first-of-type{ margin-top:0; padding-top:0; border-top:none; }
+  .detail-section h4{ font-family:"JetBrains Mono",monospace; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-faint); margin:0 0 10px; }
+  .detail-private-tag{ font-style:italic; text-transform:none; letter-spacing:0; color:var(--ink-faint); }
+  .rt-list{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+  .rt-chip{
+    display:inline-flex; align-items:center; gap:5px; font-size:0.8rem;
+    background:var(--surface-2); border:1px solid var(--border-soft); border-radius:20px; padding:4px 6px 4px 10px; color:var(--ink);
+  }
+  .rt-remove{ background:transparent; border:none; color:var(--ink-faint); cursor:pointer; font-size:0.85rem; line-height:1; padding:0 2px; }
+  .rt-remove:hover{ color:var(--accent); }
+  .rt-quickadd-row{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+  .rt-preset-btn{
+    font-family:"Libre Franklin",sans-serif; font-size:0.8rem; cursor:pointer;
+    background:transparent; border:1px dashed var(--border-soft); border-radius:20px;
+    padding:4px 10px; color:var(--ink-soft);
+  }
+  .rt-preset-btn:hover{ border-color:var(--accent); color:var(--ink); }
+  .rt-add-row{ display:flex; gap:8px; }
+  .rt-add-row input{ flex:1; font-family:"Libre Franklin",sans-serif; font-size:0.85rem; padding:7px 10px; border:1px solid var(--border); border-radius:7px; background:var(--surface-2); color:var(--ink); }
+
+  .detail-section textarea{
+    width:100%; font-family:"Libre Franklin",sans-serif; font-size:0.88rem;
+    padding:9px 12px; border:1px solid var(--border); border-radius:7px;
+    background:var(--surface-2); color:var(--ink); resize:vertical; margin-bottom:10px; box-sizing:border-box;
+  }
+
+  .reassign-modal{ max-width:560px; max-height:80vh; overflow-y:auto; }
+  .reassign-title{ margin:0 0 14px; font-size:1.05rem; }
+
+  /* ---- Table mode: live wake sequencer ---- */
+  /* Plays once whenever this span mounts — the sequencer rebuilds a fresh
+     modal on every Next/Back/Restart (see renderSequencerModal), so a plain
+     CSS animation on the element already replays each time it switches to a
+     Player with active Reminder tokens, no JS retrigger needed. */
+  @keyframes seq-token-flash{
+    0%, 15%{ background:var(--accent); color:var(--accent-ink); }
+    100%{ background:transparent; color:var(--ink-faint); }
+  }
+  .seq-title-tokens{
+    font-family:"JetBrains Mono",monospace; font-size:0.62rem; text-transform:uppercase;
+    letter-spacing:0.04em; color:var(--ink-faint); font-weight:500;
+    padding:1px 5px; border-radius:4px;
+    animation:seq-token-flash 1.4s ease-out;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .seq-title-tokens{ animation:none; }
+  }
+  .seq-restart-btn{ font-size:0.78rem; }
+  .seq-dead-tag{ font-family:"JetBrains Mono",monospace; font-size:0.66rem; text-transform:uppercase; color:var(--accent); border:1px solid var(--accent); border-radius:5px; padding:2px 7px; margin-left:8px; }
+  /* The Player's own private Storyteller note — Game-specific, unlike the
+     script-level wizard-decision guidance it sits directly beneath. Accent
+     left-border marks it as "this one's about the actual person in that
+     seat," not a generic reminder. */
+  .seq-player-note{
+    margin-top:10px; padding:13px 15px; border-radius:8px;
+    background:var(--surface-2); border:1px solid var(--border-soft); border-left:3px solid var(--accent);
+  }
+  .seq-player-note-label{
+    display:block; font-family:"JetBrains Mono",monospace; font-size:0.66rem; text-transform:uppercase; letter-spacing:0.05em;
+    color:var(--accent); margin-bottom:5px;
+  }
+  .seq-player-note p{ margin:0; font-family:"Libre Franklin",sans-serif; font-size:0.92rem; color:var(--ink); }
+  /* Jump-to-player: a collapsed <select> rather than a printed roster list,
+     so reaching any seated Player (to poison/mark dead mid-sequence) doesn't
+     mean the modal always shows every Character — see docs on the wake
+     sequencer's "Jump to player" control. */
+  .seq-jump-bar{ margin-bottom:16px; padding-bottom:14px; border-bottom:1px dashed var(--border-soft); }
+  .seq-jump-select{
+    width:100%; font-family:"Libre Franklin",sans-serif; font-size:0.85rem; padding:8px 10px;
+    border:1px solid var(--border); border-radius:7px; background:var(--surface-2); color:var(--ink);
+  }
+  .seq-jump-panel{ margin-top:12px; padding:12px; border:1px solid var(--border-soft); border-radius:9px; background:var(--surface-2); }
+  .seq-jump-panel-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; }
+  .seq-jump-panel-name{ font-family:"Spectral",Georgia,serif; font-size:0.95rem; color:var(--ink); }
+  /* Both ways to show a Player something — a prepared shareable note, and an
+     ad hoc on-the-spot note — grouped under one dashed divider, since
+     they're the same kind of storyteller action even though one is a
+     one-line button and the other expands into a text box. */
+  .seq-notes-group{ margin-top:14px; padding-top:14px; border-top:1px dashed var(--border-soft); display:flex; flex-direction:column; gap:10px; }
+  /* "Show something on the spot" — Ravenkeeper-style reveals prepared right
+     at the table, not typed in ahead of time. Collapsed to a single opener
+     button by default so it doesn't compete for attention until the
+     storyteller actually needs it. */
+  .seq-adhoc{ display:flex; flex-direction:column; gap:8px; }
+  .seq-adhoc-row{ display:flex; gap:8px; }
+  .seq-adhoc-row input{
+    flex:1; min-width:0; font-family:"Libre Franklin",sans-serif; font-size:0.85rem; padding:7px 10px;
+    border:1px solid var(--border); border-radius:7px; background:var(--surface-2); color:var(--ink);
+  }
+  /* Demon-only quick kill — an accent border (unlike the plain Jump/Show
+     selects) since this one commits a real Game mutation the instant a seat
+     is picked, not just a look-up. */
+  .seq-kill{ margin-top:14px; }
+  .seq-kill-select{
+    width:100%; font-family:"Libre Franklin",sans-serif; font-weight:600; font-size:0.85rem; padding:9px 10px;
+    border:1px solid var(--accent); border-radius:7px; background:var(--surface-2); color:var(--accent);
+  }
+  /* Storyteller-hint ("decision") text — a small "!" icon button to the
+     right of the action text, rather than a labeled button below it, so the
+     step body reads as just the ability's action text at a glance; the hint
+     itself only appears once asked for. */
+  .wizard-action-row{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+  .wizard-action-row .wizard-action{ flex:1; }
+  .seq-hint-btn{
+    flex-shrink:0; width:28px; height:28px; border-radius:50%;
+    border:1px solid var(--accent); background:transparent; color:var(--accent);
+    font-family:"JetBrains Mono",monospace; font-weight:700; font-size:0.85rem; line-height:1;
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  .seq-hint-btn:hover, .seq-hint-btn.is-open{ background:var(--accent); color:var(--accent-ink); }
+  .seq-hint-box{ margin-top:14px; }
+
+  /* ---- Table mode: shareable-note presentation ---- */
+  .presentation-overlay{
+    position:fixed; inset:0; z-index:200; background:var(--bg);
+    display:flex; align-items:center; justify-content:center; padding:40px;
+  }
+  .presentation-note{
+    font-family:"Spectral", Georgia, serif;
+    color:var(--ink); text-align:center; max-width:70ch; line-height:1.5;
+  }
+  .presentation-note--small{ font-size:clamp(0.95rem, 2.4vw, 1.5rem); }
+  .presentation-note--medium{ font-size:clamp(1.4rem, 4vw, 2.4rem); }
+  .presentation-note--large{ font-size:clamp(2.1rem, 6.5vw, 3.8rem); }
+  .presentation-placeholder{ font-style:italic; color:var(--ink-faint); }
+  .text-size-toggle-group{
+    position:fixed; left:24px; top:24px; z-index:201;
+    display:flex; gap:4px; background:var(--surface-2); border:1px solid var(--border-soft); border-radius:8px; padding:3px;
+  }
+  .text-size-btn{
+    font-family:"Libre Franklin",sans-serif; font-weight:600; font-size:0.82rem;
+    background:transparent; border:none; border-radius:6px; padding:7px 12px; cursor:pointer; color:var(--ink-soft);
+  }
+  .text-size-btn:hover{ color:var(--ink); }
+  .text-size-btn.is-active{ background:var(--accent); color:var(--accent-ink); }
+  .exit-hold-btn{
+    position:fixed; right:24px; bottom:24px; width:44px; height:44px; padding:0;
+    border-radius:50%; background:var(--surface); border:1px solid var(--border-soft);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    touch-action:none; -webkit-user-select:none; user-select:none;
+  }
+  .exit-icon{ position:relative; z-index:1; font-size:0.95rem; color:var(--ink-soft); }
+  .exit-ring{ position:absolute; inset:0; width:44px; height:44px; transform:rotate(-90deg); }
+  .exit-ring-bg{ fill:none; stroke:var(--border-soft); stroke-width:3; }
+  .exit-ring-fill{ fill:none; stroke:var(--accent); stroke-width:3; stroke-linecap:round; stroke-dasharray:113.1; stroke-dashoffset:113.1; }
+  .exit-ring-fill.is-filling{ transition:stroke-dashoffset 1s linear; stroke-dashoffset:0; }
+
+  /* ---- Wizard triggers ---- */
+  .setup-wizards{ display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; padding-top:16px; border-top:1px dashed var(--border-soft); }
+  .btn-outline{
+    font-family:"Libre Franklin",sans-serif; font-weight:600; font-size:0.85rem;
+    background:transparent; color:var(--accent); border:1px solid var(--accent); border-radius:7px;
+    padding:9px 16px; cursor:pointer; transition:background .12s ease, color .12s ease;
+  }
+  .btn-outline:hover{ background:var(--accent); color:var(--accent-ink); }
+
+  /* ---- Wizard modal ---- */
+  .wizard-overlay{
+    position:fixed; inset:0; background:rgba(10,7,4,0.6);
+    display:flex; align-items:center; justify-content:center; padding:24px; z-index:100;
+  }
+  .wizard-overlay[hidden]{ display:none; }
+  .wizard-modal{
+    background:var(--surface); border:1px solid var(--border); border-radius:14px;
+    max-width:560px; width:100%; max-height:min(680px, 88vh);
+    display:flex; flex-direction:column; overflow:hidden;
+    box-shadow:0 30px 70px -24px rgba(0,0,0,0.55);
+  }
+  .wizard-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:20px 22px 14px; border-bottom:1px solid var(--border-soft); }
+  .wizard-eyebrow{ font-family:"JetBrains Mono",monospace; font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); margin:0 0 5px; }
+  .wizard-head h3{ margin:0; font-size:1.2rem; }
+  .wizard-close{
+    flex-shrink:0; width:30px; height:30px; border-radius:50%; cursor:pointer;
+    background:transparent; border:1px solid var(--border-soft); color:var(--ink-soft); font-size:0.9rem; line-height:1;
+  }
+  .wizard-close:hover{ background:var(--surface-2); color:var(--ink); }
+  .wizard-progress-bar{ height:3px; background:var(--surface-2); flex-shrink:0; }
+  .wizard-progress-fill{ height:100%; background:var(--accent); transition:width .18s ease; }
+  .wizard-body{ padding:22px; overflow-y:auto; flex:1; }
+  .wizard-flag{
+    display:inline-block; font-family:"JetBrains Mono",monospace; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.04em;
+    color:var(--accent); border:1px solid var(--accent); border-radius:5px; padding:3px 9px; margin-bottom:12px;
+  }
+  .wizard-team{ font-family:"JetBrains Mono",monospace; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--wiz-c, var(--accent)); margin-bottom:10px; }
+  .wizard-action{ font-family:"Spectral", Georgia, serif; font-size:1.04rem; color:var(--ink); margin:0; line-height:1.5; }
+  .wizard-decision{
+    font-family:"Libre Franklin",sans-serif; font-size:0.92rem; color:var(--ink-soft);
+    background:var(--surface-2); border:1px solid var(--border-soft); border-radius:8px; padding:13px 15px; margin-top:14px;
+  }
+  .wizard-decision strong{ color:var(--ink); }
+  .wizard-nav{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:15px 22px; border-top:1px solid var(--border-soft); flex-shrink:0; }
+  .wizard-step-label{ font-family:"JetBrains Mono",monospace; font-size:0.78rem; color:var(--ink-faint); font-variant-numeric:tabular-nums; }
+  .btn-ghost{ background:transparent; border:1px solid var(--border-soft); color:var(--ink-soft); font-family:"Libre Franklin",sans-serif; font-weight:600; font-size:0.85rem; border-radius:7px; padding:9px 16px; cursor:pointer; }
+  .btn-ghost:hover:not(:disabled){ background:var(--surface-2); color:var(--ink); }
+  .btn:disabled, .btn-ghost:disabled{ opacity:0.35; cursor:default; }
+
+  footer{ margin-top:56px; padding-top:20px; border-top:1px solid var(--border-soft); font-size:0.8rem; color:var(--ink-faint); font-family:"JetBrains Mono",monospace; }
+</style>
+
+<div class="page">
+  <header class="masthead">
+    <p class="eyebrow">Trouble Brewing</p>
+    <h1>Storyteller's Grimoire</h1>
+    <p class="tagline">Know every ability, every wake order, and every ruling — before the town does.</p>
+  </header>
+
+  <nav class="tabbar" role="tablist" id="tabbar">
+    <button class="tab" role="tab" data-tab="roster" aria-selected="true">Roster</button>
+    <button class="tab" role="tab" data-tab="nights" aria-selected="false">Night Order</button>
+    <button class="tab" role="tab" data-tab="setups" aria-selected="false">Setups</button>
+    <button class="tab" role="tab" data-tab="table" aria-selected="false">Table</button>
+    <button class="btn-ghost" id="nav-newgame-btn">New Game…</button>
+  </nav>
+
+  <main>
+    <section id="panel-roster" class="panel" data-panel>
+      <p class="lede">All 22 Trouble Brewing characters, grouped by team. Each card is written as an instruction to <em>you</em> — what to do and say when that token is in play. Open "Storyteller notes" for the edge case that trips people up.</p>
+      <div id="roster-mount"></div>
+    </section>
+
+    <section id="panel-nights" class="panel" data-panel hidden>
+      <p class="lede">The fixed order characters wake in. Getting this order wrong is the single most common Storyteller mistake — it can change what a player learns. Tap a step for the exact wording to use.</p>
+      <div class="night-columns">
+        <div class="night-col">
+          <h2>First Night</h2>
+          <p class="night-sub">11 steps</p>
+          <ol class="steps" id="first-night-mount"></ol>
+        </div>
+        <div class="night-col">
+          <h2>Other Nights</h2>
+          <p class="night-sub">10 steps</p>
+          <ol class="steps" id="other-night-mount"></ol>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-setups" class="panel" data-panel hidden>
+      <p class="lede">One recommended lineup per player count, 7 to 15 — each independently authored, not a delta from the one before it. Character type counts are fixed by player count; which specific characters fill those slots is your call, and this is one reasonable path through all 22, with composition-specific hints where they're worth calling out.</p>
+      <div id="setups-mount"></div>
+    </section>
+
+    <section id="panel-table" class="panel" data-panel hidden>
+      <div id="table-mount"></div>
+    </section>
+  </main>
+
+  <footer>Trouble Brewing — 13 Townsfolk · 4 Outsiders · 4 Minions · 1 Demon</footer>
+</div>
+
+<div class="wizard-overlay" id="wizard-overlay" hidden>
+  <div class="wizard-modal" role="dialog" aria-modal="true" aria-labelledby="wizard-title">
+    <div class="wizard-head">
+      <div>
+        <p class="wizard-eyebrow" id="wizard-eyebrow"></p>
+        <h3 id="wizard-title"></h3>
+      </div>
+      <button class="wizard-close" id="wizard-close" aria-label="Close wizard">✕</button>
+    </div>
+    <div class="wizard-progress-bar"><div class="wizard-progress-fill" id="wizard-progress-fill"></div></div>
+    <div class="wizard-body" id="wizard-body"></div>
+    <div class="wizard-nav">
+      <button class="btn-ghost" id="wizard-prev">← Back</button>
+      <span class="wizard-step-label" id="wizard-step-label"></span>
+      <button class="btn" id="wizard-next">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---------------- DATA ----------------
+// ROSTER / FIRST_NIGHT / OTHER_NIGHT below are GENERATED by recompile-roster.js
+// from scripts/<slug>.yaml (see docs/roster-spec.md). Do not hand-edit between
+// the markers — edit the Roster file and run `npm run recompile` instead.
+/* GENERATED:ROSTER:START */
+const ROSTER = [
+  {
+    "team": "townsfolk",
+    "name": "Washerwoman",
+    "wake": "First night only",
+    "ability": "You're shown two players and told a Townsfolk character. Exactly one of those two players is really that character.",
+    "note": "The character you name must be in play. You pick which two players to show — one can be a decoy. If the Washerwoman is drunk or poisoned, everything you show can be false.",
+    "naming": "Name a Townsfolk whose reveal creates good discussion without deflating the game — Empath, Fortune Teller, Undertaker, and Monk all work well, since even partly outed they keep acting and their claims stay checkable. Avoid naming the Virgin or Slayer: both rely on nobody being sure who holds them, and an early reveal strips away exactly the tension that makes them fun."
+  },
+  {
+    "team": "townsfolk",
+    "name": "Librarian",
+    "wake": "First night only",
+    "ability": "You're shown two players and told an Outsider character. Exactly one of those two players is really that character.",
+    "note": "If there are zero Outsiders in play, tell them that directly instead of showing two players.",
+    "naming": "Recluse and Butler are safe, interesting picks — being partly outed doesn't cost them much. The Drunk is actually a great one to name: it plants a real clue against a player who's utterly convinced they're a functioning Townsfolk, which makes for some of the best confusion in the game. Go easy on the Saint — an early flag raises their execution risk, and a Saint execution ends the game on the spot."
+  },
+  {
+    "team": "townsfolk",
+    "name": "Investigator",
+    "wake": "First night only",
+    "ability": "You're shown two players and told a Minion character. Exactly one of those two players is really that character.",
+    "note": "Same shape as Washerwoman and Librarian — same rule that the named character must be in play, and same exception if drunk or poisoned.",
+    "naming": "Poisoner and Spy are strong picks — the town gets something concrete to watch for. Baron is a weak pick: its effect is already baked into the setup, so knowing who holds it rarely changes anyone's behavior. Be thoughtful with Scarlet Woman — naming her early primes the town to treat her as a priority kill the moment the real Demon falls, draining tension out of her transformation later."
+  },
+  {
+    "team": "townsfolk",
+    "name": "Chef",
+    "wake": "First night only",
+    "ability": "You're told how many pairs of evil players are sitting next to each other around the circle.",
+    "note": "Two evil players sitting on either side of a third evil player counts as two pairs, not one. A Recluse may or may not count as evil — your call."
+  },
+  {
+    "team": "townsfolk",
+    "name": "Empath",
+    "wake": "Every night",
+    "ability": "Each night, you're told how many of your two living neighbours (the nearest alive player each direction) are evil — 0, 1, or 2.",
+    "note": "Neighbours change as players die and seats close up. Recalculate who's actually adjacent each night before answering."
+  },
+  {
+    "team": "townsfolk",
+    "name": "Fortune Teller",
+    "wake": "Every night",
+    "ability": "Each night, you choose two players and are told 'yes' if either is the Demon, otherwise 'no'.",
+    "note": "Before night one, secretly pick one good player as the red herring — they always trigger a 'yes' for the rest of the game, even though they aren't the Demon."
+  },
+  {
+    "team": "townsfolk",
+    "name": "Undertaker",
+    "wake": "Every night except the first",
+    "ability": "If the town executed someone today, you're told what character that player was.",
+    "note": "No execution today means no information tonight — don't wake them for nothing."
+  },
+  {
+    "team": "townsfolk",
+    "name": "Monk",
+    "wake": "Every night except the first",
+    "ability": "Each night, you choose a player other than yourself. That player cannot be killed by the Demon tonight.",
+    "note": "Still have them choose someone even if poisoned — the protection just silently fails. Never skip their turn, or you reveal the poisoning."
+  },
+  {
+    "team": "townsfolk",
+    "name": "Ravenkeeper",
+    "wake": "Triggers if killed at night",
+    "ability": "If you die during the night, you wake before the night ends, choose a player, and learn their true character.",
+    "note": "Only triggers on a night kill — an execution during the day does not wake the Ravenkeeper."
+  },
+  {
+    "team": "townsfolk",
+    "name": "Virgin",
+    "wake": "Passive, once",
+    "ability": "The first time you're nominated, if the nominator is a Townsfolk, that nominator is executed immediately with no vote.",
+    "note": "If the Virgin is drunk or poisoned, this doesn't fire even if a genuine Townsfolk nominates them — run a normal vote instead."
+  },
+  {
+    "team": "townsfolk",
+    "name": "Slayer",
+    "wake": "Once, during the day",
+    "ability": "At any point in the day, you may publicly name a player. If that player is the true Demon, they die immediately.",
+    "note": "This checks the real character, not how someone registers to other abilities — a Recluse who 'looks' evil will not die."
+  },
+  {
+    "team": "townsfolk",
+    "name": "Soldier",
+    "wake": "Passive",
+    "ability": "You cannot be killed by the Demon's night attack.",
+    "note": "Protects only against the Demon. Execution, the Slayer, or other effects can still kill a Soldier."
+  },
+  {
+    "team": "townsfolk",
+    "name": "Mayor",
+    "wake": "Passive",
+    "ability": "If only three players are alive and no execution happens on a day, good wins immediately. If you'd be killed at night, another player may die instead.",
+    "note": "The 'someone else dies instead' swap is entirely your choice as Storyteller — you can also choose to have nobody die."
+  },
+  {
+    "team": "outsider",
+    "name": "Butler",
+    "wake": "Every night",
+    "ability": "Each night, you choose a player other than yourself. The next day, you may only vote on a nomination if that player is also voting on it.",
+    "note": "If the chosen player is dead and has already spent their ghost vote, the Butler simply cannot vote that day."
+  },
+  {
+    "team": "outsider",
+    "name": "Drunk",
+    "wake": "Never wakes as themselves",
+    "ability": "At setup, you're secretly told you're a specific Townsfolk. You believe this and play it — but your ability never actually works.",
+    "note": "Still wake them and go through the motions for whatever character they think they are, so the bluff holds up."
+  },
+  {
+    "team": "outsider",
+    "name": "Recluse",
+    "wake": "Passive",
+    "ability": "Any ability that detects alignment or character type may register you as evil, or as a Minion or Demon, even though you're truly good.",
+    "note": "This is a per-ability, per-moment choice for you — it doesn't need to stay consistent across different abilities or nights."
+  },
+  {
+    "team": "outsider",
+    "name": "Saint",
+    "wake": "Passive",
+    "ability": "If the town executes you, good loses immediately.",
+    "note": "Only an execution triggers this. Dying at night to the Demon is just a normal death."
+  },
+  {
+    "team": "minion",
+    "name": "Poisoner",
+    "wake": "Every night",
+    "ability": "Each night, you choose a player. Their ability produces false or absent information until your next choice the following night.",
+    "note": "You decide what the poisoned player 'learns' — it doesn't need to resemble the truth at all."
+  },
+  {
+    "team": "minion",
+    "name": "Spy",
+    "wake": "Every night",
+    "ability": "Each night, you see the entire Grimoire — every player's true character.",
+    "note": "Detection abilities may treat the Spy as good, and as a Townsfolk or Outsider, at your discretion — same mechanic as the Recluse, reversed."
+  },
+  {
+    "team": "minion",
+    "name": "Scarlet Woman",
+    "wake": "Passive",
+    "ability": "If 5 or more players are alive when the Demon dies, you immediately become the new Demon.",
+    "note": "She gets the Demon's kill ability but no bonus info. If the trigger happens before her night-order slot, she can act as the Demon that same night."
+  },
+  {
+    "team": "minion",
+    "name": "Baron",
+    "wake": "Setup only",
+    "ability": "Before characters are assigned, two extra Outsiders are added to the game and two Townsfolk are removed.",
+    "note": "Apply this before you deal out character tokens — it changes the whole character pool, not who sits where."
+  },
+  {
+    "team": "demon",
+    "name": "Imp",
+    "wake": "Every night except the first",
+    "ability": "Each night, you choose a player, who dies. If you choose yourself, you die instead and a living Minion becomes the new Imp.",
+    "note": "A replacement Imp does not get to kill that same night — their first kill is the following night.",
+    "naming": "On night one you also hand the Imp three bluff characters not in this game, for them to claim if pressed. Favor quiet info Townsfolk (Empath, Undertaker, Fortune Teller-style roles) whose claims are hard to disprove and never require a public demonstration. Steer clear of Slayer or Virgin as bluffs — both eventually force a visible, hard-to-fake moment that can unravel the whole claim."
+  }
+];
+
+const FIRST_NIGHT = [
+  {
+    "info": true,
+    "name": "Minion info",
+    "flag": "info",
+    "body": "Wake all Minions together. Show them who each other are, and who the Demon is."
+  },
+  {
+    "info": true,
+    "name": "Demon info",
+    "flag": "info",
+    "body": "Wake the Demon. Show them their Minions, plus three 'bluff' characters not in this game, to claim if pressed."
+  },
+  {
+    "name": "Poisoner",
+    "body": "They choose a player to poison for the night."
+  },
+  {
+    "name": "Washerwoman",
+    "body": "Show two players and a Townsfolk character in play."
+  },
+  {
+    "name": "Librarian",
+    "body": "Show two players and an Outsider character in play, or 'no Outsiders' if none."
+  },
+  {
+    "name": "Investigator",
+    "body": "Show two players and a Minion character in play."
+  },
+  {
+    "name": "Chef",
+    "body": "Tell them the number of adjacent evil pairs."
+  },
+  {
+    "name": "Empath",
+    "body": "Tell them how many of their two neighbours are evil."
+  },
+  {
+    "name": "Fortune Teller",
+    "body": "They pick two players; tell them yes/no for the Demon. Set the red herring before this, if you haven't already."
+  },
+  {
+    "name": "Butler",
+    "body": "They choose whose vote they'll depend on tomorrow."
+  },
+  {
+    "name": "Spy",
+    "body": "Show them the full Grimoire."
+  }
+];
+
+const OTHER_NIGHT = [
+  {
+    "name": "Poisoner",
+    "body": "They choose tonight's poison target, before anyone whose ability could be affected wakes."
+  },
+  {
+    "name": "Monk",
+    "body": "They choose a player to protect from the Demon tonight."
+  },
+  {
+    "name": "Scarlet Woman",
+    "flag": "if triggered",
+    "body": "Only relevant if the Demon has just died with 5+ players alive — she becomes the Demon here."
+  },
+  {
+    "name": "Imp",
+    "body": "They choose a player to kill, or themselves to pass the role on."
+  },
+  {
+    "name": "Ravenkeeper",
+    "flag": "if killed tonight",
+    "body": "Only wakes if the Imp just killed them — they choose a player and learn their character."
+  },
+  {
+    "name": "Empath",
+    "body": "Tell them how many of their current two neighbours are evil."
+  },
+  {
+    "name": "Fortune Teller",
+    "body": "They pick two players; tell them yes/no for the Demon."
+  },
+  {
+    "name": "Undertaker",
+    "flag": "if execution today",
+    "body": "Only wakes if the town executed someone today — tell them that character."
+  },
+  {
+    "name": "Butler",
+    "body": "They choose tomorrow's voting condition."
+  },
+  {
+    "name": "Spy",
+    "body": "Show them the full Grimoire."
+  }
+];
+/* GENERATED:ROSTER:END */
+
+// GENERATED by recompile-roster.js from scripts/<slug>.yaml's `setups:` section
+// (see docs/roster-spec.md). Do not hand-edit between the markers — edit the
+// Roster file and run `npm run recompile` instead. Each Setup is independent
+// and self-contained (no add/remove delta); the per-Character `isNew` flag is
+// derived at compile time by diffing against the immediately preceding Setup.
+/* GENERATED:SETUPS:START */
+const SETUPS = [
+  {
+    "n": 7,
+    "characters": [
+      {
+        "name": "Washerwoman",
+        "isNew": true
+      },
+      {
+        "name": "Empath",
+        "isNew": true
+      },
+      {
+        "name": "Fortune Teller",
+        "isNew": true
+      },
+      {
+        "name": "Undertaker",
+        "isNew": true
+      },
+      {
+        "name": "Monk",
+        "isNew": true
+      },
+      {
+        "name": "Poisoner",
+        "isNew": true
+      },
+      {
+        "name": "Imp",
+        "isNew": true
+      }
+    ],
+    "note": "5 Townsfolk, 0 Outsiders, 1 Minion, 1 Demon — the base ratio for 7 players, and the smallest lineup with recommendations.",
+    "recommendations": {
+      "Fortune Teller": {
+        "setup": "No Recluse or Drunk in this lineup to soak up ambiguity, so whichever herring you pick is more exposed than usual — a \"yes\" on them needs to read as plausible, not staged. Nothing here jumps out as an obvious misdirect; leaning toward a Townsfolk that stays quiet on night one, like the Undertaker, at least means there's nothing early to contradict."
+      },
+      "Imp": {
+        "setup": "Bluffs just need to be characters nobody's holding, so structurally anything outside this lineup works — but favor ones that never force a public demonstration. Investigator, Chef, and Librarian all resolve privately on night one and are never tested again, which is what makes a claim hold up under pressure."
+      }
+    }
+  },
+  {
+    "n": 8,
+    "characters": [
+      {
+        "name": "Washerwoman",
+        "isNew": false
+      },
+      {
+        "name": "Empath",
+        "isNew": false
+      },
+      {
+        "name": "Fortune Teller",
+        "isNew": false
+      },
+      {
+        "name": "Undertaker",
+        "isNew": false
+      },
+      {
+        "name": "Monk",
+        "isNew": false
+      },
+      {
+        "name": "Butler",
+        "isNew": true
+      },
+      {
+        "name": "Poisoner",
+        "isNew": false
+      },
+      {
+        "name": "Imp",
+        "isNew": false
+      }
+    ],
+    "note": "5 Townsfolk, 1 Outsider, 1 Minion, 1 Demon. Butler joins as the first Outsider.",
+    "recommendations": {
+      "Fortune Teller": {
+        "setup": "Butler doesn't change the herring math — it's a passive, mechanical role with nothing that reads as suspicious on its own. Same logic as 7 players still applies: pick a Townsfolk that says nothing night one, like the Undertaker, so an early \"yes\" has nothing to contradict."
+      },
+      "Imp": {
+        "setup": "Bluffs just need to be characters nobody's holding, so structurally anything outside this lineup works — but favor ones that never force a public demonstration. Investigator, Chef, and Librarian all resolve privately on night one and are never tested again, which is what makes a claim hold up under pressure."
+      }
+    }
+  },
+  {
+    "n": 9,
+    "characters": [
+      {
+        "name": "Washerwoman",
+        "isNew": false
+      },
+      {
+        "name": "Empath",
+        "isNew": false
+      },
+      {
+        "name": "Fortune Teller",
+        "isNew": false
+      },
+      {
+        "name": "Undertaker",
+        "isNew": false
+      },
+      {
+        "name": "Monk",
+        "isNew": false
+      },
+      {
+        "name": "Butler",
+        "isNew": false
+      },
+      {
+        "name": "Recluse",
+        "isNew": true
+      },
+      {
+        "name": "Poisoner",
+        "isNew": false
+      },
+      {
+        "name": "Imp",
+        "isNew": false
+      }
+    ],
+    "note": "5 Townsfolk, 2 Outsiders, 1 Minion, 1 Demon. Recluse joins as the second Outsider.",
+    "recommendations": {
+      "Fortune Teller": {
+        "setup": "The Recluse is the standout pick here — it's the one character in this lineup already built to register ambiguously, so a \"yes\" on it costs nothing extra in cover story."
+      },
+      "Imp": {
+        "setup": "Bluffs just need to be characters nobody's holding, so structurally anything outside this lineup works — but favor ones that never force a public demonstration. Investigator, Chef, and Librarian all resolve privately on night one and are never tested again, which is what makes a claim hold up under pressure."
+      }
+    }
+  },
+  {
+    "n": 10,
+    "characters": [
+      {
+        "name": "Washerwoman",
+        "isNew": false
+      },
+      {
+        "name": "Empath",
+        "isNew": false
+      },
+      {
+        "name": "Fortune Teller",
+        "isNew": false
+      },
+      {
+        "name": "Undertaker",
+        "isNew": false
+      },
+      {
+        "name": "Monk",
+        "isNew": false
+      },
+      {
+        "name": "Slayer",
+        "isNew": true
+      },
+      {
+        "name": "Virgin",
+        "isNew": true
+      },
+      {
+        "name": "Poisoner",
+        "isNew": false
+      },
+      {
+        "name": "Spy",
+        "isNew": true
+      },
+      {
+        "name": "Imp",
+        "isNew": false
+      }
+    ],
+    "note": "7 Townsfolk, 0 Outsiders, 2 Minions, 1 Demon — the base ratio for 10 players. Spy joins Poisoner as the second Minion.",
+    "recommendations": {
+      "Fortune Teller": {
+        "setup": "No Recluse or Drunk in this lineup to soak up ambiguity, so whichever herring you pick is more exposed than usual — a \"yes\" on them needs to read as plausible, not staged. Slayer and Virgin don't help either; both are public, once-off roles with nothing that makes a private \"yes\" land more naturally. Nothing here jumps out as an obvious misdirect; leaning toward a Townsfolk that stays quiet on night one, like the Undertaker, at least means there's nothing early to contradict."
+      },
+      "Imp": {
+        "setup": "Bluffs just need to be characters nobody's holding, so structurally anything outside this lineup works — but favor ones that never force a public demonstration. Investigator, Chef, and Librarian all resolve privately on night one and are never tested again, which is what makes a claim hold up under pressure."
+      }
+    }
+  },
+  {
+    "n": 11,
+    "characters": [
+      {
+        "name": "Washerwoman",
+        "isNew": false
+      },
+      {
+        "name": "Empath",
+        "isNew": false
+      },
+      {
+        "name": "Fortune Teller",
+        "isNew": false
+      },
+      {
+        "name": "Undertaker",
+        "isNew": false
+      },
+      {
+        "name": "Monk",
+        "isNew": false
+      },
+      {
+        "name": "Slayer",
+        "isNew": false
+      },
+      {
+        "name": "Virgin",
+        "isNew": false
+      },
+      {
+        "name": "Butler",
+        "isNew": true
+      },
+      {
+        "name": "Poisoner",
+        "isNew": false
+      },
+      {
+        "name": "Spy",
+        "isNew": false
+      },
+      {
+        "name": "Imp",
+        "isNew": false
+      }
+    ],
+    "note": "7 Townsfolk, 1 Outsider, 2 Minions, 1 Demon. Butler joins as the first Outsider.",
+    "recommendations": {
+      "Fortune Teller": {
+        "setup": "Butler joins here but doesn't change the herring math — same passive, mechanical shape as the 7-9 segment's Butler entry. The same logic as 10 players still applies: pick a Townsfolk that says nothing night one, like the Undertaker, so an early \"yes\" has nothing to contradict."
+      },
+      "Imp": {
+        "setup": "Bluffs just need to be characters nobody's holding, so structurally anything outside this lineup works — but favor ones that never force a public demonstration. Investigator, Chef, and Librarian all resolve privately on night one and are never tested again, which is what makes a claim hold up under pressure."
+      }
+    }
+  },
+  {
+    "n": 12,
+    "characters": [
+      {
+        "name": "Washerwoman",
+        "isNew": false
+      },
+      {
+        "name": "Empath",
+        "isNew": false
+      },
+      {
+        "name": "Fortune Teller",
+        "isNew": false
+      },
+      {
+        "name": "Undertaker",
+        "isNew": false
+      },
+      {
+        "name": "Monk",
+        "isNew": false
+      },
+      {
+        "name": "Slayer",
+        "isNew": false
+      },
+      {
+        "name": "Virgin",
+        "isNew": false
+      },
+      {
+        "name": "Butler",
+        "isNew": false
+      },
+      {
+        "name": "Recluse",
+        "isNew": true
+      },
+      {
+        "name": "Poisoner",
+        "isNew": false
+      },
+      {
+        "name": "Spy",
+        "isNew": false
+      },
+      {
+        "name": "Imp",
+        "isNew": false
+      }
+    ],
+    "note": "7 Townsfolk, 2 Outsiders, 2 Minions, 1 Demon. Recluse joins as the second Outsider.",
+    "recommendations": {
+      "Fortune Teller": {
+        "setup": "The Recluse is the standout pick here — it's the one character in this lineup already built to register ambiguously, so a \"yes\" on it costs nothing extra in cover story."
+      },
+      "Imp": {
+        "setup": "Bluffs just need to be characters nobody's holding, so structurally anything outside this lineup works — but favor ones that never force a public demonstration. Investigator, Chef, and Librarian all resolve privately on night one and are never tested again, which is what makes a claim hold up under pressure."
+      }
+    }
+  },
+  {
+    "n": 13,
+    "characters": [
+      {
+        "name": "Washerwoman",
+        "isNew": false
+      },
+      {
+        "name": "Empath",
+        "isNew": false
+      },
+      {
+        "name": "Fortune Teller",
+        "isNew": false
+      },
+      {
+        "name": "Undertaker",
+        "isNew": false
+      },
+      {
+        "name": "Monk",
+        "isNew": false
+      },
+      {
+        "name": "Slayer",
+        "isNew": false
+      },
+      {
+        "name": "Virgin",
+        "isNew": false
+      },
+      {
+        "name": "Investigator",
+        "isNew": true
+      },
+      {
+        "name": "Ravenkeeper",
+        "isNew": true
+      },
+      {
+        "name": "Poisoner",
+        "isNew": false
+      },
+      {
+        "name": "Spy",
+        "isNew": false
+      },
+      {
+        "name": "Scarlet Woman",
+        "isNew": true
+      },
+      {
+        "name": "Imp",
+        "isNew": false
+      }
+    ],
+    "note": "9 Townsfolk, 0 Outsiders, 3 Minions, 1 Demon — the official ratio resets here, swapping Butler/Recluse out for Investigator, Ravenkeeper, and a third Minion.",
+    "recommendations": {
+      "Fortune Teller": {
+        "setup": "Spy's mis-registration doesn't help here either, since a red herring has to be a good player and Spy is evil. Nothing stands out as an obvious misdirect; leaning toward a Townsfolk that stays quiet on night one, like the Undertaker, at least means there's nothing early to contradict."
+      },
+      "Imp": {
+        "setup": "Investigator and Ravenkeeper are now real characters in this lineup, so they're off the bluff table — Librarian, Chef, and Mayor take over as the reserved trio instead, all still quiet and requiring no public demonstration."
+      }
+    }
+  },
+  {
+    "n": 14,
+    "characters": [
+      {
+        "name": "Washerwoman",
+        "isNew": false
+      },
+      {
+        "name": "Empath",
+        "isNew": false
+      },
+      {
+        "name": "Fortune Teller",
+        "isNew": false
+      },
+      {
+        "name": "Undertaker",
+        "isNew": false
+      },
+      {
+        "name": "Monk",
+        "isNew": false
+      },
+      {
+        "name": "Slayer",
+        "isNew": false
+      },
+      {
+        "name": "Virgin",
+        "isNew": false
+      },
+      {
+        "name": "Investigator",
+        "isNew": false
+      },
+      {
+        "name": "Ravenkeeper",
+        "isNew": false
+      },
+      {
+        "name": "Saint",
+        "isNew": true
+      },
+      {
+        "name": "Poisoner",
+        "isNew": false
+      },
+      {
+        "name": "Spy",
+        "isNew": false
+      },
+      {
+        "name": "Scarlet Woman",
+        "isNew": false
+      },
+      {
+        "name": "Imp",
+        "isNew": false
+      }
+    ],
+    "note": "9 Townsfolk, 1 Outsider, 3 Minions, 1 Demon. Saint joins as the sole Outsider, left for last since it's the simplest of the two Outsiders remaining at that point.",
+    "recommendations": {
+      "Fortune Teller": {
+        "setup": "Saint doesn't change the herring math either — it's a passive execution-trigger with no mis-registration effect of its own. Same logic as 13 players still applies: lean toward a Townsfolk that stays quiet on night one, like the Undertaker, so an early \"yes\" has nothing to contradict."
+      },
+      "Imp": {
+        "setup": "Investigator and Ravenkeeper are still off the bluff table — Librarian, Chef, and Mayor remain the trio to use, unchanged from 13 players."
+      }
+    }
+  },
+  {
+    "n": 15,
+    "characters": [
+      {
+        "name": "Washerwoman",
+        "isNew": false
+      },
+      {
+        "name": "Empath",
+        "isNew": false
+      },
+      {
+        "name": "Fortune Teller",
+        "isNew": false
+      },
+      {
+        "name": "Undertaker",
+        "isNew": false
+      },
+      {
+        "name": "Monk",
+        "isNew": false
+      },
+      {
+        "name": "Slayer",
+        "isNew": false
+      },
+      {
+        "name": "Virgin",
+        "isNew": false
+      },
+      {
+        "name": "Investigator",
+        "isNew": false
+      },
+      {
+        "name": "Ravenkeeper",
+        "isNew": false
+      },
+      {
+        "name": "Saint",
+        "isNew": false
+      },
+      {
+        "name": "Drunk",
+        "isNew": true
+      },
+      {
+        "name": "Poisoner",
+        "isNew": false
+      },
+      {
+        "name": "Spy",
+        "isNew": false
+      },
+      {
+        "name": "Scarlet Woman",
+        "isNew": false
+      },
+      {
+        "name": "Imp",
+        "isNew": false
+      }
+    ],
+    "note": "9 Townsfolk, 2 Outsiders, 3 Minions, 1 Demon — the top of the recommended range. Drunk joins as the second Outsider, completing all four Outsiders across the full 7-15 progression; Butler and Recluse were deliberately retired at the 13-player restructure and aren't reintroduced here.",
+    "recommendations": {
+      "Fortune Teller": {
+        "setup": "Drunk doesn't unlock a standout pick either — unlike Recluse or Spy, nothing in this roster's ability text gives it a documented mis-registration effect, so it's just another plain good player for Fortune Teller purposes. The same hedge holds one more time: lean toward a Townsfolk that stays quiet on night one, like the Undertaker."
+      },
+      "Imp": {
+        "setup": "Investigator and Ravenkeeper are still off the bluff table, and Soldier is now reserved for the Drunk's own claim (see the Drunk entry below) — don't double it up as a bluff too, or you'll have two players both quietly claiming to be Soldier. Librarian, Chef, and Mayor remain the trio to use."
+      },
+      "Drunk": {
+        "setup": "Tell them they're the Soldier — it's the lowest-maintenance assignment available: no night action to fake, no nightly bookkeeping to remember. If the Demon successfully kills them, the false sense of safety just quietly evaporates without you ever having had to track anything in between."
+      }
+    }
+  }
+];
+/* GENERATED:SETUPS:END */
+
+function charByName(name){ return ROSTER.find(c=>c.name===name); }
+
+// Storyteller decisions/triggers per character. Only fields that apply are set.
+// GENERATED by recompile-roster.js from scripts/<slug>.yaml (see docs/roster-spec.md).
+// Do not hand-edit between the markers — edit the Roster file and run `npm run
+// recompile` instead. Every note is a plain static string (ADR 0002): wording that
+// used to vary by setup (e.g. only mentioning the Recluse when one's in play) is now
+// always shown in full, regardless of which characters are actually in a given setup.
+/* GENERATED:NOTES:START */
+const NOTES = {
+  "Washerwoman": {
+    "setup": "Which two players do you show, and which Townsfolk do you name? Choose deliberately — see the Roster tab for who's worth naming. Remember the Spy can stand in as your decoy: it may register as a Townsfolk even though it's a Minion."
+  },
+  "Investigator": {
+    "setup": "Which two players do you show, and which Minion do you name? See the Roster tab for who's worth naming. The Recluse can stand in as your decoy: it may register as a Minion even though it's good."
+  },
+  "Empath": {
+    "night": "How many of their two living neighbors are evil? Give the true count — 0, 1, or 2 — remembering the Spy can register as good and slip out of the count if it's sitting next to them. The Recluse can do the reverse: register as evil and land in the count even though it's good. If the Empath is poisoned, invent the number freely instead."
+  },
+  "Fortune Teller": {
+    "setup": "Who's the red herring? Secretly pick one good player before night one — they'll ping as the Demon to the Fortune Teller for the rest of the game, no matter who else is checked.",
+    "night": "Is either chosen player the Demon? Answer yes or no honestly. The Recluse can register as the Demon too — a deliberate false yes is fair game if it protects your real Demon's cover. If the Fortune Teller is poisoned, you're free to answer either way regardless of the truth."
+  },
+  "Undertaker": {
+    "night": "Did an execution happen today? If yes, tell them exactly which character was executed. If no, they get nothing tonight — don't wake them for it."
+  },
+  "Monk": {
+    "night": "Whose protection is active tonight? Track it, then apply it silently against the Demon's kill. If the Monk is poisoned, let them choose as normal but apply no real protection."
+  },
+  "Ravenkeeper": {
+    "night": "Did the Imp actually kill them overnight? Only then do they wake to learn a character — a Monk-protected or otherwise-saved Ravenkeeper stays asleep."
+  },
+  "Virgin": {
+    "day": "Is the nominator a genuine, undrunk, unpoisoned Townsfolk? If yes, skip the vote and execute the nominator immediately. If no, run a normal vote."
+  },
+  "Slayer": {
+    "day": "Is their target actually the Demon? Resolve the shot immediately and publicly the moment they declare it — hit or miss, it's spent either way. If they target the Recluse, remember this checks the true Demon, not who's been registering as one — nothing happens, even if the Recluse has looked evil all game."
+  },
+  "Butler": {
+    "day": "Is their chosen master voting on this nomination? If not, the Butler's own vote doesn't count — check before you call the tally."
+  },
+  "Recluse": {
+    "night": "Could a detection ability reach them right now? Decide fresh each time whether they register as evil, a Minion, or the Demon — or as themselves. It never has to stay consistent night to night."
+  },
+  "Saint": {
+    "day": "Were they just executed? If so, good loses immediately — check who just left the table before you move on."
+  },
+  "Poisoner": {
+    "night": "Who's poisoned tonight? Remember them, and falsify or withhold that player's information for the rest of the night and into the next day, until you poison someone else."
+  },
+  "Spy": {
+    "night": "What do you show them? The full Grimoire — every player's true character, living or dead."
+  },
+  "Scarlet Woman": {
+    "day": "Did the Demon just die with 5 or more players still alive? If so, she becomes the new Demon immediately — brief her before the next night phase begins."
+  },
+  "Imp": {
+    "setup": "Which three characters, not in this game, does the Demon get as bluffs? Favor quiet info roles that are hard to disprove — see the Imp's Roster card for specifics.",
+    "night": "Did it target itself? If so, choose which living Minion becomes the new Imp — they won't kill again until the following night."
+  }
+};
+/* GENERATED:NOTES:END */
+
+// Curated per-character Reminder-token quick-add suggestions, shown in the
+// live Table view's Detail pane. Sparse: a character with no presets has no
+// key here at all, not an empty array — mirrors NOTES above.
+// GENERATED by recompile-roster.js from scripts/<slug>.yaml (see docs/roster-spec.md).
+// Do not hand-edit between the markers — edit the Roster file and run `npm run
+// recompile` instead.
+/* GENERATED:REMINDER_PRESETS:START */
+const REMINDER_PRESETS = {
+  "Fortune Teller": [
+    "Red Herring"
+  ],
+  "Butler": [
+    "Master"
+  ],
+  "Poisoner": [
+    "Poisoned"
+  ]
+};
+/* GENERATED:REMINDER_PRESETS:END */
+
+function renderSetups(){
+  const mount = document.getElementById("setups-mount");
+  SETUPS.forEach(step => mount.appendChild(buildSetupCard(step)));
+  const legend = document.createElement("p");
+  legend.className = "setup-legend";
+  legend.textContent = "Filled pill = new this step · outline pill = carried over from the previous player count";
+  mount.appendChild(legend);
+}
+
+// One Setups-tab card: header/tally, token row (with hover previews), the
+// three-column checklist, and the wizard-launch buttons. Split out of
+// renderSetups so each Setup's card-building logic reads as one unit.
+function buildSetupCard(step){
+  const TEAM_ORDER = ["townsfolk","outsider","minion","demon"];
+  const recs = step.recommendations || {};
+  const isNewMap = new Map(step.characters.map(c=>[c.name, c.isNew]));
+  const ordered = step.characters.slice().sort((a,b)=>{
+    const ta = TEAM_ORDER.indexOf(charByName(a.name).team), tb = TEAM_ORDER.indexOf(charByName(b.name).team);
+    return ta - tb;
+  });
+  const orderedNames = ordered.map(c=>c.name);
+  const tally = {townsfolk:0, outsider:0, minion:0, demon:0};
+  orderedNames.forEach(name=>tally[charByName(name).team]++);
+
+  const card = document.createElement("div");
+  card.className = "setup-card";
+  card.innerHTML = `
+    <div class="setup-head">
+      <h2>${step.n} Players</h2>
+      <span class="setup-count">${tally.townsfolk} Townsfolk · ${tally.outsider} Outsider${tally.outsider===1?'':'s'} · ${tally.minion} Minion${tally.minion===1?'':'s'} · ${tally.demon} Demon</span>
+    </div>
+    <p class="setup-delta">${step.note || ""}</p>
+    <div class="token-row"></div>
+    <div class="calls-grid">
+      <div class="calls-col"><h4>Setup decisions</h4><ul data-cat="setup"></ul></div>
+      <div class="calls-col"><h4>Night order &amp; decisions</h4><ul data-cat="night"></ul></div>
+      <div class="calls-col"><h4>Day watch-fors</h4><ul data-cat="day"></ul></div>
+    </div>
+    <div class="setup-wizards">
+      <button class="btn-outline" data-wizard-open="first" data-n="${step.n}">Run First Night →</button>
+      <button class="btn-outline" data-wizard-open="other" data-n="${step.n}">Run Other Nights →</button>
+    </div>
+  `;
+  const row = card.querySelector(".token-row");
+  ordered.forEach(({name, isNew})=>{
+    const c = charByName(name);
+    const span = document.createElement("span");
+    span.className = "token" + (isNew ? " is-new" : "");
+    span.dataset.team = c.team;
+    span.tabIndex = 0;
+    span.append(name);
+    const tip = document.createElement("span");
+    tip.className = "token-tip";
+    tip.innerHTML = `
+      <span class="tip-head"><strong>${name}</strong><span class="tip-badge">${TEAM_LABEL[c.team].replace(/s$/,'')}</span></span>
+      <span class="tip-wake">${c.wake}</span>
+      <p>${c.ability}</p>
+    `;
+    span.appendChild(tip);
+    row.appendChild(span);
+  });
+
+  // A Setup recommendation (composition-specific hint) renders as a distinct
+  // second line within the Character's existing checklist <li>, alongside
+  // any generic NOTES text — never merged into the same sentence (Ticket 01).
+  const hintHtml = (name, cat) => recs[name] && recs[name][cat]
+    ? `<div class="setup-hint">Hint: ${recs[name][cat]}</div>`
+    : "";
+
+  ["setup","day"].forEach(cat=>{
+    const ul = card.querySelector(`ul[data-cat="${cat}"]`);
+    const entries = orderedNames.filter(name => (NOTES[name] && NOTES[name][cat]) || (recs[name] && recs[name][cat]));
+    if(entries.length === 0){
+      ul.innerHTML = `<li class="calls-empty">Nothing new to watch here.</li>`;
+      return;
+    }
+    entries.forEach(name=>{
+      const li = document.createElement("li");
+      if(isNewMap.get(name)) li.className = "is-new";
+      const generic = NOTES[name] && NOTES[name][cat] ? `<strong>${name}</strong> — ${NOTES[name][cat]}` : `<strong>${name}</strong>`;
+      li.innerHTML = generic + hintHtml(name, cat);
+      ul.appendChild(li);
+    });
+  });
+
+  populateSetupNightColumn(card.querySelector('ul[data-cat="night"]'), orderedNames, recs, isNewMap, hintHtml);
+
+  return card;
+}
+
+// Night column: real wake sequence, derived from the same FIRST_NIGHT / OTHER_NIGHT
+// arrays as the Night Order tab, filtered to who's actually in this setup.
+// Split out of buildSetupCard as its most self-contained sub-task.
+function populateSetupNightColumn(nightUl, orderedNames, recs, isNewMap, hintHtml){
+  const firstNames = FIRST_NIGHT.filter(s=>!s.info).map(s=>s.name);
+  const otherNames = OTHER_NIGHT.map(s=>s.name);
+  const hasNight = name => (NOTES[name] && NOTES[name].night) || (recs[name] && recs[name].night);
+  const firstEntries = firstNames.filter(n => orderedNames.includes(n) && hasNight(n));
+  const otherEntries = otherNames.filter(n => orderedNames.includes(n) && hasNight(n));
+  const noSlotEntries = orderedNames.filter(n => hasNight(n) && !firstNames.includes(n) && !otherNames.includes(n));
+
+  const makeLi = (name, idx)=>{
+    const el = document.createElement("li");
+    if(isNewMap.get(name)) el.className = "is-new";
+    const num = idx != null ? `<span class="step-idx">${idx}.</span>` : "";
+    const generic = NOTES[name] && NOTES[name].night ? `<strong>${name}</strong> — ${NOTES[name].night}` : `<strong>${name}</strong>`;
+    el.innerHTML = `${num}${generic}${hintHtml(name, "night")}`;
+    return el;
+  };
+  const subhead = (text)=>{ const h = document.createElement("li"); h.className = "calls-subhead"; h.textContent = text; return h; };
+
+  if(firstEntries.length + otherEntries.length + noSlotEntries.length === 0){
+    nightUl.innerHTML = `<li class="calls-empty">Nothing new to watch here.</li>`;
+  } else {
+    nightUl.innerHTML = "";
+    if(firstEntries.length){
+      nightUl.appendChild(subhead("First night, in order"));
+      firstEntries.forEach((n,i)=>nightUl.appendChild(makeLi(n, i+1)));
+    }
+    if(otherEntries.length){
+      nightUl.appendChild(subhead("Other nights, in order"));
+      otherEntries.forEach((n,i)=>nightUl.appendChild(makeLi(n, i+1)));
+    }
+    if(noSlotEntries.length){
+      nightUl.appendChild(subhead("No fixed slot — ongoing"));
+      noSlotEntries.forEach(n=>nightUl.appendChild(makeLi(n, null)));
+    }
+  }
+}
+
+// ---------------- NIGHT WIZARD ----------------
+const TEAM_VAR = {townsfolk:"tf", outsider:"out", minion:"min", demon:"dem"};
+
+function rosterForSetup(n){
+  const step = SETUPS.find(s=>s.n===n);
+  return step ? step.characters.map(c=>c.name) : [];
+}
+
+// What the storyteller decides at this character's step, for this phase of the night.
+// Fortune Teller on night one carries both her one-time red-herring pick and her
+// nightly yes/no call; every other character only ever has one relevant field.
+function stepDecision(name, phase){
+  const n = NOTES[name];
+  if(!n) return null;
+  if(phase === "first"){
+    const parts = [n.setup, n.night].filter(Boolean);
+    return parts.length ? parts.join(" ") : null;
+  }
+  return n.night || null;
+}
+
+function buildWizardSteps(n, phase){
+  const roster = rosterForSetup(n);
+  const source = phase === "first" ? FIRST_NIGHT : OTHER_NIGHT;
+  const steps = [];
+
+  source.forEach(s=>{
+    if(s.info){
+      let decision = null;
+      if(s.name === "Demon info" && NOTES.Imp && NOTES.Imp.setup) decision = NOTES.Imp.setup;
+      steps.push({info:true, name:s.name, flag:null, action:s.body, decision, team:null});
+      return;
+    }
+    if(!roster.includes(s.name)) return;
+    steps.push({info:false, name:s.name, flag:s.flag||null, action:s.body, decision:stepDecision(s.name, phase), team:charByName(s.name).team});
+  });
+
+  // Passive characters with no wake slot (e.g. the Recluse) — worth a closing reminder.
+  const firstNames = FIRST_NIGHT.filter(x=>!x.info).map(x=>x.name);
+  const otherNames = OTHER_NIGHT.map(x=>x.name);
+  const noSlot = roster.filter(nm => NOTES[nm] && NOTES[nm].night && !firstNames.includes(nm) && !otherNames.includes(nm));
+  if(noSlot.length){
+    const text = noSlot.map(nm=>`<strong>${nm}:</strong> ${NOTES[nm].night}`).join(" ");
+    steps.push({info:true, name:"Keep in mind all game", flag:null, action:"These don't have a wake step of their own, but stay relevant all night, every night.", decision:text, team:null});
+  }
+  return steps;
+}
+
+let wizardSteps = [];
+let wizardIndex = 0;
+let wizardMeta = {n:null, phase:null};
+let wizardLastFocus = null;
+
+function openWizard(n, phase){
+  wizardSteps = buildWizardSteps(n, phase);
+  wizardIndex = 0;
+  wizardMeta = {n, phase};
+  wizardLastFocus = document.activeElement;
+  const overlay = document.getElementById("wizard-overlay");
+  overlay.hidden = false;
+  document.body.style.overflow = "hidden";
+  renderWizardStep();
+  document.getElementById("wizard-close").focus();
+}
+
+function closeWizard(){
+  document.getElementById("wizard-overlay").hidden = true;
+  document.body.style.overflow = "";
+  if(wizardLastFocus) wizardLastFocus.focus();
+}
+
+function renderWizardStep(){
+  const {n, phase} = wizardMeta;
+  const total = wizardSteps.length;
+  const s = wizardSteps[wizardIndex];
+
+  document.getElementById("wizard-eyebrow").textContent = `${n} Players · ${phase === "first" ? "First Night" : "Other Nights"}`;
+  document.getElementById("wizard-title").textContent = s.name;
+  document.getElementById("wizard-progress-fill").style.width = `${((wizardIndex+1)/total)*100}%`;
+  document.getElementById("wizard-step-label").textContent = `Step ${wizardIndex+1} of ${total}`;
+
+  const flagHtml = s.flag ? `<span class="wizard-flag">Only if: ${s.flag}</span>` : "";
+  const teamHtml = s.team ? `<div class="wizard-team" style="--wiz-c:var(--${TEAM_VAR[s.team]})">${TEAM_LABEL[s.team]}</div>` : "";
+  document.getElementById("wizard-body").innerHTML = `
+    ${flagHtml}
+    ${teamHtml}
+    <p class="wizard-action">${s.action}</p>
+    ${s.decision ? `<p class="wizard-decision">${s.decision}</p>` : ""}
+  `;
+
+  document.getElementById("wizard-prev").disabled = wizardIndex === 0;
+  document.getElementById("wizard-next").textContent = wizardIndex === total - 1 ? "Done" : "Next →";
+}
+
+function initWizard(){
+  document.addEventListener("click", e=>{
+    const opener = e.target.closest("[data-wizard-open]");
+    if(opener){ openWizard(Number(opener.dataset.n), opener.dataset.wizardOpen); return; }
+  });
+  document.getElementById("wizard-close").addEventListener("click", closeWizard);
+  document.getElementById("wizard-overlay").addEventListener("click", e=>{
+    if(e.target.id === "wizard-overlay") closeWizard();
+  });
+  document.getElementById("wizard-prev").addEventListener("click", ()=>{
+    if(wizardIndex > 0){ wizardIndex--; renderWizardStep(); }
+  });
+  document.getElementById("wizard-next").addEventListener("click", ()=>{
+    if(wizardIndex < wizardSteps.length - 1){ wizardIndex++; renderWizardStep(); }
+    else { closeWizard(); }
+  });
+  document.addEventListener("keydown", e=>{
+    if(document.getElementById("wizard-overlay").hidden) return;
+    if(e.key === "Escape") closeWizard();
+    if(e.key === "ArrowRight") document.getElementById("wizard-next").click();
+    if(e.key === "ArrowLeft") document.getElementById("wizard-prev").click();
+  });
+}
+
+// ---------------- RENDER: ROSTER ----------------
+const TEAM_LABEL = {townsfolk:"Townsfolk", outsider:"Outsiders", minion:"Minions", demon:"Demon"};
+function renderRoster(){
+  const mount = document.getElementById("roster-mount");
+  ["townsfolk","outsider","minion","demon"].forEach(team=>{
+    const items = ROSTER.filter(c=>c.team===team);
+    const group = document.createElement("div");
+    group.className = "team-group";
+    group.dataset.team = team;
+    group.innerHTML = `<div class="team-head"><h2>${TEAM_LABEL[team]}</h2><span class="team-count">${items.length}</span></div>`;
+    const grid = document.createElement("div");
+    grid.className = "card-grid";
+    items.forEach(c=>{
+      const card = document.createElement("article");
+      card.className = "char-card";
+      const namingBlock = c.naming
+        ? `<details class="note naming"><summary>Who to name</summary><p>${c.naming}</p></details>`
+        : "";
+      card.innerHTML = `
+        <div class="char-head"><h3>${c.name}</h3><span class="badge">${TEAM_LABEL[team].replace(/s$/,'')}</span></div>
+        <div class="wake-tag">${c.wake}</div>
+        <p class="ability">${c.ability}</p>
+        <details class="note"><summary>Storyteller notes</summary><p>${c.note}</p></details>
+        ${namingBlock}
+      `;
+      grid.appendChild(card);
+    });
+    group.appendChild(grid);
+    mount.appendChild(group);
+  });
+}
+
+// ---------------- RENDER: NIGHT ORDER ----------------
+function renderNight(list, mountId){
+  const mount = document.getElementById(mountId);
+  list.forEach((step, i)=>{
+    const li = document.createElement("li");
+    li.className = "step" + (step.info ? " info" : "");
+    const flag = step.flag ? `<span class="step-flag">${step.flag === "info" ? "" : "· "+step.flag}</span>` : "";
+    li.innerHTML = `
+      <span class="step-num">${i+1}</span>
+      <div class="step-body">
+        <details>
+          <summary>${step.name}${flag}</summary>
+          <p>${step.body}</p>
+        </details>
+      </div>
+    `;
+    mount.appendChild(li);
+  });
+}
+
+// ---------------- TABLE MODE: DATA & PERSISTENCE ----------------
+const GAME_STORAGE_KEY = "botc-grimoire-game";
+const GAME_SCHEMA_VERSION = 4;
+
+function loadGame(){
+  const raw = localStorage.getItem(GAME_STORAGE_KEY);
+  if(!raw) return null;
+  let game;
+  try{ game = JSON.parse(raw); }
+  catch(e){ localStorage.removeItem(GAME_STORAGE_KEY); return null; }
+  if(!game || game.schemaVersion !== GAME_SCHEMA_VERSION){
+    localStorage.removeItem(GAME_STORAGE_KEY);
+    return null;
+  }
+  return game;
+}
+
+function saveGame(game){
+  localStorage.setItem(GAME_STORAGE_KEY, JSON.stringify(game));
+}
+
+function clearGame(){
+  localStorage.removeItem(GAME_STORAGE_KEY);
+}
+
+function renderTable(){
+  const mount = document.getElementById("table-mount");
+  const game = loadGame();
+
+  if(!game){
+    mount.innerHTML = `
+      <div class="table-empty">
+        <p class="table-empty-lede">No Game in progress.</p>
+        <button class="btn" id="table-start-btn">Start a Game →</button>
+      </div>`;
+    document.getElementById("table-start-btn").addEventListener("click", startSetupFlow);
+    return;
+  }
+
+  liveSelectedSeat = null;
+  renderLiveTableView(game);
+}
+
+function escapeHtml(str){
+  return str.replace(/[&<>"']/g, ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+}
+
+// ---------------- TABLE MODE: SETUP FLOW (Live Board) ----------------
+let setupState = null;
+// "assign" (seat + character picker) | "reveal" (player-facing character
+// reveal) — session-only, like tableViewMode. Reset per beginNewSetup so a
+// later Setup doesn't inherit a previous one's tab.
+let setupViewMode = "assign";
+
+function startSetupFlow(){
+  const existing = loadGame();
+  if(existing) showOverwriteConfirm(existing);
+  else beginNewSetup();
+}
+
+// Shared by every plain "are you sure" dialog (Cancel vs. a single confirming
+// action) — a one-line message plus that button pair, appended to <body> and
+// removed on either choice. Modals with richer content (the town quick-menu,
+// the reassign picker) build their own confirm-overlay/confirm-modal markup
+// directly rather than forcing it through this shape.
+function showConfirmOverlay(messageHtml, confirmLabel, onConfirm){
+  const overlay = document.createElement("div");
+  overlay.className = "confirm-overlay";
+  overlay.innerHTML = `
+    <div class="confirm-modal">
+      <p>${messageHtml}</p>
+      <div class="confirm-actions">
+        <button class="btn-ghost" id="confirm-cancel">Cancel</button>
+        <button class="btn" id="confirm-go">${confirmLabel}</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.querySelector("#confirm-cancel").addEventListener("click", ()=> overlay.remove());
+  overlay.querySelector("#confirm-go").addEventListener("click", ()=>{
+    overlay.remove();
+    onConfirm();
+  });
+  return overlay;
+}
+
+function showOverwriteConfirm(existing){
+  const phaseLabel = (existing.phase.type === "night" ? "Night" : "Day") + " " + existing.phase.number;
+  showConfirmOverlay(
+    `A Game is already in progress (${phaseLabel}, ${existing.players.length} players). Starting a new one replaces it — the current Game cannot be recovered.`,
+    "End it, start new",
+    ()=>{ clearGame(); beginNewSetup(); }
+  );
+}
+
+function beginNewSetup(){
+  setupState = { seats: [], active: null, checklistDone: new Set(), notes: "" };
+  setupViewMode = "assign";
+  renderSetupFlow();
+}
+
+// Official Trouble Brewing base Townsfolk/Outsider/Minion/Demon ratio per
+// player count (5-15), before any in-play ratio-modifying character (e.g.
+// Baron) adjusts it. Deliberately not compared against what's actually been
+// assigned — Table mode does no ratio validation (see docs/table-mode-spec.md).
+const BASE_TEAM_RATIOS = {
+  5:  {townsfolk:3, outsider:0, minion:1, demon:1},
+  6:  {townsfolk:3, outsider:1, minion:1, demon:1},
+  7:  {townsfolk:5, outsider:0, minion:1, demon:1},
+  8:  {townsfolk:5, outsider:1, minion:1, demon:1},
+  9:  {townsfolk:5, outsider:2, minion:1, demon:1},
+  10: {townsfolk:7, outsider:0, minion:2, demon:1},
+  11: {townsfolk:7, outsider:1, minion:2, demon:1},
+  12: {townsfolk:7, outsider:2, minion:2, demon:1},
+  13: {townsfolk:9, outsider:0, minion:3, demon:1},
+  14: {townsfolk:9, outsider:1, minion:3, demon:1},
+  15: {townsfolk:9, outsider:2, minion:3, demon:1}
+};
+
+function baseSetupNoteHtml(seatCount){
+  const ratio = BASE_TEAM_RATIOS[seatCount];
+  if(!ratio) return "";
+  return `<p class="seat-base-setup">Base setup: ${ratio.townsfolk} Townsfolk · ${ratio.outsider} Outsider${ratio.outsider===1?'':'s'} · ${ratio.minion} Minion${ratio.minion===1?'':'s'} · ${ratio.demon} Demon</p>`;
+}
+
+function setupViewToggleHtml(){
+  return `
+    <div class="setup-view-toggle view-toggle-group">
+      <button class="view-toggle-btn ${setupViewMode==="assign" ? "is-active" : ""}" data-setup-view="assign">Assign</button>
+      <button class="view-toggle-btn ${setupViewMode==="reveal" ? "is-active" : ""}" data-setup-view="reveal">🎭 Character Reveal</button>
+    </div>`;
+}
+
+function wireSetupViewToggle(){
+  document.querySelectorAll("[data-setup-view]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      setupViewMode = btn.dataset.setupView;
+      renderSetupFlow();
+    });
+  });
+}
+
+// Player-facing: names only, no character or team — a player walks up,
+// taps their own name, and gets the reveal (characterRevealText) fullscreen
+// via the same presentation overlay as a shareable note. Deliberately omits
+// the checklist/notes/picker/Start-Game bar, all Storyteller-only, so this
+// tab is safe to hand across the table.
+function renderSetupRevealHtml(seats){
+  const rows = seats.map((s,i)=>`
+    <li class="reveal-row" data-index="${i}">
+      <span class="reveal-num">${i+1}</span>
+      <span class="reveal-name">${escapeHtml(s.name)}</span>
+    </li>`).join("");
+  return `
+    <div class="reveal-panel">
+      <p class="reveal-lede">Hand the screen to a player. They tap their own name to see their character, then hold ✕ to return here.</p>
+      <ul class="reveal-list">${rows || `<li class="picker-empty">No seats yet.</li>`}</ul>
+    </div>`;
+}
+
+function wireSetupRevealEvents(seats, onDone){
+  document.querySelectorAll(".reveal-row").forEach(row=>{
+    row.addEventListener("click", ()=>{
+      const seat = seats[Number(row.dataset.index)];
+      if(!seat.character) return;
+      confirmRevealCharacter(seat, onDone);
+    });
+  });
+}
+
+// A row here sits right where a player's thumb rests while handing the
+// screen back — one stray tap shouldn't blow their own reveal to whoever's
+// standing next to them. Confirming is the deliberate second step.
+// `onDone` is where enterPresentation returns to on exit — the Setup tab
+// pre-Start Game, or the live Table's Reveal view once a Game is running —
+// since enterPresentation's own default exit assumes a live Game (loadGame()),
+// which isn't true in the pre-Start Game case.
+function confirmRevealCharacter(seat, onDone){
+  showConfirmOverlay(
+    `Reveal ${escapeHtml(seat.name)}'s character?`,
+    "Reveal",
+    ()=> enterPresentation(characterRevealText(seat.character), onDone)
+  );
+}
+
+// Plain "you are X, a Y" reveal text — shown fullscreen via enterPresentation,
+// same mechanism as a Player's prepared shareableNote, just generated rather
+// than typed. Shared by the Setup reveal tab (setupState.seats, pre-game).
+function characterRevealText(characterName){
+  const char = charByName(characterName);
+  if(!char) return "";
+  return `You are the ${characterName}.\n${TEAM_LABEL[char.team].replace(/s$/,'')}`;
+}
+
+function renderSetupFlow(){
+  const mount = document.getElementById("table-mount");
+  const seats = setupState.seats;
+
+  if(setupViewMode === "reveal"){
+    mount.innerHTML = `
+      ${setupViewToggleHtml()}
+      ${renderSetupRevealHtml(seats)}
+    `;
+    wireSetupViewToggle();
+    wireSetupRevealEvents(seats, ()=> renderSetupFlow());
+    return;
+  }
+
+  const seatRows = seats.map((s,i)=>`
+    <li class="seat-row ${i===setupState.active ? "is-active" : ""}" data-index="${i}">
+      <span class="seat-num">${i+1}</span>
+      <span class="seat-name">${escapeHtml(s.name)}</span>
+      <span class="seat-char ${s.character ? "" : "is-unassigned"}">${s.character ? s.character : "unassigned"}</span>
+      <button class="seat-move" data-move-up="${i}" ${i===0 ? "disabled" : ""} aria-label="Move up">▲</button>
+      <button class="seat-move" data-move-down="${i}" ${i===seats.length-1 ? "disabled" : ""} aria-label="Move down">▼</button>
+      <button class="seat-remove" data-remove="${i}" aria-label="Remove seat">×</button>
+    </li>`).join("");
+
+  const belowMin = seats.length < 5;
+  const missing = seats.filter(s=>!s.character).length;
+  const canStart = !belowMin && missing === 0;
+  let reason = "";
+  if(belowMin) reason = `Need at least 5 seated (${seats.length}/5).`;
+  else if(missing>0) reason = `${missing} seat${missing===1?"":"s"} still need${missing===1?"s":""} a character.`;
+
+  mount.innerHTML = `
+    ${setupViewToggleHtml()}
+    <div class="setup-flow">
+      <div class="seat-panel">
+        <div class="seat-add-row">
+          <input type="text" id="seat-name-input" placeholder="Player name" maxlength="40" ${seats.length>=15 ? "disabled" : ""} />
+          <button class="btn" id="seat-add-btn" ${seats.length>=15 ? "disabled" : ""}>Add</button>
+        </div>
+        <p class="seat-counter">${seats.length}/15 seated${belowMin ? " — need at least 5 to start" : ""}</p>
+        ${baseSetupNoteHtml(seats.length)}
+        <ul class="seat-list">${seatRows || `<li class="picker-empty">No seats yet — add a player above.</li>`}</ul>
+      </div>
+      <div class="picker-panel">${renderPickerHtml()}</div>
+    </div>
+    ${setupFlowChecklistHtml()}
+    <div class="setup-flow-notes setup-checklist">
+      <h4>Setup notes</h4>
+      <textarea id="setup-notes-input" rows="4" placeholder="Record your setup decisions here — red herring, Demon bluffs, who you named — so you can carry them out once the game starts.">${escapeHtml(setupState.notes)}</textarea>
+    </div>
+    <div class="setup-bar">
+      ${reason ? `<span class="setup-bar-reason">${reason}</span>` : ""}
+      <button class="btn" id="setup-start-btn" ${canStart ? "" : "disabled"}>Start Game</button>
+    </div>
+  `;
+
+  wireSetupViewToggle();
+  wireSetupFlowEvents(canStart);
+}
+
+// Split out of renderSetupFlow: every event listener for the seat-panel/
+// picker-panel screen (as opposed to the reveal screen, which returns
+// earlier via wireSetupRevealEvents).
+function wireSetupFlowEvents(canStart){
+  const mount = document.getElementById("table-mount");
+  document.getElementById("setup-notes-input").addEventListener("input", e=>{ setupState.notes = e.target.value; });
+  document.getElementById("seat-add-btn").addEventListener("click", addSeatFromInput);
+  const input = document.getElementById("seat-name-input");
+  input.addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); addSeatFromInput(); } });
+  mount.querySelectorAll(".seat-row").forEach(row=>{
+    row.addEventListener("click", e=>{
+      if(e.target.closest(".seat-remove") || e.target.closest(".seat-move")) return;
+      setupState.active = Number(row.dataset.index);
+      renderSetupFlow();
+    });
+  });
+  mount.querySelectorAll("[data-remove]").forEach(btn=>{
+    btn.addEventListener("click", e=>{
+      e.stopPropagation();
+      removeSeat(Number(btn.dataset.remove));
+    });
+  });
+  mount.querySelectorAll("[data-move-up]").forEach(btn=>{
+    btn.addEventListener("click", e=>{
+      e.stopPropagation();
+      moveSeat(Number(btn.dataset.moveUp), -1);
+    });
+  });
+  mount.querySelectorAll("[data-move-down]").forEach(btn=>{
+    btn.addEventListener("click", e=>{
+      e.stopPropagation();
+      moveSeat(Number(btn.dataset.moveDown), 1);
+    });
+  });
+  mount.querySelectorAll("[data-setup-check]").forEach(row=>{
+    row.addEventListener("click", ()=> toggleSetupFlowChecklistItem(row.dataset.setupCheck));
+  });
+  mount.querySelectorAll(".picker-btn:not(:disabled)").forEach(btn=>{
+    btn.addEventListener("click", ()=> assignCharacter(btn.dataset.char));
+  });
+  if(canStart) document.getElementById("setup-start-btn").addEventListener("click", commitStartGame);
+}
+
+function renderPickerHtml(){
+  if(setupState.active === null || !setupState.seats[setupState.active]){
+    return `<p class="picker-empty">Select a seat to assign a character.</p>`;
+  }
+  const active = setupState.active;
+  const activeSeat = setupState.seats[active];
+  const usedElsewhere = new Set(setupState.seats.filter((s,i)=>i!==active && s.character).map(s=>s.character));
+  return characterPickerGridHtml(usedElsewhere, activeSeat.character);
+}
+
+// Shared grouped-by-team character-assignment grid, reused by the setup flow's
+// picker panel above and the live view's mid-game Reassign modal below.
+function characterPickerGridHtml(usedElsewhere, currentCharacter){
+  const teamOrder = ["townsfolk","outsider","minion","demon"];
+  return teamOrder.map(team=>{
+    const items = ROSTER.filter(c=>c.team===team);
+    const grid = items.map(c=>{
+      const disabled = usedElsewhere.has(c.name);
+      const isCurrent = currentCharacter === c.name;
+      return `<button class="picker-btn ${isCurrent ? "is-assigned" : ""}" data-char="${c.name}" ${disabled ? "disabled" : ""}>${c.name}</button>`;
+    }).join("");
+    return `<div class="picker-team" data-team="${team}"><h4>${TEAM_LABEL[team]}</h4><div class="picker-grid">${grid}</div></div>`;
+  }).join("");
+}
+
+function addSeatFromInput(){
+  const input = document.getElementById("seat-name-input");
+  const name = input.value.trim();
+  if(!name || setupState.seats.length >= 15) return;
+  setupState.seats.push({name, character:null});
+  setupState.active = setupState.seats.length - 1;
+  renderSetupFlow();
+  const refocused = document.getElementById("seat-name-input");
+  if(refocused) refocused.focus();
+}
+
+function removeSeat(index){
+  setupState.seats.splice(index,1);
+  if(setupState.active === index) setupState.active = null;
+  else if(setupState.active !== null && setupState.active > index) setupState.active--;
+  renderSetupFlow();
+}
+
+// Player order here becomes seat order at commitStartGame — the fixed
+// neighbor order the wake sequence and neighbor-based abilities (Empath,
+// Fortune Teller, etc.) rely on — so letting the Storyteller rearrange it
+// before physical seating is settled is the whole point of this screen.
+function moveSeat(index, delta){
+  const seats = setupState.seats;
+  const target = index + delta;
+  if(target < 0 || target >= seats.length) return;
+  [seats[index], seats[target]] = [seats[target], seats[index]];
+  if(setupState.active === index) setupState.active = target;
+  else if(setupState.active === target) setupState.active = index;
+  renderSetupFlow();
+}
+
+function assignCharacter(name){
+  if(setupState.active === null) return;
+  const seats = setupState.seats;
+  const active = setupState.active;
+  if(seats.some((s,i)=> i!==active && s.character===name)) return;
+  seats[active].character = name;
+  let next = null;
+  for(let offset=1; offset<=seats.length; offset++){
+    const idx = (active+offset) % seats.length;
+    if(!seats[idx].character){ next = idx; break; }
+  }
+  setupState.active = next;
+  renderSetupFlow();
+}
+
+// First Night Setup checklist, worked through here — before seats are
+// physically taken — rather than mid-game at Night 1, so the Storyteller
+// can prep red herrings/bluffs/who-to-name choices while still just handing
+// out characters. Ticks are session-only (setupState.checklistDone), not
+// part of the committed Game.
+function setupFlowChecklistItems(){
+  return setupState.seats
+    .map((s,i) => ({seat:i+1, name:s.name, character:s.character, text: s.character ? setupChecklistText(s.character) : null}))
+    .filter(it => it.text);
+}
+
+function toggleSetupFlowChecklistItem(character){
+  if(setupState.checklistDone.has(character)) setupState.checklistDone.delete(character);
+  else setupState.checklistDone.add(character);
+  renderSetupFlow();
+}
+
+function setupFlowChecklistHtml(){
+  const items = setupFlowChecklistItems();
+  if(!items.length) return "";
+  const rows = items.map(it => `
+    <li class="setup-check-row ${setupState.checklistDone.has(it.character) ? "is-done" : ""}" data-setup-check="${escapeHtml(it.character)}">
+      <input type="checkbox" ${setupState.checklistDone.has(it.character) ? "checked" : ""} />
+      <div class="setup-check-body">
+        <strong>${escapeHtml(it.character)}</strong><span class="setup-check-seat">Seat ${it.seat} — ${escapeHtml(it.name)}</span>
+        <p>${it.text}</p>
+      </div>
+    </li>
+  `).join("");
+  return `
+    <div class="setup-flow-checklist setup-checklist">
+      <h4>First Night Setup</h4>
+      <ul>${rows}</ul>
+    </div>
+  `;
+}
+
+function commitStartGame(){
+  const game = {
+    schemaVersion: GAME_SCHEMA_VERSION,
+    phase: {type:"night", number:1},
+    setupNotes: setupState.notes || "",
+    players: setupState.seats.map((s,i)=>({
+      seat: i+1,
+      name: s.name,
+      character: s.character,
+      alive: true,
+      voteStatus: null,
+      ghostVoteAvailable: true,
+      reminderTokens: [],
+      storytellerNote: "",
+      shareableNote: "",
+      position: null
+    }))
+  };
+  saveGame(game);
+  setupState = null;
+  tableViewMode = "table";
+  renderTable();
+}
+
+// ---------------- TABLE MODE: LIVE VIEW (Master-Detail) ----------------
+const ROLE_LETTER = {townsfolk:"T", outsider:"O", minion:"M", demon:"D"};
+let liveSelectedSeat = null;
+let tableViewMode = "table"; // "table" | "grimoire" | "town" — in-session only, never persisted
+let rtCounter = 0;
+
+function mutateGame(fn){
+  const game = loadGame();
+  fn(game);
+  saveGame(game);
+  return game;
+}
+
+// Pure per-Seat display data shared by the Master-Detail Table view, the
+// read-only Grimoire view, and the read-only Town Square view, so none of
+// the three can silently drift on what a Seat's display row shows.
+// Deliberately excludes storytellerNote/shareableNote — those fields are
+// never read here, not merely dropped by a caller.
+function buildSeatDisplays(game){
+  return game.players
+    .map(p=>({
+      seat: p.seat,
+      name: p.name,
+      character: p.character,
+      team: charByName(p.character).team,
+      alive: p.alive,
+      voteStatus: p.voteStatus,
+      ghostVoteAvailable: p.ghostVoteAvailable,
+      reminderTokens: p.reminderTokens,
+      position: p.position ?? null
+    }))
+    .sort((a,b)=>a.seat-b.seat);
+}
+
+// Circular Grimoire Layout geometry (ADR-free — see
+// docs/circular-grimoire-layout-spec.md). Card size is held CONSTANT
+// regardless of seat count; the ring's radius grows instead, so the canvas
+// scrolls at high seat counts rather than shrinking cards to fit.
+const CIRC_CARD_W = 134, CIRC_CARD_H = 140, CIRC_GAP = 24;
+
+function circularLayout(n){
+  const radius = Math.max(150, (n*(CIRC_CARD_W+CIRC_GAP)) / (2*Math.PI));
+  const centerX = radius + CIRC_CARD_W/2, centerY = radius + CIRC_CARD_H/2;
+  return { radius, centerX, centerY, width: 2*radius+CIRC_CARD_W, height: 2*radius+CIRC_CARD_H };
+}
+
+// Auto-arranged spot for seat `seat` (1..n), evenly spaced starting at
+// 12 o'clock and proceeding clockwise. Pixel coordinates are relative to
+// the canvas's own origin (top-left), matching the Position field's
+// definition in CONTEXT.md — never percentage-relative-to-container.
+function circAutoPosition(seat, n, layout){
+  const angle = (-90 + (seat-1)*(360/n)) * Math.PI/180;
+  return {
+    x: layout.centerX + layout.radius*Math.cos(angle) - CIRC_CARD_W/2,
+    y: layout.centerY + layout.radius*Math.sin(angle) - CIRC_CARD_H/2
+  };
+}
+
+function seatLine1Html(s){
+  const shroud = s.alive ? "" : '<span class="shroud shroud--badge" aria-hidden="true"></span>';
+  return `
+        <span class="live-seat-num">${s.seat}</span>
+        <span class="role-badge role-badge--${s.team}">${ROLE_LETTER[s.team]}${shroud}</span>
+        <span class="live-seat-name">${escapeHtml(s.name)}</span>
+        <span class="live-seat-char">${s.character}</span>`;
+}
+
+function seatTokensHtml(reminderTokens){
+  return reminderTokens.length
+    ? `<div class="live-seat-tokens">${reminderTokens.map(t=>`<span class="token-chip">${escapeHtml(t.text)}</span>`).join("")}</div>`
+    : "";
+}
+
+// Reminder-token presets relevant to this Game: the deduplicated union of
+// REMINDER_PRESETS entries from every Character currently seated, in seat
+// order. A token is usually placed on whoever an ability targets, not on the
+// ability's owner (the Poisoner's "Poisoned" goes on the victim, not the
+// Poisoner) — so this is Game-wide, not scoped to any one Seat's own
+// Character. Per-Seat filtering (hiding a preset already active there)
+// happens in renderDetailPaneHtml, not here.
+function presetsInPlay(game){
+  const seen = new Set();
+  const result = [];
+  buildSeatDisplays(game).forEach(s=>{
+    (REMINDER_PRESETS[s.character] || []).forEach(text=>{
+      if(!seen.has(text)){
+        seen.add(text);
+        result.push(text);
+      }
+    });
+  });
+  return result;
+}
+
+// What a Character's First Night Setup checklist entry should say, if any.
+// A real setup decision (NOTES[name].setup — red herring, Demon bluffs, who
+// to name via Washerwoman/Investigator) always qualifies. Absent that, any
+// character that only ever wakes on the first night still gets an entry —
+// nothing to decide, but worth a mental preview of what's coming before the
+// game starts, using the character's own ability text. Distinct from a Setup
+// recommendation (Setups-tab-only, CONTEXT.md).
+function setupChecklistText(character){
+  const setupNote = NOTES[character] && NOTES[character].setup;
+  if(setupNote) return setupNote;
+  const char = charByName(character);
+  return (char && char.wake === "First night only") ? char.ability : null;
+}
+
+// The Storyteller's own freeform setup-notes (written in the pre-game Setup
+// flow, setupFlowChecklistHtml's sibling textarea) carried into the Game so
+// it's still in view while actually implementing those decisions — adding
+// reminder tokens, briefing the Demon, etc. — seat by seat on Night 1.
+function setupNotesDisplayHtml(game){
+  if(game.phase.type !== "night" || game.phase.number !== 1) return "";
+  const text = (game.setupNotes || "").trim();
+  if(!text) return "";
+  return `
+    <div class="setup-notes-display setup-checklist">
+      <h4>Setup notes</h4>
+      <p>${escapeHtml(text).replace(/\n/g, "<br>")}</p>
+    </div>
+  `;
+}
+
+function renderLiveTableView(game, selectSeat){
+  if(selectSeat !== undefined) liveSelectedSeat = selectSeat;
+  if(liveSelectedSeat === null || !game.players.some(p=>p.seat===liveSelectedSeat)){
+    liveSelectedSeat = game.players.length ? game.players[0].seat : null;
+  }
+
+  const mount = document.getElementById("table-mount");
+  const phaseLabel = (game.phase.type === "night" ? "🌙 Night " : "☀️ Day ") + game.phase.number;
+  const canSequence = game.phase.type === "night";
+  const canRetreat = !(game.phase.type === "night" && game.phase.number === 1);
+  const viewToggleGroupHtml = `
+    <div class="view-toggle-group">
+      <button class="view-toggle-btn ${tableViewMode==="table" ? "is-active" : ""}" data-view="table">📋 Table</button>
+      <button class="view-toggle-btn ${tableViewMode==="grimoire" ? "is-active" : ""}" data-view="grimoire">🔮 Grimoire</button>
+      <button class="view-toggle-btn ${tableViewMode==="town" ? "is-active" : ""}" data-view="town">🏛 Town Square</button>
+      <button class="view-toggle-btn ${tableViewMode==="reveal" ? "is-active" : ""}" data-view="reveal">🎭 Reveal</button>
+    </div>`;
+  // A nomination needs at least half the living players' votes, rounded up.
+  const aliveCount = game.players.filter(p=>p.alive).length;
+  const voteInfoHtml = game.phase.type === "day"
+    ? `<span class="phase-vote-info">${aliveCount} alive · ${Math.ceil(aliveCount/2)} to execute</span>`
+    : "";
+
+  mount.innerHTML = `
+    <div class="phase-bar">
+      <div class="phase-bar-left">
+        <button class="phase-label-btn" id="phase-label-btn" ${canSequence ? "" : "disabled"}>${phaseLabel}</button>
+        ${voteInfoHtml}
+      </div>
+      <div style="display:flex; gap:10px; align-items:center;">
+        ${viewToggleGroupHtml}
+        <button class="btn-ghost" id="phase-back-btn" ${canRetreat ? "" : "disabled"}>← Back</button>
+        <button class="btn" id="phase-advance-btn">Advance →</button>
+      </div>
+    </div>
+    <div id="table-view-content"></div>
+  `;
+
+  document.getElementById("phase-advance-btn").addEventListener("click", advancePhase);
+  const backBtn = document.getElementById("phase-back-btn");
+  if(canRetreat) backBtn.addEventListener("click", retreatPhase);
+  mount.querySelectorAll(".view-toggle-btn").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      tableViewMode = btn.dataset.view;
+      renderLiveTableView(loadGame());
+    });
+  });
+  const phaseLabelBtn = document.getElementById("phase-label-btn");
+  if(canSequence) phaseLabelBtn.addEventListener("click", openSequencer);
+
+  const contentMount = document.getElementById("table-view-content");
+  if(tableViewMode === "grimoire"){
+    contentMount.innerHTML = renderGrimoireView(game);
+    wireGrimoireViewEvents(game);
+  } else if(tableViewMode === "town"){
+    contentMount.innerHTML = renderTownSquareView(game);
+    wireTownSquareViewEvents();
+  } else if(tableViewMode === "reveal"){
+    // Reuses the pre-game Setup tab's reveal panel — game.players share the
+    // {name, character} shape renderSetupRevealHtml/wireSetupRevealEvents
+    // expect, and array order matches seat order (commitStartGame builds
+    // players as setupState.seats.map((s,i)=>({seat:i+1, ...}))).
+    contentMount.innerHTML = renderSetupRevealHtml(game.players);
+    wireSetupRevealEvents(game.players, ()=> renderLiveTableView(loadGame()));
+  } else {
+    contentMount.innerHTML = renderMasterDetailView(game);
+    wireMasterDetailViewEvents(game);
+  }
+
+  // The sequencer modal is appended to <body>, outside `mount`, so it survives
+  // the innerHTML reset above — always drop any stale copy before deciding
+  // whether to redraw it (an earlier version left this unconditional and a
+  // stale copy silently blocked all further clicks after closing).
+  document.getElementById("seq-overlay")?.remove();
+  if(seqActive && seqSteps.length){
+    renderSequencerModal(game);
+  } else if(seqActive && !seqSteps.length){
+    seqActive = false; // night ended / no steps left mid-render — bail out cleanly
+  }
+}
+
+// The Table view's default (Master-Detail) mode: seat list on the left,
+// selected Player's Detail pane on the right. Split out of
+// renderLiveTableView to match the render/wire pair every other view mode
+// there (Grimoire, Town Square, Reveal) already uses.
+function renderMasterDetailView(game){
+  const seatRows = buildSeatDisplays(game).map(s=>`
+    <li class="live-seat-row ${s.seat===liveSelectedSeat ? "is-selected" : ""} ${s.alive ? "" : "is-dead"}" data-seat="${s.seat}">
+      <div class="live-seat-line1">${seatLine1Html(s)}</div>
+      ${seatTokensHtml(s.reminderTokens)}
+    </li>`).join("");
+
+  const selectedPlayer = game.players.find(p=>p.seat===liveSelectedSeat);
+  return `
+    ${setupNotesDisplayHtml(game)}
+    <div class="live-table">
+      <ul class="live-seat-list">${seatRows}</ul>
+      <div class="live-detail">${selectedPlayer ? renderDetailPaneHtml(selectedPlayer, presetsInPlay(game)) : ""}</div>
+    </div>
+  `;
+}
+
+function wireMasterDetailViewEvents(game){
+  document.querySelectorAll(".live-seat-row").forEach(row=>{
+    row.addEventListener("click", ()=> renderLiveTableView(loadGame(), Number(row.dataset.seat)));
+  });
+  const selectedPlayer = game.players.find(p=>p.seat===liveSelectedSeat);
+  wireDetailPaneEvents(selectedPlayer);
+}
+
+// Free-position, drag-and-drop circular seat layout: no notes, no
+// Reassign/Alive/Reminder-token editing controls — only a Player's cosmetic
+// Position (CONTEXT.md) is interactive here. Built on buildSeatDisplays so
+// its Character/team/alive/token data can't drift from the Master-Detail
+// Table view. See docs/circular-grimoire-layout-spec.md.
+function circTokensHtml(reminderTokens){
+  return reminderTokens.length
+    ? `<div class="circ-tokens">${reminderTokens.map(t=>`<div class="circ-token-line">${escapeHtml(t.text)}</div>`).join("")}</div>`
+    : "";
+}
+
+function circCardHtml(s){
+  const shroud = s.alive ? "" : '<div class="shroud shroud--circ" aria-hidden="true"></div>';
+  return `
+    <div class="circ-circle circ-circle--${s.team}">
+      <span class="circ-circle-name">${escapeHtml(s.name)}</span>
+      ${shroud}
+    </div>
+    <div class="circ-label">
+      <div class="circ-char">${s.character}</div>
+      ${circTokensHtml(s.reminderTokens)}
+    </div>`;
+}
+
+function renderGrimoireView(game){
+  const seats = buildSeatDisplays(game);
+  const layout = circularLayout(seats.length);
+  const cardsHtml = seats.map(s=>{
+    const pos = s.position || circAutoPosition(s.seat, seats.length, layout);
+    return `
+      <div class="circ-card ${s.alive ? "" : "is-dead"}" data-seat="${s.seat}" style="left:${pos.x}px; top:${pos.y}px; width:${CIRC_CARD_W}px;">
+        ${circCardHtml(s)}
+      </div>`;
+  }).join("");
+  return `
+    <div class="circ-canvas-wrap">
+      <div class="circ-canvas" id="circ-canvas" style="width:${Math.ceil(layout.width)}px; height:${Math.ceil(layout.height)}px;">
+        ${cardsHtml}
+      </div>
+      <button class="btn-ghost circ-reset" id="circ-reset-btn">↺ Reset</button>
+    </div>`;
+}
+
+// Drag writes Position only on drop (pointerup), not on every pointermove —
+// mid-drag the card's own style.left/top is enough, and there's nothing else
+// on screen that depends on Position changing live.
+function circMakeDraggable(cardEl, seat){
+  let dragging = false, offX = 0, offY = 0;
+  cardEl.addEventListener("pointerdown", e=>{
+    dragging = true;
+    cardEl.setPointerCapture(e.pointerId);
+    cardEl.classList.add("is-dragging");
+    const rect = cardEl.getBoundingClientRect();
+    offX = e.clientX - rect.left;
+    offY = e.clientY - rect.top;
+    e.preventDefault();
+  });
+  cardEl.addEventListener("pointermove", e=>{
+    if(!dragging) return;
+    const wrapRect = cardEl.parentElement.getBoundingClientRect();
+    cardEl.style.left = (e.clientX - wrapRect.left - offX + cardEl.parentElement.scrollLeft)+"px";
+    cardEl.style.top = (e.clientY - wrapRect.top - offY + cardEl.parentElement.scrollTop)+"px";
+  });
+  const end = ()=>{
+    if(!dragging) return;
+    dragging = false;
+    cardEl.classList.remove("is-dragging");
+    const x = parseFloat(cardEl.style.left), y = parseFloat(cardEl.style.top);
+    mutateGame(g=>{ g.players.find(p=>p.seat===seat).position = {x, y}; });
+  };
+  cardEl.addEventListener("pointerup", end);
+  cardEl.addEventListener("pointercancel", end);
+}
+
+function wireGrimoireViewEvents(game){
+  document.querySelectorAll(".circ-card").forEach(cardEl=>{
+    circMakeDraggable(cardEl, Number(cardEl.dataset.seat));
+  });
+  document.getElementById("circ-reset-btn").addEventListener("click", ()=>{
+    mutateGame(g=>{ g.players.forEach(p=>{ p.position = null; }); });
+    renderLiveTableView(loadGame());
+  });
+}
+
+// ---------------- TABLE MODE: TOWN SQUARE VIEW ----------------
+// Read-only circular layout, player-facing in spirit: shows only what
+// someone standing at the actual town square would know — name, alive/dead,
+// vote status, and (once dead) ghost-vote availability. Deliberately omits
+// Character/team (unlike the Grimoire view's team-colored circles) and
+// Reminder tokens, both storyteller-only information. Shares the same
+// circular geometry and persisted Position as the Grimoire view
+// (circularLayout/circAutoPosition, buildSeatDisplays) since it's the same
+// physical seating — but is not itself draggable; dragging still only
+// happens from the Grimoire view. Clicking a card opens a quick-access menu
+// (openTownQuickMenu) for toggling vote status/ghost vote without leaving
+// the circle.
+
+// A Player's role in the current nomination/vote, if any — one of these
+// three at a time, not independent booleans, since only one Player can
+// really be "the" nominator/nominee/on-the-block at once. `null` means
+// none — reached by clicking the already-selected option again, not via a
+// dedicated "none" option (see toggleVoteStatus). Shared between the Table
+// view's Detail pane and the Town Square quick-access menu so the two
+// can't drift on the option set or labels.
+const VOTE_STATUS_OPTIONS = [
+  ["nominator", "Nominator"],
+  ["nominated", "Nominated"],
+  ["aboutToBeExecuted", "About to be Executed"]
+];
+
+function voteStatusButtonsHtml(voteStatus){
+  return VOTE_STATUS_OPTIONS.map(([val, label])=>
+    `<button class="vote-status-btn ${voteStatus===val ? "is-active" : ""}" data-vote-status="${val}">${label}</button>`
+  ).join("");
+}
+
+function townBadgesHtml(s){
+  const badges = [];
+  const voteLabel = VOTE_STATUS_OPTIONS.find(([val])=> val===s.voteStatus);
+  if(voteLabel) badges.push(`<span class="town-badge">${voteLabel[1]}</span>`);
+  if(!s.alive) badges.push(`<span class="town-badge town-badge--ghost">${s.ghostVoteAvailable ? "Ghost Vote Available" : "Ghost Vote Used"}</span>`);
+  return badges.length ? `<div class="town-badges">${badges.join("")}</div>` : "";
+}
+
+function townCardHtml(s){
+  const shroud = s.alive ? "" : '<div class="shroud shroud--circ" aria-hidden="true"></div>';
+  return `
+    <div class="town-circle">
+      <span class="town-circle-name">${escapeHtml(s.name)}</span>
+      ${shroud}
+    </div>
+    <div class="town-label">
+      ${townBadgesHtml(s)}
+    </div>`;
+}
+
+function renderTownSquareView(game){
+  const seats = buildSeatDisplays(game);
+  const layout = circularLayout(seats.length);
+  const cardsHtml = seats.map(s=>{
+    const pos = s.position || circAutoPosition(s.seat, seats.length, layout);
+    return `
+      <div class="circ-card is-static ${s.alive ? "" : "is-dead"}" data-seat="${s.seat}" style="left:${pos.x}px; top:${pos.y}px; width:${CIRC_CARD_W}px;">
+        ${townCardHtml(s)}
+      </div>`;
+  }).join("");
+  return `
+    <div class="circ-canvas-wrap">
+      <div class="circ-canvas" style="width:${Math.ceil(layout.width)}px; height:${Math.ceil(layout.height)}px;">
+        ${cardsHtml}
+      </div>
+    </div>`;
+}
+
+function wireTownSquareViewEvents(){
+  document.querySelectorAll(".circ-card.is-static").forEach(cardEl=>{
+    cardEl.addEventListener("click", ()=> openTownQuickMenu(Number(cardEl.dataset.seat)));
+  });
+}
+
+// Quick-access menu for the vote-related statuses a storyteller flips
+// constantly during a nomination — ghost vote (dead Players only) and vote
+// status — without leaving the Town Square circle for the full Table view.
+// Appended to <body> like the app's other modals (confirm-overlay,
+// wizard-overlay), so it survives the mount's innerHTML reset; re-opened
+// (rather than patched) after every toggle to keep its button states in
+// sync with the mutation, matching how the Detail pane always re-renders
+// wholesale rather than patching individual controls.
+function openTownQuickMenu(seatNumber){
+  document.getElementById("town-quickmenu-overlay")?.remove();
+  const game = loadGame();
+  const player = game.players.find(p=>p.seat===seatNumber);
+  if(!player) return;
+  const ghostVoteHtml = player.alive ? "" : `
+    <div class="town-quickmenu-section">
+      <div class="town-quickmenu-label">Ghost vote</div>
+      <button class="state-toggle ${player.ghostVoteAvailable ? "is-on" : ""}" id="quickmenu-ghostvote-toggle">${player.ghostVoteAvailable ? "Ghost Vote Available" : "Ghost Vote Used"}</button>
+    </div>`;
+  const overlay = document.createElement("div");
+  overlay.className = "confirm-overlay";
+  overlay.id = "town-quickmenu-overlay";
+  overlay.innerHTML = `
+    <div class="confirm-modal">
+      <h3 class="reassign-title">Seat ${seatNumber} — ${escapeHtml(player.name)}</h3>
+      ${ghostVoteHtml}
+      <div class="town-quickmenu-section">
+        <div class="town-quickmenu-label">Vote status</div>
+        <div class="vote-status-group" id="quickmenu-vote-status-group">${voteStatusButtonsHtml(player.voteStatus)}</div>
+      </div>
+      <div class="confirm-actions"><button class="btn-ghost" id="quickmenu-close">Close</button></div>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener("click", e=>{ if(e.target === overlay) overlay.remove(); });
+  overlay.querySelector("#quickmenu-close").addEventListener("click", ()=> overlay.remove());
+  const ghostBtn = overlay.querySelector("#quickmenu-ghostvote-toggle");
+  if(ghostBtn) ghostBtn.addEventListener("click", ()=>{ toggleGhostVote(seatNumber); openTownQuickMenu(seatNumber); });
+  overlay.querySelectorAll("#quickmenu-vote-status-group [data-vote-status]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{ toggleVoteStatus(seatNumber, btn.dataset.voteStatus); overlay.remove(); });
+  });
+}
+
+function reminderQuickAddHtml(p, presets){
+  const activeTexts = new Set(p.reminderTokens.map(t=>t.text));
+  const available = presets.filter(text=>!activeTexts.has(text));
+  if(!available.length) return "";
+  return `
+      <div class="rt-quickadd-row">
+        ${available.map(text=>`<button class="rt-preset-btn" data-add-preset="${escapeHtml(text)}">${escapeHtml(text)}</button>`).join("")}
+      </div>`;
+}
+
+function renderDetailPaneHtml(p, presets){
+  const tokensHtml = p.reminderTokens.map(t=>`
+    <span class="rt-chip">${escapeHtml(t.text)}<button class="rt-remove" data-remove-token="${t.id}" aria-label="Remove token">×</button></span>
+  `).join("");
+  const char = charByName(p.character);
+  const abilityHtml = char ? `
+    <p class="detail-char-wake">${char.wake}</p>
+    <p class="detail-char-ability">${char.ability}</p>
+  ` : "";
+  return `
+    <h3 class="detail-heading">Seat ${p.seat} — ${escapeHtml(p.name)}</h3>
+    <div class="detail-char-row">
+      <span class="detail-char-name">${p.character}</span>
+      <button class="btn-outline" id="detail-reassign-btn">Reassign</button>
+    </div>
+    ${abilityHtml}
+    <div class="detail-status-toggles">
+      <button class="alive-toggle ${p.alive ? "is-alive" : "is-dead"}" id="detail-alive-toggle">${p.alive ? "Alive" : "Dead"}</button>
+      ${p.alive ? "" : `<button class="state-toggle ${p.ghostVoteAvailable ? "is-on" : ""}" id="detail-ghostvote-toggle">${p.ghostVoteAvailable ? "Ghost Vote Available" : "Ghost Vote Used"}</button>`}
+    </div>
+
+    <div class="detail-section">
+      <h4>Vote status</h4>
+      <div class="vote-status-group" id="detail-vote-status-group">${voteStatusButtonsHtml(p.voteStatus)}</div>
+    </div>
+
+    <div class="detail-section">
+      <h4>Reminder tokens</h4>
+      <div class="rt-list">${tokensHtml || `<span class="picker-empty">None yet.</span>`}</div>
+      ${reminderQuickAddHtml(p, presets)}
+      <div class="rt-add-row">
+        <input type="text" id="rt-add-input" placeholder="Add a reminder token…" maxlength="40" />
+        <button class="btn-ghost" id="rt-add-btn">Add</button>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <h4>Storyteller note <span class="detail-private-tag">— private</span></h4>
+      <textarea id="detail-st-note" rows="3">${escapeHtml(p.storytellerNote)}</textarea>
+    </div>
+
+    <div class="detail-section">
+      <h4>Shareable note</h4>
+      <textarea id="detail-shareable-note" rows="3">${escapeHtml(p.shareableNote)}</textarea>
+      <button class="btn" id="detail-show-note-btn">Show note to player →</button>
+    </div>
+  `;
+}
+
+function wireDetailPaneEvents(p){
+  if(!p) return;
+  document.getElementById("detail-reassign-btn").addEventListener("click", ()=> openReassignModal(p.seat));
+  document.getElementById("detail-alive-toggle").addEventListener("click", ()=> toggleAlive(p.seat));
+  const ghostVoteBtn = document.getElementById("detail-ghostvote-toggle");
+  if(ghostVoteBtn) ghostVoteBtn.addEventListener("click", ()=> toggleGhostVote(p.seat));
+  document.getElementById("detail-vote-status-group").querySelectorAll("[data-vote-status]").forEach(btn=>{
+    btn.addEventListener("click", ()=> toggleVoteStatus(p.seat, btn.dataset.voteStatus));
+  });
+  document.getElementById("rt-add-btn").addEventListener("click", ()=> addReminderToken(p.seat, document.getElementById("rt-add-input").value.trim()));
+  const rtInput = document.getElementById("rt-add-input");
+  rtInput.addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); addReminderToken(p.seat, rtInput.value.trim()); } });
+  document.querySelectorAll("[data-remove-token]").forEach(btn=>{
+    btn.addEventListener("click", ()=> removeReminderToken(p.seat, btn.dataset.removeToken));
+  });
+  document.querySelectorAll("[data-add-preset]").forEach(btn=>{
+    btn.addEventListener("click", ()=> addReminderToken(p.seat, btn.dataset.addPreset));
+  });
+  document.getElementById("detail-st-note").addEventListener("change", e=> updatePlayerField(p.seat, "storytellerNote", e.target.value));
+  document.getElementById("detail-shareable-note").addEventListener("change", e=> updatePlayerField(p.seat, "shareableNote", e.target.value));
+  document.getElementById("detail-show-note-btn").addEventListener("click", ()=> showNoteToPlayer(p.seat));
+}
+
+function openReassignModal(seatNumber){
+  const game = loadGame();
+  const player = game.players.find(p=>p.seat===seatNumber);
+  const usedElsewhere = new Set(game.players.filter(p=>p.seat!==seatNumber && p.character).map(p=>p.character));
+  const overlay = document.createElement("div");
+  overlay.className = "confirm-overlay";
+  overlay.innerHTML = `
+    <div class="confirm-modal reassign-modal">
+      <h3 class="reassign-title">Reassign — Seat ${seatNumber}</h3>
+      <div>${characterPickerGridHtml(usedElsewhere, player.character)}</div>
+      <div class="confirm-actions"><button class="btn-ghost" id="reassign-cancel">Cancel</button></div>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.querySelector("#reassign-cancel").addEventListener("click", ()=> overlay.remove());
+  overlay.querySelectorAll(".picker-btn:not(:disabled)").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const updated = mutateGame(g=>{
+        g.players.find(pp=>pp.seat===seatNumber).character = btn.dataset.char;
+      });
+      overlay.remove();
+      renderLiveTableView(updated, seatNumber);
+    });
+  });
+}
+
+// Shared by the Table view's Detail pane and the sequencer's "Jump to
+// player" panel (grimoire.html: seqJumpPanelHtml) — both mutate the same
+// Player fields, so the sequencer's own step data (seqSteps, built once per
+// openSequencer/seqNext/seqPrev) needs refreshing whenever it's the one
+// driving the mutation, or a jumped-to token/alive change wouldn't show up
+// if that Player's own wake step is later in this sequence.
+function toggleAlive(seat){
+  const game = mutateGame(g=>{
+    const p = g.players.find(pp=>pp.seat===seat);
+    p.alive = !p.alive;
+  });
+  if(seqActive) seqRefreshSteps();
+  renderLiveTableView(game, seat);
+}
+
+function setVoteStatus(seat, status){
+  const game = mutateGame(g=>{
+    const p = g.players.find(pp=>pp.seat===seat);
+    p.voteStatus = status;
+  });
+  renderLiveTableView(game, seat);
+}
+
+// Selecting a Vote status option a second time clears it back to none —
+// there's no separate "–" option in the button row for that (VOTE_STATUS_OPTIONS).
+function toggleVoteStatus(seat, val){
+  const p = loadGame().players.find(pp=>pp.seat===seat);
+  setVoteStatus(seat, p.voteStatus===val ? null : val);
+}
+
+function toggleGhostVote(seat){
+  const game = mutateGame(g=>{
+    const p = g.players.find(pp=>pp.seat===seat);
+    p.ghostVoteAvailable = !p.ghostVoteAvailable;
+  });
+  renderLiveTableView(game, seat);
+}
+
+function addReminderToken(seat, text){
+  if(!text) return;
+  const game = mutateGame(g=>{
+    const p = g.players.find(pp=>pp.seat===seat);
+    p.reminderTokens.push({id:`rt-${Date.now()}-${rtCounter++}`, text});
+  });
+  if(seqActive) seqRefreshSteps();
+  renderLiveTableView(game, seat);
+}
+
+function removeReminderToken(seat, tokenId){
+  const game = mutateGame(g=>{
+    const p = g.players.find(pp=>pp.seat===seat);
+    p.reminderTokens = p.reminderTokens.filter(t=>t.id!==tokenId);
+  });
+  if(seqActive) seqRefreshSteps();
+  renderLiveTableView(game, seat);
+}
+
+function updatePlayerField(seat, field, value){
+  mutateGame(g=>{
+    g.players.find(pp=>pp.seat===seat)[field] = value;
+  });
+}
+
+function advancePhase(){
+  const game = mutateGame(g=>{
+    if(g.phase.type === "night") g.phase.type = "day";
+    else { g.phase.type = "night"; g.phase.number += 1; }
+  });
+  renderLiveTableView(game);
+}
+
+// Mirrors advancePhase in reverse. Night 1 is the start of the Game — nothing
+// before it to go back to, so the caller disables the button there instead
+// of this function needing to no-op silently.
+function retreatPhase(){
+  const game = mutateGame(g=>{
+    if(g.phase.type === "day") g.phase.type = "night";
+    else if(g.phase.number > 1){ g.phase.type = "day"; g.phase.number -= 1; }
+  });
+  renderLiveTableView(game);
+}
+
+function showNoteToPlayer(seat){
+  const player = loadGame().players.find(p=>p.seat===seat);
+  enterPresentation(player.shareableNote);
+}
+
+// ---------------- TABLE MODE: SHAREABLE-NOTE PRESENTATION ----------------
+// `text` is shown verbatim — the caller decides what it means: a Player's
+// prepared shareableNote (showNoteToPlayer, seqShowNote), or an ad hoc
+// on-the-spot note or bare character reveal from the sequencer
+// (seqShowAdHoc). This function doesn't know or care which.
+
+// Sticks across notes shown this session (not persisted) — pick Large once
+// and every subsequent note stays Large until changed back.
+let presentationTextSize = "medium"; // "small" | "medium" | "large"
+
+function enterPresentation(text, onReturn){
+  const noteText = (text || "").trim();
+  const noteHtml = noteText
+    ? escapeHtml(noteText).replace(/\n/g, "<br>")
+    : `<span class="presentation-placeholder">(nothing prepared for this player yet)</span>`;
+
+  const overlay = document.createElement("div");
+  overlay.className = "presentation-overlay";
+  overlay.innerHTML = `
+    <div class="text-size-toggle-group" role="group" aria-label="Text size">
+      <button class="text-size-btn" data-text-size="small">Small</button>
+      <button class="text-size-btn" data-text-size="medium">Medium</button>
+      <button class="text-size-btn" data-text-size="large">Large</button>
+    </div>
+    <div class="presentation-note" id="presentation-note">${noteHtml}</div>
+    <button class="exit-hold-btn" id="exit-hold-btn" aria-label="Hold for 1 second to return to the grimoire">
+      <svg class="exit-ring" viewBox="0 0 44 44">
+        <circle class="exit-ring-bg" cx="22" cy="22" r="18"></circle>
+        <circle class="exit-ring-fill" id="exit-ring-fill" cx="22" cy="22" r="18"></circle>
+      </svg>
+      <span class="exit-icon">✕</span>
+    </button>
+  `;
+  document.body.appendChild(overlay);
+
+  const noteEl = overlay.querySelector("#presentation-note");
+  const sizeBtns = overlay.querySelectorAll("[data-text-size]");
+  const applyTextSize = ()=>{
+    noteEl.className = `presentation-note presentation-note--${presentationTextSize}`;
+    sizeBtns.forEach(b=> b.classList.toggle("is-active", b.dataset.textSize === presentationTextSize));
+  };
+  applyTextSize();
+  sizeBtns.forEach(b=>{
+    b.addEventListener("click", ()=>{
+      presentationTextSize = b.dataset.textSize;
+      applyTextSize();
+    });
+  });
+
+  const btn = overlay.querySelector("#exit-hold-btn");
+  const fill = overlay.querySelector("#exit-ring-fill");
+  let holdTimer = null;
+
+  function startHold(e){
+    e.preventDefault();
+    fill.classList.remove("is-filling");
+    void fill.getBoundingClientRect(); // force reflow so the fill transition restarts cleanly
+    fill.classList.add("is-filling");
+    holdTimer = setTimeout(()=>{
+      overlay.remove();
+      if(onReturn) onReturn(); else renderLiveTableView(loadGame());
+    }, 1000);
+  }
+  function cancelHold(){
+    if(holdTimer){ clearTimeout(holdTimer); holdTimer = null; }
+    fill.classList.remove("is-filling");
+  }
+
+  btn.addEventListener("pointerdown", startHold);
+  btn.addEventListener("pointerup", cancelHold);
+  btn.addEventListener("pointerleave", cancelHold);
+  btn.addEventListener("pointercancel", cancelHold);
+  btn.addEventListener("contextmenu", e=>e.preventDefault());
+}
+
+// ---------------- TABLE MODE: LIVE WAKE SEQUENCER ----------------
+// Assistive checklist, not a decision-maker: sequences and reminds, never
+// auto-skips or mutates game.phase. See docs/wake-sequencer-spec.md.
+
+let seqPositionMemory = {}; // `${phase.type}-${phase.number}` -> character name, session-only
+let seqActive = false;
+let seqIndex = 0;
+let seqSteps = [];
+let seqPhaseLabel = "";
+let seqPhaseKey = null;
+// Seat number shown in the sequencer's "Jump to player" panel; null when
+// collapsed. Session-only, like seqPositionMemory — reset on every step
+// change so it doesn't silently follow the storyteller from one wake to the
+// next (a one-off look-up, not a pinned second player).
+let seqJumpSeat = null;
+// Whether the current step's storyteller-hint text and the on-the-spot note
+// box are expanded. Both default closed and reset on every step change —
+// same "one-off, not sticky" reasoning as seqJumpSeat above.
+let seqHintOpen = false;
+let seqAdhocNoteOpen = false;
+
+// Mirrors buildWizardSteps (grimoire.html:998) but is fed the live Game's
+// actual seated players instead of a hypothetical rosterForSetup(n) roster.
+function buildLiveSequencerSteps(game){
+  if(game.phase.type !== "night") return {steps: [], phaseLabel: ""};
+  const phase = game.phase.number === 1 ? "first" : "other";
+  const source = phase === "first" ? FIRST_NIGHT : OTHER_NIGHT;
+  const steps = [];
+  source.forEach(s=>{
+    if(s.info){
+      let decision = null;
+      let team = null;
+      let player = null;
+      if(s.name === "Demon info"){
+        if(NOTES.Imp && NOTES.Imp.setup) decision = NOTES.Imp.setup;
+        // Exactly one Demon in Trouble Brewing, so — unlike "Minion info",
+        // which wakes several Players at once — this info step can attach a
+        // single Player. Lets the storyteller jump straight to a shareable
+        // note prepared for the Demon (e.g. their bluffs) from this step.
+        team = "demon";
+        player = game.players.find(p=>charByName(p.character) && charByName(p.character).team === "demon") || null;
+      }
+      steps.push({info:true, name:s.name, flag:null, action:s.body, decision, team, player});
+      return;
+    }
+    // Never filtered by alive/dead — always shown if seated (spec: "Step model").
+    const player = game.players.find(p=>p.character===s.name);
+    if(!player) return;
+    steps.push({info:false, name:s.name, flag:s.flag||null, action:s.body, decision:stepDecision(s.name, phase), team:charByName(s.name).team, player});
+  });
+  return {steps, phaseLabel: phase==="first" ? "First Night" : `Other Night ${game.phase.number}`};
+}
+
+function seqPhaseKeyFor(game){ return `${game.phase.type}-${game.phase.number}`; }
+
+function openSequencer(){
+  const game = loadGame();
+  const built = buildLiveSequencerSteps(game);
+  seqSteps = built.steps;
+  seqPhaseLabel = built.phaseLabel;
+  seqPhaseKey = seqPhaseKeyFor(game);
+  const remembered = seqPositionMemory[seqPhaseKey];
+  const idx = remembered ? seqSteps.findIndex(s => !s.info && s.player && s.player.character === remembered) : -1;
+  seqIndex = idx >= 0 ? idx : 0;
+  seqActive = true;
+  seqJumpSeat = null;
+  seqHintOpen = false;
+  seqAdhocNoteOpen = false;
+  renderLiveTableView(loadGame());
+}
+
+function closeSequencer(){
+  seqActive = false;
+  seqJumpSeat = null;
+  seqHintOpen = false;
+  seqAdhocNoteOpen = false;
+  renderLiveTableView(loadGame());
+}
+
+// Rebuilds seqSteps from the current Game without moving seqIndex — safe
+// because a mutation (alive/reminder tokens, including one made through the
+// "Jump to player" panel) never changes who's seated or the wake order
+// within a phase, only the fields attached to a Player already in seqSteps.
+function seqRefreshSteps(){
+  const built = buildLiveSequencerSteps(loadGame());
+  seqSteps = built.steps;
+  seqPhaseLabel = built.phaseLabel;
+}
+
+function seqRememberCurrent(){
+  const step = seqSteps[seqIndex];
+  if(step && !step.info && step.player) seqPositionMemory[seqPhaseKey] = step.player.character;
+  else delete seqPositionMemory[seqPhaseKey];
+}
+
+function seqNext(){
+  seqJumpSeat = null;
+  seqHintOpen = false;
+  seqAdhocNoteOpen = false;
+  if(seqIndex < seqSteps.length - 1){ seqIndex++; seqRememberCurrent(); renderLiveTableView(loadGame()); }
+  else closeSequencer();
+}
+function seqPrev(){
+  seqJumpSeat = null;
+  seqHintOpen = false;
+  seqAdhocNoteOpen = false;
+  if(seqIndex > 0){ seqIndex--; seqRememberCurrent(); renderLiveTableView(loadGame()); }
+}
+function seqRestart(){
+  seqIndex = 0;
+  seqJumpSeat = null;
+  seqHintOpen = false;
+  seqAdhocNoteOpen = false;
+  seqRememberCurrent();
+  renderLiveTableView(loadGame());
+}
+function seqShowNote(seat){
+  const player = loadGame().players.find(p=>p.seat===seat);
+  enterPresentation(player.shareableNote, ()=>{ seqActive = true; renderLiveTableView(loadGame()); });
+}
+function seqShowAdHoc(text){
+  seqAdhocNoteOpen = false;
+  enterPresentation(text, ()=>{ seqActive = true; renderLiveTableView(loadGame()); });
+}
+function seqJumpSelect(seat){
+  seqJumpSeat = seat;
+  renderLiveTableView(loadGame());
+}
+
+// The step's action text, the storyteller-hint (script-level NOTES guidance,
+// behind the "!" hint button), the Player's own private storytellerNote, the
+// per-player shareableNote access button, and the ad hoc "show something on
+// the spot" control are five different kinds of "note" and must stay
+// visually distinct — see docs/wake-sequencer-spec.md. The hint button sits
+// to the right of the action text rather than below it, so it reads as a
+// small aside on the ability being described, not another line of body
+// copy. storytellerNote renders directly beneath the hint (never merged
+// into it) since one is the generic guideline for this ability and the
+// other is this specific Player, this specific Game. The two ways to show a
+// Player something — a prepared shareable note, and an ad hoc on-the-spot
+// note — are grouped together under one dashed divider (seq-notes-group)
+// since they're the same kind of action from the storyteller's perspective.
+function seqStepBodyHtml(step, game){
+  const flagHtml = step.flag ? `<span class="wizard-flag">Only if: ${escapeHtml(step.flag)}</span>` : "";
+  const teamHtml = step.team ? `<div class="wizard-team" style="--wiz-c:var(--${TEAM_VAR[step.team]})">${TEAM_LABEL[step.team]}</div>` : "";
+  const hintLabel = seqHintOpen ? "Hide hint" : "Show hint";
+  const hintBtnHtml = step.decision
+    ? `<button class="seq-hint-btn ${seqHintOpen ? "is-open" : ""}" id="seq-hint-btn" aria-label="${hintLabel}" title="${hintLabel}">!</button>`
+    : "";
+  const hintBoxHtml = (step.decision && seqHintOpen) ? `<p class="wizard-decision seq-hint-box">${step.decision}</p>` : "";
+  const playerNoteHtml = step.player && step.player.storytellerNote && step.player.storytellerNote.trim()
+    ? `<div class="seq-player-note"><span class="seq-player-note-label">Your note — private</span><p>${escapeHtml(step.player.storytellerNote).replace(/\n/g, "<br>")}</p></div>`
+    : "";
+  const noteBtn = step.player && step.player.shareableNote && step.player.shareableNote.trim()
+    ? `<button class="btn-ghost" data-seq-show-note="${step.player.seat}">Show prepared note</button>`
+    : "";
+  const adhocHtml = step.player ? seqShowSomethingHtml(game) : "";
+  const notesGroupHtml = step.player ? `<div class="seq-notes-group">${noteBtn}${adhocHtml}</div>` : "";
+  const killHtml = (!step.info && step.team === "demon") ? seqKillPlayerHtml(game) : "";
+  return `
+    ${flagHtml}
+    ${teamHtml}
+    <div class="wizard-action-row">
+      <p class="wizard-action">${escapeHtml(step.action)}</p>
+      ${hintBtnHtml}
+    </div>
+    ${hintBoxHtml}
+    ${killHtml}
+    ${playerNoteHtml}
+    ${notesGroupHtml}
+  `;
+}
+
+// "Show something on the spot" — for info that can't be prepared ahead of
+// time because it depends on what happens at the table (the Ravenkeeper
+// points at a player mid-night; the storyteller needs to reveal exactly
+// that player's character, and nothing else about them, right then). A
+// single collapsed opener button expands into a free-form text box; typing
+// a note and clicking Next hands it to seqShowAdHoc, which reuses the same
+// presentation overlay as a prepared shareableNote.
+function seqShowSomethingHtml(game){
+  if(!seqAdhocNoteOpen){
+    return `
+    <div class="seq-adhoc">
+      <button class="btn-ghost" id="seq-adhoc-note-open-btn">Show something on the spot…</button>
+    </div>`;
+  }
+  return `
+    <div class="seq-adhoc">
+      <div class="seq-adhoc-row">
+        <input type="text" id="seq-adhoc-note-input" placeholder="Type a note to show on the spot" maxlength="120" />
+        <button class="btn-ghost" id="seq-adhoc-note-btn">Next →</button>
+      </div>
+    </div>`;
+}
+
+// Demon-only quick kill — the Imp's actual "choose a player, who dies" step
+// is the one place in the sequence where marking someone dead is the whole
+// point of the step, not an incidental correction. Collapses the normal
+// two-step "Jump to another player, then flip Alive" into one: pick a seat
+// here and it's killed immediately, no separate confirm (mirrors every
+// other one-tap toggle in this modal — Alive/Dead in the Jump panel included).
+// A collapsed <select> for the same reason as "Jump to player" and the old
+// "Show a character" picker: this modal never lists every seat at once.
+// Lists every seated Player, including the Demon's own seat — targeting
+// yourself is a real, legal choice (Imp ability: "if you choose yourself,
+// you die instead"), so it isn't filtered out.
+function seqKillPlayerHtml(game){
+  const options = buildSeatDisplays(game)
+    .filter(s=>s.alive)
+    .map(s=>`<option value="${s.seat}">${s.seat}. ${escapeHtml(s.name)} — ${s.character}</option>`)
+    .join("");
+  return `
+    <div class="seq-kill">
+      <select id="seq-kill-select" class="seq-kill-select">
+        <option value="">💀 Kill player…</option>
+        ${options}
+      </select>
+    </div>`;
+}
+
+function killPlayerFromSequencer(seat){
+  const game = mutateGame(g=>{
+    g.players.find(p=>p.seat===seat).alive = false;
+  });
+  if(seqActive) seqRefreshSteps();
+  renderLiveTableView(game, seat);
+}
+
+// Player identity + reminder tokens live in the modal header, next to the
+// character name — e.g. "Finn — Washerwoman | Poisoned" — rather than
+// repeated further down in the body (see grimoire.html history: this used
+// to be a separate line/token row at the bottom of seqStepBodyHtml).
+function seqTitleHtml(step){
+  if(!step.player) return escapeHtml(step.name);
+  const deadTag = !step.player.alive ? '<span class="seq-dead-tag">Dead</span>' : "";
+  const tokens = step.player.reminderTokens.map(t=>escapeHtml(t.text)).join(", ");
+  const tokensHtml = tokens ? ` <span class="seq-title-tokens">| ${tokens}</span>` : "";
+  return `${escapeHtml(step.player.name)} — ${escapeHtml(step.name)}${deadTag}${tokensHtml}`;
+}
+
+// "Jump to player" — lets the storyteller reach any seated Player mid-
+// sequence (e.g. to drop a poison token on tonight's target, or mark someone
+// dead) without leaving the modal. A collapsed <select> rather than a
+// printed roster: the ask this exists for was explicitly to *not* have every
+// Character listed directly in the modal body.
+function seqJumpOptionsHtml(game){
+  return buildSeatDisplays(game).map(s=>`
+    <option value="${s.seat}" ${s.seat===seqJumpSeat ? "selected" : ""}>${s.seat}. ${escapeHtml(s.name)} — ${s.character}${s.alive ? "" : " (dead)"}</option>
+  `).join("");
+}
+
+// Surfaces alive/dead, Reminder tokens, and the Character's own wake/ability
+// text — the ability matters here specifically because a storyteller jumping
+// to a Player to toggle Alive/Dead needs it in view to make that call right
+// (e.g. Ravenkeeper only triggers on a night kill, Saint only matters on
+// execution). Still deliberately excludes Reassign and the storyteller/
+// shareable notes from the full Detail pane (renderDetailPaneHtml), which
+// would bloat a modal meant for a quick mid-step look-up.
+function seqJumpPanelHtml(game){
+  if(seqJumpSeat === null) return "";
+  const p = game.players.find(pp=>pp.seat===seqJumpSeat);
+  if(!p) return "";
+  const char = charByName(p.character);
+  const abilityHtml = char ? `
+    <p class="detail-char-wake">${char.wake}</p>
+    <p class="detail-char-ability">${char.ability}</p>
+  ` : "";
+  const activeTexts = new Set(p.reminderTokens.map(t=>t.text));
+  const available = presetsInPlay(game).filter(t=>!activeTexts.has(t));
+  const tokensHtml = p.reminderTokens.map(t=>`
+    <span class="rt-chip">${escapeHtml(t.text)}<button class="rt-remove" data-seq-jump-remove-token="${t.id}" aria-label="Remove token">×</button></span>
+  `).join("");
+  const presetsHtml = available.length ? `
+    <div class="rt-quickadd-row">${available.map(t=>`<button class="rt-preset-btn" data-seq-jump-add-preset="${escapeHtml(t)}">${escapeHtml(t)}</button>`).join("")}</div>
+  ` : "";
+  return `
+    <div class="seq-jump-panel">
+      <div class="seq-jump-panel-head">
+        <span class="seq-jump-panel-name">Seat ${p.seat} — ${escapeHtml(p.name)}, ${p.character}</span>
+        <button class="alive-toggle ${p.alive ? "is-alive" : "is-dead"}" id="seq-jump-alive-toggle">${p.alive ? "Alive" : "Dead"}</button>
+      </div>
+      ${abilityHtml}
+      <div class="rt-list">${tokensHtml || `<span class="picker-empty">No reminder tokens.</span>`}</div>
+      ${presetsHtml}
+      <div class="rt-add-row">
+        <input type="text" id="seq-jump-rt-input" placeholder="Add a reminder token…" maxlength="40" />
+        <button class="btn-ghost" id="seq-jump-rt-add-btn">Add</button>
+      </div>
+    </div>`;
+}
+
+// Reuses the existing wizard's overlay/modal chrome outright rather than
+// forking a parallel set of styles (see docs/wake-sequencer-spec.md, "UI: the
+// live sequencer"). Appended to <body> so it survives the Table mount's
+// innerHTML reset — the caller in renderLiveTableView always removes any
+// stale copy before deciding whether to redraw it.
+function renderSequencerModal(game){
+  const s = seqSteps[seqIndex];
+  const total = seqSteps.length;
+  const overlay = document.createElement("div");
+  overlay.className = "wizard-overlay";
+  overlay.id = "seq-overlay";
+  overlay.innerHTML = `
+    <div class="wizard-modal" role="dialog" aria-modal="true" aria-labelledby="seq-title">
+      <div class="wizard-head">
+        <div>
+          <p class="wizard-eyebrow">${seqPhaseLabel} · Wake Sequence</p>
+          <h3 id="seq-title">${seqTitleHtml(s)}</h3>
+        </div>
+        <button class="wizard-close" id="seq-close" aria-label="Close sequencer">✕</button>
+      </div>
+      <div class="wizard-progress-bar"><div class="wizard-progress-fill" style="width:${((seqIndex+1)/total)*100}%"></div></div>
+      <div class="wizard-body">
+        <div class="seq-jump-bar">
+          <select id="seq-jump-select" class="seq-jump-select">
+            <option value="">🔍 Jump to another player…</option>
+            ${seqJumpOptionsHtml(game)}
+          </select>
+          ${seqJumpPanelHtml(game)}
+        </div>
+        ${seqStepBodyHtml(s, game)}
+      </div>
+      <div class="wizard-nav">
+        <button class="btn-ghost" id="seq-prev" ${seqIndex===0 ? "disabled" : ""}>← Back</button>
+        <span class="wizard-step-label">Step ${seqIndex+1} of ${total}</span>
+        <button class="btn-ghost seq-restart-btn" id="seq-restart">Restart</button>
+        <button class="btn" id="seq-next">${seqIndex===total-1 ? "Done" : "Next →"}</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  wireSequencerModalEvents(overlay);
+}
+
+// Split out of renderSequencerModal: every event listener for one rendered
+// step (nav, jump panel, hint toggle, ad hoc/prepared note, kill select).
+function wireSequencerModalEvents(overlay){
+  overlay.addEventListener("click", e=>{ if(e.target.id === "seq-overlay") closeSequencer(); });
+  overlay.querySelector("#seq-close").addEventListener("click", closeSequencer);
+  overlay.querySelector("#seq-prev").addEventListener("click", seqPrev);
+  overlay.querySelector("#seq-next").addEventListener("click", seqNext);
+  overlay.querySelector("#seq-restart").addEventListener("click", seqRestart);
+  const showBtn = overlay.querySelector("[data-seq-show-note]");
+  if(showBtn) showBtn.addEventListener("click", ()=> seqShowNote(Number(showBtn.dataset.seqShowNote)));
+
+  overlay.querySelector("#seq-jump-select").addEventListener("change", e=>{
+    seqJumpSelect(e.target.value ? Number(e.target.value) : null);
+  });
+  const jumpAliveBtn = overlay.querySelector("#seq-jump-alive-toggle");
+  if(jumpAliveBtn) jumpAliveBtn.addEventListener("click", ()=> toggleAlive(seqJumpSeat));
+  const jumpInput = overlay.querySelector("#seq-jump-rt-input");
+  const jumpAddBtn = overlay.querySelector("#seq-jump-rt-add-btn");
+  if(jumpAddBtn){
+    jumpAddBtn.addEventListener("click", ()=> addReminderToken(seqJumpSeat, jumpInput.value.trim()));
+    jumpInput.addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); addReminderToken(seqJumpSeat, jumpInput.value.trim()); } });
+  }
+  overlay.querySelectorAll("[data-seq-jump-remove-token]").forEach(btn=>{
+    btn.addEventListener("click", ()=> removeReminderToken(seqJumpSeat, btn.dataset.seqJumpRemoveToken));
+  });
+  overlay.querySelectorAll("[data-seq-jump-add-preset]").forEach(btn=>{
+    btn.addEventListener("click", ()=> addReminderToken(seqJumpSeat, btn.dataset.seqJumpAddPreset));
+  });
+
+  const hintBtn = overlay.querySelector("#seq-hint-btn");
+  if(hintBtn) hintBtn.addEventListener("click", ()=>{ seqHintOpen = !seqHintOpen; renderLiveTableView(loadGame()); });
+
+  const adhocOpenBtn = overlay.querySelector("#seq-adhoc-note-open-btn");
+  if(adhocOpenBtn) adhocOpenBtn.addEventListener("click", ()=>{ seqAdhocNoteOpen = true; renderLiveTableView(loadGame()); });
+  const adhocBtn = overlay.querySelector("#seq-adhoc-note-btn");
+  if(adhocBtn){
+    const adhocInput = overlay.querySelector("#seq-adhoc-note-input");
+    adhocInput.focus();
+    const triggerAdhoc = ()=>{ const text = adhocInput.value.trim(); if(text) seqShowAdHoc(text); };
+    adhocBtn.addEventListener("click", triggerAdhoc);
+    adhocInput.addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); triggerAdhoc(); } });
+  }
+
+  const killSelect = overlay.querySelector("#seq-kill-select");
+  if(killSelect){
+    killSelect.addEventListener("change", e=>{
+      if(e.target.value) killPlayerFromSequencer(Number(e.target.value));
+    });
+  }
+}
+
+// ---------------- TABS ----------------
+function switchToTab(tabName){
+  document.querySelectorAll(".tab").forEach(t=> t.setAttribute("aria-selected", t.dataset.tab===tabName ? "true" : "false"));
+  document.querySelectorAll("[data-panel]").forEach(p=>{
+    p.hidden = p.id !== "panel-"+tabName;
+  });
+}
+
+function initTabs(){
+  document.querySelectorAll(".tab").forEach(tab=>{
+    tab.addEventListener("click", ()=> switchToTab(tab.dataset.tab));
+  });
+  // Lives in the tabbar rather than the phase bar so it's reachable from any
+  // tab, not just while already on Table — jump there first so the setup
+  // flow it triggers (rendered into #table-mount) is actually visible.
+  document.getElementById("nav-newgame-btn").addEventListener("click", ()=>{
+    switchToTab("table");
+    startSetupFlow();
+  });
+}
+
+// ---------------- INIT ----------------
+renderRoster();
+renderNight(FIRST_NIGHT, "first-night-mount");
+renderNight(OTHER_NIGHT, "other-night-mount");
+renderSetups();
+renderTable();
+initTabs();
+initWizard();
+</script>

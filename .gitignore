@@ -1,0 +1,11 @@
+tools**
+node_modules/
+.scratch**
+docs/
+# OS / editor cruft
+.DS_Store
+*.swp
+*.swo
+.vscode/
+.idea/
+.claude/*.local.*
