@@ -1,0 +1,7 @@
+---
+status: accepted
+---
+
+# Character and Night order data move to an external Roster file, compiled one-directionally into grimoire.html
+
+Character records (team, ability, storyteller notes, who-to-name guidance, setup/night/day notes) and Night order were hand-authored directly inside grimoire.html as JS arrays/objects (`ROSTER`, `NOTES`, `FIRST_NIGHT`, `OTHER_NIGHT`), making them awkward to edit without touching code and prone to drifting out of sync with each other. We're moving this content out to an external, script-agnostic Roster file (YAML, one per Script, conforming to a checked-in Roster spec), with a Recompile step that regenerates grimoire.html's embedded data from it. The flow is one-directional only — grimoire.html is never hand-edited for this content again, and there is no mechanism to regenerate a Roster file from grimoire.html — which keeps the tooling simple at the cost of grimoire.html no longer being fully self-sufficient to edit (a Recompile step is now required between editing Character data and seeing it live). As part of this move, the Spy/Recluse-aware conditional wording that setup/night/day notes used to compute per-setup (via `ctx => string` functions, e.g. omitting the Recluse caveat entirely from a setup that has no Recluse) is dropped in favor of always-static text shown in full regardless of which characters are actually in a given setup — trading a small amount of per-setup noise for a plain-text format a storyteller can hand-edit without touching logic.

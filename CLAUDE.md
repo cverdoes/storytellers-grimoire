@@ -120,33 +120,15 @@ comments (`ROSTER`, `NOTES`, `REMINDER_PRESETS`, `SETUPS`). See Workflow
 above for when to edit one.
 
 - Format: `docs/roster-spec.md`.
-- Why the flow is one-directional, and why setup/night/day notes lost
-  their per-setup conditional wording:
-  `docs/adr/0002-roster-file-compiled-one-directionally.md`.
 - **`setups:`** is a top-level Roster-file section (documented in the
   Roster spec's `## Setups`) holding per-player-count recommended
   lineups and Setup recommendations — a flat list of independent,
-  self-contained Setups (no add/remove delta), each optionally carrying
+  self-contained Setups, each optionally carrying
   `recommendations`, a composition-specific hint per Character distinct
   from that Character's generic `notes`. Recompile derives each
   Character's "new since last" flag at compile time by diffing against
   the immediately preceding Setup (by `n`); this is baked into the
-  generated `SETUPS`, not recomputed in the browser. Full decision
-  trail, including why the format departs from grimoire.html's old
-  additive `{add, remove}` shape: the
-  [Setup Recommendations](.scratch/setup-recommendations/map.md)
-  wayfinder map (all 5 tickets resolved; migration complete).
-
-## Content accuracy note
-
-Ability text throughout is paraphrased in the storyteller's own voice, not
-copied from the official character cards — deliberate, to avoid
-reproducing copyrighted card text, and arguably more useful as in-the-
-moment instructions. Night order and team composition (13 Townsfolk / 4
-Outsiders / 4 Minions / 1 Demon, and the per-player-count table) were
-cross-checked against the official wiki early on and should be treated as
-correct; anything added later should hold to the same bar since a
-storyteller will be relying on this at the table.
+  generated `SETUPS`, not recomputed in the browser.
 
 ## Agent skills
 
